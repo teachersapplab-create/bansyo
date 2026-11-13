@@ -5876,20 +5876,23 @@ function undo() {
   const h = S.history;
   if (h.idx <= 0) return toast(T("これ以上戻せません"), "warn");
   h.idx--;
-  const eye = layerEyeKeep();
+  const eye = layerEyeKeep(), nShown = shownNoteCount();
   S.project = deepClone(h.stack[h.idx].data);
   layerEyeRestore(eye);
   afterHistory();
+  if (shownNoteCount() < nShown && typeof noteRefitAfterHide === "function") noteRefitAfterHide();
 }
 function redo() {
   const h = S.history;
   if (h.idx >= h.stack.length - 1) return toast(T("これ以上やり直せません"), "warn");
   h.idx++;
-  const eye = layerEyeKeep();
+  const eye = layerEyeKeep(), nShown = shownNoteCount();
   S.project = deepClone(h.stack[h.idx].data);
   layerEyeRestore(eye);
   afterHistory();
+  if (shownNoteCount() < nShown && typeof noteRefitAfterHide === "function") noteRefitAfterHide();
 }
+function shownNoteCount() { return S.project && S.project.notes ? S.project.notes.filter(n => n.show).length : 0; }
 function afterHistory() {
   if (S.project && S.project.sheet) S.page = clamp(S.page, 0, sheetPages().length - 1);
   S.sel = S.sel.filter(id => objById(id));
@@ -5972,9 +5975,8 @@ function fitSheetView(keep) {
   render(); refreshStatus();
   if (typeof refreshPageBar === "function") refreshPageBar();
 }
-function fitView(opt = {}) {
-  if (isSheet() && S.project) return fitSheetView(!!opt.keep);
-  const a = safeArea();
+/* 全体表示で画面に収める範囲（黒板＋表示している教師用メモの札） */
+function fitTarget() {
   let wb = worldBounds();
   /* 表示している教師用メモ（黒板の外の札）も入るようにする（第7部f） */
   const nl = !isProj() && typeof noteLayout === "function" ? noteLayout("shown") : null;
@@ -5982,6 +5984,31 @@ function fitView(opt = {}) {
     const m = nl.fs * 0.6, x0 = Math.min(wb.x, nl.box.x - m), y0 = Math.min(wb.y, nl.box.y - m);
     wb = { x: x0, y: y0, w: Math.max(wb.x + wb.w, nl.box.x + nl.box.w + m) - x0, h: Math.max(wb.y + wb.h, nl.box.y + nl.box.h + m) - y0 };
   }
+  return wb;
+}
+/* 黒板（と表示中の札）が丸ごと画面に見えているか＝一部を拡大して見ている最中ではない */
+function fitTargetWhollyVisible(vw, vh) {
+  const wb = fitTarget(), t = 2;
+  const p0 = worldToScreen(wb.x, wb.y), p1 = worldToScreen(wb.x + wb.w, wb.y + wb.h);
+  return p0.x >= -t && p0.y >= -t && p1.x <= vw + t && p1.y <= vh + t;
+}
+/* 黒板をもっと大きく出せる余地ができたら（札を隠した・作業エリアが広がった）全体表示へ戻す。
+   全体表示のままなら必ず合わせ直す。利用者が拡大して一部を見ているとき（はみ出している）は触らない。
+   vw/vh＝変化前の画面の大きさ（作業エリアが広がった直後に、広がる前に全体が見えていたかを判定する） */
+function refitIfRoom(vw, vh) {
+  if (!S.project || isSheet()) return false;
+  if (S.fitted) { fitView(); return true; }
+  const r = cv.getBoundingClientRect();
+  if (!fitTargetWhollyVisible(vw === undefined ? r.width : vw, vh === undefined ? r.height : vh)) return false;
+  const a = safeArea(), wb = fitTarget();
+  if (Math.min(a.w / wb.w, a.h / wb.h) <= S.zoom * 1.01) return false;
+  fitView();
+  return true;
+}
+function fitView(opt = {}) {
+  if (isSheet() && S.project) return fitSheetView(!!opt.keep);
+  const a = safeArea();
+  const wb = fitTarget();
   const z = Math.min(a.w / wb.w, a.h / wb.h);
   S.zoom = clamp(z, 0.02, 8);
   S.panX = a.x + a.w / 2 - (wb.x + wb.w / 2) * S.zoom;
@@ -6025,7 +6052,12 @@ function resizeCanvas() {
   if (cv.style.height !== cssH) cv.style.height = cssH;
   if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; }
   cv._dpr = dpr;
-  if (S.fitted) fitView({ keep: true }); else render();
+  /* 作業エリアが広がったら、全体表示でなくても（黒板が丸ごと見えていたなら）大きく出し直す */
+  const prev = cv._hostWH;
+  cv._hostWH = { w: r.width, h: r.height };
+  if (S.fitted) fitView({ keep: true });
+  else if (prev && (r.width > prev.w + 1 || r.height > prev.h + 1) && refitIfRoom(prev.w, prev.h)) { /* 合わせ直した */ }
+  else render();
 }
 
 /* =========================================================================
@@ -15553,7 +15585,9 @@ function removeObjects(ids) {
   const all = new Set();
   ids.forEach(id => { all.add(id); descendants(id).forEach(c => all.add(c.id)); });
   curDoc().objects = objs().filter(o => !all.has(o.id));
+  const hadShown = (S.project.notes || []).some(n => n.show && all.has(n.targetId));
   S.project.notes = (S.project.notes || []).filter(n => !all.has(n.targetId));
+  if (hadShown && typeof noteRefitAfterHide === "function") noteRefitAfterHide();
   S.sel = S.sel.filter(i => !all.has(i));
 }
 function deleteSel() {
@@ -17177,7 +17211,7 @@ function refreshLessonTab() {
       el("span", { class: "nm", text: `[${n.kind}] ${n.text.slice(0, 20)}` }),
       el("button", { title: n.show ? T("このメモを隠す") : T("このメモを表示"), html: ico(n.show ? "eye" : "eyeoff"), onclick: () => setNotesShown([n], !n.show) }),
       el("button", { title: T("編集"), html: ico("pen"), onclick: () => noteDialog(n.targetId, n.id) }),
-      el("button", { title: T("削除"), html: ico("trash"), onclick: () => { pr.notes.splice(i, 1); pushHistory(T("メモの削除")); refreshAll(); } }),
+      el("button", { title: T("削除"), html: ico("trash"), onclick: () => { pr.notes.splice(i, 1); pushHistory(T("メモの削除")); render(); refreshAll(); noteRefitAfterHide(); } }),
     ]));
   });
   host.appendChild(sec(T`教師用メモ（${notes.length}）`, [
@@ -21492,7 +21526,7 @@ function setNotesShown(list, v) {
   if (!list.length) return;
   list.forEach(n => { n.show = !!v; });
   markDirty();
-  if (v) noteRevealIfHidden();
+  if (v) noteRevealIfHidden(); else noteRefitAfterHide();
   render(); refreshAll();
 }
 function toggleAllNotes() {
@@ -21509,6 +21543,11 @@ function noteRevealIfHidden() {
     const p0 = worldToScreen(L.box.x, L.box.y), p1 = worldToScreen(L.box.x + L.box.w, L.box.y + L.box.h);
     if (p0.x < a.x || p0.y < a.y || p1.x > a.x + a.w || p1.y > a.y + a.h) fitView();
   });
+}
+
+/* 札を隠した・消したあとは、札のために縮めていた黒板をまた大きく出す */
+function noteRefitAfterHide() {
+  requestAnimationFrame(() => { if (typeof refitIfRoom === "function") refitIfRoom(); });
 }
 
 /* ---------- 割り付け ---------- */
@@ -21754,7 +21793,7 @@ function noteContextMenu(e, wp) {
 function deleteNote(id) {
   const pr = S.project;
   pr.notes = (pr.notes || []).filter(n => n.id !== id);
-  pushHistory(T("メモの削除")); render(); refreshAll();
+  pushHistory(T("メモの削除")); render(); refreshAll(); noteRefitAfterHide();
 }
 
 /* ---------- 右クリックメニューの項目（06_ops の openContextMenu から） ---------- */
