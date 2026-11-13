@@ -1584,6 +1584,24 @@ body{padding:env(safe-area-inset-top,0) env(safe-area-inset-right,0) env(safe-ar
 .noteqb.has{border-color:var(--brass-dim);color:var(--tx)}
 .noteqb b{min-width:16px;height:16px;padding:0 4px;border-radius:8px;background:var(--brass);color:var(--onBrass);font:700 10.5px/16px var(--mono);text-align:center}
 @media (pointer:coarse){ .noteqb{height:32px;border-radius:16px;padding:0 11px 0 9px;font-size:12.5px} }
+/* 「準備ができました」の札（14_touch.js の kkpReadySheet）：iPad で共有・保存・印刷をもう一度押してもらう */
+#kkpReady{position:fixed;left:50%;bottom:calc(var(--sb) + 18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:2147483100;
+  display:flex;align-items:center;gap:12px;max-width:calc(100vw - 24px);padding:12px 12px 12px 14px;border-radius:14px;
+  background:var(--panel);color:var(--tx);border:1px solid var(--line);box-shadow:0 2px 6px rgba(0,0,0,.12),0 16px 40px rgba(0,0,0,.22);
+  font-family:var(--ui);animation:krIn .18s ease-out}
+@keyframes krIn{from{opacity:0;transform:translate(-50%,10px)}to{opacity:1;transform:translate(-50%,0)}}
+#kkpReady .krIc{flex:0 0 34px;height:34px;border-radius:50%;display:grid;place-items:center;background:rgba(47,143,104,.13);color:var(--ok)}
+#kkpReady .krTx{display:flex;flex-direction:column;gap:2px;min-width:0}
+#kkpReady .krTx b{font-size:13.5px;font-weight:700}
+#kkpReady .krTx span{font-size:11.5px;color:var(--tx2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:46vw}
+#kkpReady .krAct{display:flex;gap:8px;margin-left:6px}
+#kkpReady .krBtn{height:38px;padding:0 16px;border-radius:9px;border:1px solid var(--line2);background:var(--panel2);color:var(--tx);font:600 13px/1 var(--ui);cursor:pointer;white-space:nowrap}
+#kkpReady .krBtn.pri{background:var(--brass);border-color:var(--brass);color:var(--onBrass)}
+#kkpReady .krX{flex:0 0 32px;height:32px;border:0;border-radius:8px;background:none;color:var(--tx3);font-size:14px;cursor:pointer}
+#kkpReady .krX:hover{background:var(--panel2);color:var(--tx)}
+@media (max-width:600px){#kkpReady{flex-wrap:wrap}#kkpReady .krAct{margin-left:0;width:100%}#kkpReady .krBtn{flex:1}}
+/* 指の端末では、右クリックメニューのキーの目安（Ctrl+X など）は出さない */
+@media (hover:none){#ctxmenu button .k{display:none}}
 </style>
 </head>
 <body>
@@ -3865,6 +3883,13 @@ const I18N_EN = {
   "ウィンドウに合わせる": "Fit to Window",
   "全画面表示": "Full Screen",
   "全画面表示を終了": "Exit Full Screen",
+  "印刷の準備ができました": "Ready to print",
+  "書き出しの準備ができました": "Your file is ready",
+  "共有・写真に保存": "Share / Save to Photos",
+  "共有・ファイルに保存": "Share / Save to Files",
+  "ダウンロード": "Download",
+  "貼り付けるには、表示される［ペースト］を押してください": "To paste, tap the Paste button that appears",
+  "全{0}ページ": "{0} pages",
   "教師用メモ（編集・追加・表示の切り替え）": "Teaching notes (edit, add, show/hide)",
   "（空のメモ）": "(empty note)",
   "全画面表示にできませんでした": "Could not switch to full screen",
@@ -5079,6 +5104,9 @@ const deg = r => (r * 180) / Math.PI;
 const r2 = n => Math.round(n * 100) / 100;
 const r3 = n => Math.round(n * 1000) / 1000;
 const nowISO = () => new Date().toISOString();
+/* iPad／iPhone（iPadOS の Safari は Mac のふりをするので、指の数でも見分ける）と、指で触れる端末 */
+const KKP_IOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+const KKP_TOUCH = (navigator.maxTouchPoints || 0) > 0;
 const deepClone = o => (typeof structuredClone === "function" ? structuredClone(o) : JSON.parse(JSON.stringify(o)));
 /* 説明文をHTMLに流し込むときの無害化（利用者の入力は入らないが、記号をそのまま見せるため） */
 const escapeHtml = t => String(t).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -15607,7 +15635,7 @@ async function pasteClip(c, at) {
 async function pasteSmart() {
   let c;
   try { c = await clipFromSystem(); } catch (e) { c = null; }
-  if (!c) return S.clipboard ? pasteClipboard() : toast(T("貼り付けは Ctrl+V キーでもできます"), "warn");
+  if (!c) return S.clipboard ? pasteClipboard() : toast(KKP_TOUCH && !matchMedia("(hover:hover)").matches ? T("貼り付けるには、表示される［ペースト］を押してください") : T("貼り付けは Ctrl+V キーでもできます"), "warn");
   await pasteClip(c);
 }
 /* ほかのアプリでコピーした文字は、いまの書く向きの文字の箱にして画面の真ん中に置く */
@@ -20936,6 +20964,11 @@ function projStart(opt = {}) {
    押した操作の直後でないと全画面にできないので、ふつうの場合は待たずにすぐ頼む */
 async function pjEnterFullscreen() {
   const st = PJ.stage;
+  if (st && !st.requestFullscreen && st.webkitRequestFullscreen) {
+    /* iPad の古い Safari：webkit の名前でしか全画面にできない */
+    try { st.webkitRequestFullscreen(); } catch (e) { /* ウィンドウいっぱいで映す */ }
+    return;
+  }
   if (!st || !st.requestFullscreen) return;
   try {
     if (isHostApp()) {
@@ -20956,6 +20989,7 @@ function projStop() {
   clearTimeout(pjHudTimer); clearTimeout(pjCursorTimer); clearTimeout(PJ.helpTimer); clearTimeout(pjPeekTimer); clearTimeout(PJ.hintTimer);
   Object.assign(PJ, { pick: false, picked: new Set(), pickHover: null, pickHoverId: null, pickHint: false, peekOn: false, peekA: 0, peekAt: null });
   if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+  else if (document.webkitFullscreenElement && document.webkitExitFullscreen) document.webkitExitFullscreen();
   if (PJ.stage) PJ.stage.remove();
   Object.assign(PJ, { stage: null, cv: null, ov: null, hud: null, info: null, help: null });
   document.body.classList.remove("pjon");
@@ -20964,11 +20998,12 @@ function projStop() {
   pjSave();
   render(); refreshAll();
 }
-document.addEventListener("fullscreenchange", () => {
+["fullscreenchange", "webkitfullscreenchange"].forEach(t => document.addEventListener(t, () => {
   if (!PJ.on) return;
-  if (document.fullscreenElement) { PJ.wasFull = true; setTimeout(pjResize, 30); }
+  const fe = document.fullscreenElement || document.webkitFullscreenElement;
+  if (fe) { PJ.wasFull = true; setTimeout(pjResize, 30); }
   else if (PJ.wasFull) { PJ.wasFull = false; projStop(); }
-});
+}));
 window.addEventListener("resize", () => { if (PJ.on) pjResize(); });
 
 /* ---------- 投影中の操作 ---------- */
@@ -31922,7 +31957,8 @@ function renderExport(opt = {}) {
   const ne = noteExpand(bounds, opt.notes, opt.area);
   bounds = ne.bounds;
   let scale = opt.scale || 1;
-  const MAXPX = 42e6;
+  /* iPad／iPhone の Safari は1枚のキャンバスが約1,677万画素まで（超えると白紙になる） */
+  const MAXPX = KKP_IOS ? 16e6 : 42e6;
   if (bounds.w * bounds.h * scale * scale > MAXPX) {
     scale = Math.sqrt(MAXPX / (bounds.w * bounds.h));
     if (opt.warn !== false) toast(T("画像が大きすぎるため、倍率を自動的に下げました"), "warn");
@@ -32077,6 +32113,10 @@ function exportBounds(area, notes) {
   return noteExpand(r, notes, area).bounds;
 }
 function downloadBlob(blob, name) {
+  if (KKP_IOS && !(window.chrome && window.chrome.webview)) return kkpDeliver(blob, name);
+  downloadBlobPlain(blob, name);
+}
+function downloadBlobPlain(blob, name) {
   const url = URL.createObjectURL(blob);
   const a = el("a", { href: url, download: name });
   document.body.appendChild(a); a.click(); a.remove();
@@ -33551,8 +33591,7 @@ async function exportProjectFile() {
 }
 function pickProjectFile() {
   /* iPad／iPhone は拡張子 .kkp を知らないため、絞り込むと動画入りのファイルが選べなくなる。iOS では絞らない */
-  const ios = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-  const inp = el("input", { type: "file", accept: ios ? null : ".json,.kkp,application/json" });
+  const inp = el("input", { type: "file", accept: KKP_IOS ? null : ".json,.kkp,application/json" });
   inp.addEventListener("change", () => { if (inp.files[0]) importProjectFile(inp.files[0]); });
   inp.click();
 }
@@ -35120,6 +35159,7 @@ function renderSheetPage(job, scale) {
 }
 
 async function printImages(canvases, wMm, hMm, fit) {
+  if (KKP_IOS) return printImagesHere(canvases, wMm, hMm, fit);
   const urls = [];
   for (const c of canvases) {
     const blob = await new Promise(res => c.toBlob(res, "image/png"));
@@ -35147,6 +35187,41 @@ async function printImages(canvases, wMm, hMm, fit) {
   setTimeout(cleanup, 120000);
   ifr.contentWindow.focus();
   ifr.contentWindow.print();
+}
+
+/* iPad／iPhone：隠した枠（iframe）の印刷は Safari では本体の画面が刷られることがあるので、
+   本体の文書に印刷用の面を足し、印刷のときだけそれを見せる。押した直後でないと印刷できないので、
+   準備に時間がかかったときは［印刷する］ボタンを出して押してもらう */
+async function printImagesHere(canvases, wMm, hMm, fit) {
+  const urls = [];
+  for (const c of canvases) {
+    const blob = await new Promise(res => c.toBlob(res, "image/png"));
+    if (!blob) throw new Error("toBlob");
+    urls.push(URL.createObjectURL(blob));
+  }
+  document.querySelectorAll("#kkpPrintArea,#kkpPrintCss").forEach(n => n.remove());
+  const area = el("div", { id: "kkpPrintArea", "aria-hidden": "true" });
+  urls.forEach(u => area.appendChild(el("div", { class: "pg" }, [el("img", { src: u, alt: "" })])));
+  const css = el("style", { id: "kkpPrintCss" });
+  css.textContent = `@page{size:${wMm}mm ${hMm}mm;margin:0}
+@media screen{#kkpPrintArea{display:none}}
+@media print{html,body{height:auto!important;overflow:visible!important;padding:0!important;margin:0!important;background:#fff!important}
+body>*:not(#kkpPrintArea){display:none!important}
+#kkpPrintArea{display:block}
+#kkpPrintArea .pg{width:${wMm}mm;height:${hMm - 0.3}mm;overflow:hidden;display:flex;align-items:center;justify-content:center;break-after:page;page-break-after:always}
+#kkpPrintArea .pg:last-child{break-after:auto;page-break-after:auto}
+#kkpPrintArea img{display:block;${fit ? `max-width:${wMm - fit * 2}mm;max-height:${hMm - fit * 2}mm` : `width:${wMm}mm;height:${hMm}mm`}}
+*{-webkit-print-color-adjust:exact;print-color-adjust:exact}}`;
+  document.head.appendChild(css);
+  document.body.appendChild(area);
+  await Promise.all(Array.from(area.querySelectorAll("img")).map(im => (im.decode ? im.decode().catch(() => { }) : Promise.resolve())));
+  let done = false;
+  const cleanup = () => { if (done) return; done = true; setTimeout(() => { area.remove(); css.remove(); urls.forEach(u => URL.revokeObjectURL(u)); }, 800); };
+  window.addEventListener("afterprint", cleanup, { once: true });
+  setTimeout(cleanup, 300000);
+  const go = () => { try { window.print(); } catch (e) { /* 何もしない */ } };
+  if (navigator.userActivation && navigator.userActivation.isActive) go();
+  else kkpReadySheet({ title: T("印刷の準備ができました"), sub: T`全${urls.length}ページ`, actions: [{ label: T("印刷する"), primary: true, run: go }], onClose: () => { if (!matchMedia("print").matches) cleanup(); } });
 }
 
 function printDialog() {
@@ -36240,8 +36315,6 @@ async function libAutoOrganize() {
    ・ここは画面全体に効かせるもの：長押し＝右クリック、2回タップ＝ダブルクリック、
      ページ自体の拡大を止める、ホームの画面に置いたときの保存の保護、全画面表示のボタン。
    ========================================================================= */
-const KKP_IOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-const KKP_TOUCH = (navigator.maxTouchPoints || 0) > 0;
 if (KKP_TOUCH) document.documentElement.classList.add("kkp-touch");
 if (KKP_IOS) document.documentElement.classList.add("kkp-ios");
 
@@ -36372,6 +36445,82 @@ function fsSetupButton() {
   ["fullscreenchange", "webkitfullscreenchange"].forEach(t => document.addEventListener(t, () => { sync(); setTimeout(() => { try { resizeCanvas(); render(); } catch (e) { /* 何もしない */ } }, 60); }));
 }
 if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", fsSetupButton); else fsSetupButton();
+
+/* ---------- 「準備ができました」の小さな札（画面の下の真ん中） ----------
+   iPad の Safari は、押した直後でないと共有シートや印刷を開けない。書き出しの準備（画像づくりや Word の組み立て）に
+   時間がかかったときは、この札のボタンをもう一度押してもらう。 */
+function kkpReadySheet(o) {
+  const old = $("#kkpReady");
+  if (old) { if (old._onClose) try { old._onClose(); } catch (e) { /* 何もしない */ } old.remove(); }
+  const box = el("div", { id: "kkpReady", role: "dialog", "aria-live": "polite", "aria-label": o.title });
+  box._onClose = o.onClose || null;
+  const close = () => { if (box._onClose) try { box._onClose(); } catch (e) { /* 何もしない */ } box._onClose = null; box.remove(); };
+  const ic = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+  box.appendChild(el("div", { class: "krIc", html: ic }));
+  box.appendChild(el("div", { class: "krTx" }, [el("b", { text: o.title }), o.sub ? el("span", { text: o.sub }) : null]));
+  const acts = el("div", { class: "krAct" });
+  (o.actions || []).forEach(a => {
+    acts.appendChild(el("button", { type: "button", class: a.primary ? "krBtn pri" : "krBtn", text: a.label, onclick: () => { box._onClose = null; box.remove(); a.run(); } }));
+  });
+  box.appendChild(acts);
+  box.appendChild(el("button", { type: "button", class: "krX", "aria-label": T("閉じる"), title: T("閉じる"), text: "✕", onclick: close }));
+  document.body.appendChild(box);
+  return box;
+}
+
+/* ---------- 書き出したファイルを渡す（iPad／iPhone） ----------
+   共有シートなら［ファイルに保存］［画像を保存］（写真へ）・AirDrop・メールなどを選べる。
+   共有できないもの・共有を断られたときは、ふつうのダウンロード（「ファイル」アプリの［ダウンロード］へ入る）。 */
+const KKP_MIME = { png: "image/png", jpg: "image/jpeg", jpeg: "image/jpeg", json: "application/json", txt: "text/plain",
+  docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document", kkp: "application/octet-stream", pdf: "application/pdf" };
+function kkpDeliver(blob, name) {
+  const ext = (String(name).match(/\.([a-z0-9]+)$/i) || [])[1] || "";
+  const type = blob.type || KKP_MIME[ext.toLowerCase()] || "application/octet-stream";
+  let file = null;
+  try { file = new File([blob], name, { type }); } catch (e) { file = null; }
+  let can = false;
+  try { can = !!(file && navigator.share && navigator.canShare && navigator.canShare({ files: [file] })); } catch (e) { can = false; }
+  const isImg = /^image\//.test(type);
+  const dl = () => downloadBlobPlain(blob, name);
+  const share = () => navigator.share({ files: [file] }).catch(e => {
+    if (e && e.name === "AbortError") return;                /* 自分で閉じた */
+    sheet();                                                  /* 押した直後でなかった → もう一度押してもらう */
+  });
+  const sheet = () => kkpReadySheet({
+    title: T("書き出しの準備ができました"), sub: name,
+    actions: [
+      can ? { label: isImg ? T("共有・写真に保存") : T("共有・ファイルに保存"), primary: true, run: share } : null,
+      { label: T("ダウンロード"), primary: !can, run: dl },
+    ].filter(Boolean),
+  });
+  if (can && navigator.userActivation && navigator.userActivation.isActive) share();
+  else sheet();
+}
+
+/* ---------- ファイルを選ぶ入力欄は、画面に付けてから開く ----------
+   画面に付いていない <input type=file> を開くと、Safari では選んだあとに何も起きないことがある
+   （入力欄が片づけられて change が届かない）。見えない置き場に入れてから開き、終わったら外す。 */
+(() => {
+  const orig = HTMLInputElement.prototype.click;
+  HTMLInputElement.prototype.click = function () {
+    if (this.type === "file" && !this.isConnected && document.body) {
+      let box = document.getElementById("kkpFilePick");
+      if (!box) {
+        box = document.createElement("div");
+        box.id = "kkpFilePick";
+        box.setAttribute("aria-hidden", "true");
+        box.style.cssText = "position:fixed;left:-10000px;top:0;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none";
+        document.body.appendChild(box);
+      }
+      [...box.children].forEach(n => { if (n !== this) n.remove(); });   /* 前に開いて閉じただけのもの */
+      box.appendChild(this);
+      const done = () => setTimeout(() => this.remove(), 1000);
+      this.addEventListener("change", done, { once: true });
+      this.addEventListener("cancel", done, { once: true });
+    }
+    return orig.call(this);
+  };
+})();
 
 </script>
 <script type="text/plain" id="kkp-maps">
