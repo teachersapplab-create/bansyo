@@ -12467,7 +12467,7 @@ function qrEncode(text, ecl = "M") {
 }
 const qrCache = new Map();
 function qrMatrix(text, ecl) {
-  const key = ecl + " " + text;
+  const key = ecl + " " + text;
   if (!qrCache.has(key)) { if (qrCache.size > 60) qrCache.clear(); qrCache.set(key, qrEncode(text, ecl)); }
   return qrCache.get(key);
 }
