@@ -5213,6 +5213,8 @@ const I18N_EN = {
   "図・文・吹き出しなどのまとまりに番号を付けて送り、板書に貼る図を番号で選んでもらいます。範囲の数字で答えてもらうより、ずれずに切り抜けます。": "Figures, text and speech bubbles are numbered before sending, and the service picks the figures for the board by number. This crops more accurately than asking for coordinates.",
   "画像と PDF は、この番号の順に添付します。画像は、ここから保存・コピーしたもの（図を選ぶための番号付きの枠が入っています）を添付すると、図を正確に切り抜けます。": "Attach images and PDFs in this numbered order. Attach the images saved or copied here (they include numbered boxes for choosing figures) so figures are cropped accurately.",
   "見つけたまとまり（{0}）": "Detected blocks ({0})",
+  /* 教材から板書を作る（第7部n・o）：紙面のまとまりの番号で図を選ぶ（座標の返事の注意） */
+  "。ただし図{0}つが番号ではなく範囲で答えられています。範囲はずれやすいので、近くの図に合わせ直します。うまくいかないときは、ここで保存・コピーした番号付きの画像を添付して頼み直してください。": ". However, {0} figure(s) were answered with coordinates instead of numbers. Coordinates often drift, so they are matched to the nearest figure. If the result is off, attach the numbered images saved or copied here and ask again.",
 };
 
 /* 日本語のときは辞書を使わない（そのまま返す）。 */
@@ -5310,7 +5312,7 @@ async function setLang(k) {
 const APP = {
   name: T("板書計画Studio"),
   kana: T("ばんしょけいかくスタジオ"),
-  version: "1.21.1",
+  version: "1.21.2",
   vendor: T("先生のための道具箱"),
   copyright: T("© 2026 先生のための道具箱"),
 };
@@ -32182,7 +32184,7 @@ function mtPdfPages(latin1) {
 function mtMaterialLine(m) {
   const en = LANG === "en";
   const kind = m.kind === "pdf" ? "PDF" : m.kind === "text" ? (en ? "text" : "文章") : (en ? "image" : "画像");
-  const extra = m.kind === "image" && m.w ? ` ${m.w}×${m.h}` : m.kind === "pdf" && m.pages ? (en ? ` ${m.pages} pages` : ` ${m.pages}ページ`) : "";
+  const extra = m.kind === "pdf" && m.pages ? (en ? ` ${m.pages} pages` : ` ${m.pages}ページ`) : "";
   return en ? `- Material ${m.n}: ${mtRoleName(m.role)} (${kind}${extra}) "${m.name}"` : `- 資料${m.n}：${mtRoleName(m.role)}（${kind}${extra}）「${m.name}」`;
 }
 const MT_FIGURE_KINDS = ["figure", "picture", "crop", "clip", "image", "textbook_figure", "図", "挿絵", "切り抜き", "教科書の図"];
@@ -32360,6 +32362,20 @@ function mtPrompt(ctx) {
 
 /* ---------- 返事の解釈 ---------- */
 /* 範囲は [x1,y1,x2,y2]／{x,y,w,h}／{x1,y1,x2,y2}。0〜1 の割合で来たら 1000 倍にする。並びの取り違えも直す */
+/* 範囲の数をそのまま読む（切り詰めない）。画素で答えた返事を、あとで画像の大きさで読み直すため */
+function mtCropNums(v) {
+  let a = null;
+  if (Array.isArray(v) && v.length >= 4) a = v.slice(0, 4).map(coNum);
+  else if (v && typeof v === "object") {
+    const x = coNum(v.x !== undefined ? v.x : v.x1), y = coNum(v.y !== undefined ? v.y : v.y1);
+    const w = coNum(v.w !== undefined ? v.w : v.width), h = coNum(v.h !== undefined ? v.h : v.height);
+    if ([x, y, w, h].every(isFinite)) a = [x, y, x + w, y + h];
+    else if ([x, y, coNum(v.x2), coNum(v.y2)].every(isFinite)) a = [x, y, coNum(v.x2), coNum(v.y2)];
+  }
+  if (!a || !a.every(isFinite)) return null;
+  if (a.every(n => n >= 0 && n <= 1.0001)) a = a.map(n => n * 1000);
+  return a;
+}
 function mtReadCrop(v) {
   let a = null;
   if (Array.isArray(v) && v.length >= 4) a = v.slice(0, 4).map(coNum);
@@ -32403,13 +32419,15 @@ function mtNormFigure(raw, gw, gh, idx, imageSrcs) {
       regions = [...new Set(ids.filter(([s]) => s === src).map(([, k]) => k))];
     }
   }
-  const crop = mtReadCrop(raw.crop || raw.clip || raw.from_box || (raw.region && !regRaw ? raw.region : null));
+  const cropSrc = raw.crop || raw.clip || raw.from_box || (raw.region && !regRaw ? raw.region : null);
+  const crop = mtReadCrop(cropSrc), cropNums = mtCropNums(cropSrc);
   /* 切り抜けない図（PDF の中の図など）は捨てる。代わりに描くよう頼んでいるので、空いた場所は残らないことが多い */
-  if (!isFinite(src) || !imageSrcs.has(src) || (!crop && !(regions && regions.length))) return { drop: true };
+  if (!isFinite(src) || !imageSrcs.has(src) || (!crop && !cropNums && !(regions && regions.length))) return { drop: true };
   const b = coReadBox(raw);
   if (!isFinite(b.x) || !isFinite(b.y)) return { drop: true };
   const it = { n: isFinite(coNum(raw.n)) ? Math.round(coNum(raw.n)) : idx + 1, kind: "figure", src, x: coClamp(b.x, 0, gw - 1), y: coClamp(b.y, 0, gh - 1) };
   if (crop) it.crop = crop;
+  if (cropNums) it.cropRaw = cropNums.map(v => Math.round(v * 10) / 10);
   if (regions && regions.length) it.regions = regions;
   if (isFinite(b.w) && b.w > 0) it.w = Math.min(b.w, gw - it.x);
   if (isFinite(b.h) && b.h > 0) it.h = Math.min(b.h, gh - it.y);
@@ -32884,7 +32902,35 @@ function mtFindRegions(img, opt) {
   /* 図の中にすっぽり入る小さな切れ端（方眼のます目の一部など）は、番号を付けても選ばれないので除く */
   structs = structs.filter(b => !structs.some(a => a !== b && b[0] >= a[0] && b[1] >= a[1] && b[2] <= a[2] && b[3] <= a[3] && area(b) < area(a) * 0.1));
   texts = mergeOverlaps(texts, 0.5);
-  let list = structs.concat(texts);
+  /* 図か文か：骨組み由来は図。ただし細い帯（吹き出しの縁・線のかけら）は図として選ばれても役に立たないので文の扱い */
+  /* 文の行の形か：インクのある行が、字の高さほどの帯（長い辺の4.5％以下）に分かれて並び、
+     いちばん広い帯の中が字の間隔で細かく切れている。字が答えの枠などでつながって大きな塊になった文を、図と取り違えないため */
+  const textLike = b => {
+    const [x0, y0, x1, y1] = b;
+    const rowHas = y => { for (let x = x0; x < x1; x++) if (ink[y * W + x]) return true; return false; };
+    const bands = [];
+    let st = -1, gap = 0;
+    for (let y = y0; y <= y1; y++) {
+      const on = y < y1 && rowHas(y);
+      if (on) { if (st < 0) st = y; gap = 0; }
+      else if (st >= 0 && ++gap > 1) { bands.push([st, y - gap + 1]); st = -1; gap = 0; }
+    }
+    if (st >= 0) bands.push([st, y1]);
+    if (!bands.length || bands.some(([a, c]) => c - a > L * 0.045)) return false;
+    /* 字の高さほどの帯しか無い塊のうち、色の付いた面（図の塗り）がほとんど無いものは文。
+       字と細い線の数え方では、この大きさの画像では字と図の差が出なかった（どちらも1画素あたり0.04本） */
+    const D = img.data;
+    let colored = 0, n = 0;
+    for (let y = y0; y < y1; y += 2) for (let x = x0; x < x1; x += 2) {
+      const i = (y * W + x) * 4, r = D[i], g = D[i + 1], bl = D[i + 2];
+      const mx = Math.max(r, g, bl), mn = Math.min(r, g, bl);
+      if (mx - mn >= 40 && (r + g + bl) / 3 < 245) colored++;
+      n++;
+    }
+    return colored < n * 0.12;
+  };
+  const figLike = b => Math.min(b[2] - b[0], b[3] - b[1]) >= L * 0.04 && !textLike(b);
+  let list = structs.map(b => [b[0], b[1], b[2], b[3], figLike(b) ? "fig" : "text"]).concat(texts.map(b => [b[0], b[1], b[2], b[3], "text"]));
   const minA = N * o.minArea;
   list = list.filter(b => area(b) >= minA && area(b) < N * 0.6);
   /* 多すぎるときは、ほかの中に入っている小さいものから外し、それでも多ければ小さいものを近くへ寄せる */
@@ -32897,14 +32943,36 @@ function mtFindRegions(img, opt) {
     let bi = 0, bd = Infinity;
     list.forEach((q, i) => { const dx = Math.max(0, q[0] - s[2], s[0] - q[2]), dy = Math.max(0, q[1] - s[3], s[1] - q[3]); if (dx + dy < bd) { bd = dx + dy; bi = i; } });
     const q = list[bi];
-    list[bi] = [Math.min(q[0], s[0]), Math.min(q[1], s[1]), Math.max(q[2], s[2]), Math.max(q[3], s[3])];
+    list[bi] = [Math.min(q[0], s[0]), Math.min(q[1], s[1]), Math.max(q[2], s[2]), Math.max(q[3], s[3]), q[4] === "fig" || s[4] === "fig" ? "fig" : "text"];
   }
   list.sort((p, q) => {
     const ov = Math.min(p[3], q[3]) - Math.max(p[1], q[1]);
     if (ov > Math.min(p[3] - p[1], q[3] - q[1]) * 0.5) return p[0] - q[0];
     return p[1] - q[1];
   });
-  return list.map(([x0, y0, x1, y1]) => ({ x: x0 / W, y: y0 / H, w: (x1 - x0) / W, h: (y1 - y0) / H }));
+  return list.map(([x0, y0, x1, y1, k]) => ({ x: x0 / W, y: y0 / H, w: (x1 - x0) / W, h: (y1 - y0) / H, k }));
+}
+/* まとまりどうしの距離（長い辺を1とした値）。aspect は画像の 幅/高さ */
+function mtRegionGap(a, b, aspect) {
+  const A = aspect || 1, sx = Math.min(1, A), sy = Math.min(1, 1 / A);   /* 長い辺に合わせて縮める */
+  const dx = Math.max(0, a.x - (b.x + b.w), b.x - (a.x + a.w)) * sx, dy = Math.max(0, a.y - (b.y + b.h), b.y - (a.y + a.h)) * sy;
+  return Math.hypot(dx, dy);
+}
+/* 図の項目なのに、文のまとまりだけが選ばれた（座標がずれて隣の文に吸着した・番号を読み違えた）ときは、
+   すぐ近くの図のまとまりへ寄せる。選んだ文を中に含む枠（まとめの囲みなど）は候補にしない */
+function mtFigIds(regions, ids, aspect) {
+  const sel = ids.filter(i => regions[i - 1]);
+  if (!sel.length || !regions.some(r => r.k === "fig")) return sel;
+  if (sel.some(i => regions[i - 1].k !== "text")) return sel;
+  const U = (rs => { const x = Math.min(...rs.map(r => r.x)), y = Math.min(...rs.map(r => r.y)); return { x, y, w: Math.max(...rs.map(r => r.x + r.w)) - x, h: Math.max(...rs.map(r => r.y + r.h)) - y }; })(sel.map(i => regions[i - 1]));
+  const holds = (f, r) => r.x >= f.x && r.y >= f.y && r.x + r.w <= f.x + f.w && r.y + r.h <= f.y + f.h;
+  let best = 0, bd = Infinity;
+  regions.forEach((f, i) => {
+    if (f.k !== "fig" || sel.some(j => holds(f, regions[j - 1]))) return;
+    const g = mtRegionGap(U, f, aspect);
+    if (g <= 0.08 && g < bd) { bd = g; best = i + 1; }
+  });
+  return best ? [best] : sel;
 }
 /* 番号で選んだまとまりを合わせた範囲（0〜1 の [x1,y1,x2,y2]）。少しだけ余白を足すが、選ばなかったまとまりには食い込まない */
 function mtRegionsCrop(regions, ids, aspect) {
@@ -32924,32 +32992,56 @@ function mtRegionsCrop(regions, ids, aspect) {
   });
   return [Math.max(0, lim[0]), Math.max(0, lim[1]), Math.min(1, lim[2]), Math.min(1, lim[3])];
 }
-/* 座標だけの返事を、見つけたまとまりへ吸着させる。box は 0〜1000 の [x1,y1,x2,y2]。
-   縦横の順を取り違えた返事（[y1,x1,y2,x2]）もあるので、両方の読み方で合いのよい方を使う。
-   合うまとまりが無ければ null（呼び出し側で返事の範囲をそのまま整える） */
-function mtSnapCrop(regions, box, aspect) {
-  if (!regions || !regions.length) return null;
-  const tryBox = b => {
-    const B = { x: b[0] / 1000, y: b[1] / 1000, w: (b[2] - b[0]) / 1000, h: (b[3] - b[1]) / 1000 };
+/* 座標だけの返事を、見つけたまとまりへ吸着させる。box は返事の [x1,y1,x2,y2] をそのまま。
+   返事の座標の書き方は揺れる：0〜1000 の割合／縦横の順の取り違え（[y1,x1,y2,x2]）／画素（送った画像の大きさ）。
+   読み方を全部試し、図のまとまりといちばんよく合う読み方を使う。図の項目なので、吸着させるのは図のまとまりだけ
+   （文のすぐ隣の小さな図で、ずれた座標が文に吸着していた）。dims は画素で答えたときの画像の大きさの候補 [[w,h],…]。
+   合う図が無ければ null（呼び出し側で返事の範囲をそのまま整える） */
+function mtSnapCrop(regions, box, aspect, dims) {
+  if (!regions || !regions.length || !box || box.length < 4) return null;
+  const figs = regions.map((r, i) => [r, i + 1]).filter(([r]) => r.k === "fig");
+  const cands = figs.length ? figs : regions.map((r, i) => [r, i + 1]);
+  const tryBox = (b, how) => {
+    const B = { x: b[0], y: b[1], w: b[2] - b[0], h: b[3] - b[1] };
+    if (!(B.w > 0.004 && B.h > 0.004) || B.x < -0.05 || B.y < -0.05 || B.x + B.w > 1.05 || B.y + B.h > 1.05) return null;
     const inter = r => Math.max(0, Math.min(B.x + B.w, r.x + r.w) - Math.max(B.x, r.x)) * Math.max(0, Math.min(B.y + B.h, r.y + r.h) - Math.max(B.y, r.y));
-    /* 半分以上が範囲に入っているまとまり */
-    let ids = [];
-    regions.forEach((r, i) => { if (inter(r) >= r.w * r.h * 0.5) ids.push(i + 1); });
+    /* 半分以上が範囲に入っている図 */
+    let ids = cands.filter(([r]) => inter(r) >= r.w * r.h * 0.5).map(([, i]) => i);
+    let near = false;
     if (!ids.length) {
-      /* 範囲が図の一部だけを囲んでいる：いちばん重なるまとまり */
-      let bi = -1, bv = 0;
-      regions.forEach((r, i) => { const v = inter(r); if (v > bv) { bv = v; bi = i; } });
-      if (bi >= 0 && bv >= B.w * B.h * 0.35) ids = [bi + 1];
+      /* 範囲が図の一部だけを囲んでいる：いちばん重なる図（図の2割以上、または範囲の3割5分以上） */
+      let bi = 0, bv = 0;
+      cands.forEach(([r, i]) => { const v = inter(r); if (v > bv) { bv = v; bi = i; } });
+      if (bi && (bv >= regions[bi - 1].w * regions[bi - 1].h * 0.2 || bv >= B.w * B.h * 0.35)) ids = [bi];
+    }
+    if (!ids.length && !/swapped/.test(how)) {
+      /* どの図にも重ならない（座標がずれて文の上にある）：すぐ近くの図。縦横を入れ替えた読み方では、たまたま近いだけなので使わない */
+      let bi = 0, bd = Infinity;
+      cands.forEach(([r, i]) => { const g = mtRegionGap(B, r, aspect); if (g < bd) { bd = g; bi = i; } });
+      if (bi && bd <= Math.max(0.03, Math.max(B.w, B.h) * 0.6)) { ids = [bi]; near = true; }
     }
     if (!ids.length) return null;
     const c = mtRegionsCrop(regions, ids, aspect);
     const U = { x: c[0], y: c[1], w: c[2] - c[0], h: c[3] - c[1] };
     const iu = Math.max(0, Math.min(U.x + U.w, B.x + B.w) - Math.max(U.x, B.x)) * Math.max(0, Math.min(U.y + U.h, B.y + B.h) - Math.max(U.y, B.y));
-    return { crop: c, ids, iou: iu / (U.w * U.h + B.w * B.h - iu) };
+    const iou = iu / (U.w * U.h + B.w * B.h - iu);
+    /* 近くの図へ寄せただけのものは、重なって合ったものより弱く見る */
+    return { crop: c, ids, iou, score: near ? Math.max(0.2, iou) * 0.5 : iou, how };
   };
-  const a = tryBox(box), s = tryBox([box[1], box[0], box[3], box[2]]);
-  const pick = a && (!s || a.iou >= s.iou * 0.8) ? a : s;
-  return pick && pick.iou >= 0.25 ? pick : null;
+  const n = box.map(Number);
+  const norm = b => { const q = [Math.min(b[0], b[2]), Math.min(b[1], b[3]), Math.max(b[0], b[2]), Math.max(b[1], b[3])]; return q; };
+  const tries = [];
+  const pm = norm(n).map(v => v / 1000);
+  tries.push([pm, "permille"], [[pm[1], pm[0], pm[3], pm[2]], "swapped"]);
+  (dims || []).forEach(([w, h]) => {
+    if (!(w > 0 && h > 0)) return;
+    const q = norm(n);
+    if (q[2] <= w * 1.02 && q[3] <= h * 1.02) tries.push([[q[0] / w, q[1] / h, q[2] / w, q[3] / h], "pixels"]);
+    if (q[3] <= w * 1.02 && q[2] <= h * 1.02) tries.push([[q[1] / w, q[0] / h, q[3] / w, q[2] / h], "pixels-swapped"]);
+  });
+  let pick = null;
+  tries.forEach(([b, how]) => { const r = tryBox(b, how); if (r && (!pick || r.score > pick.score + 1e-9)) pick = r; });
+  return pick && pick.score >= 0.1 ? pick : null;
 }
 
 /* ---------- 重なりを解く ----------
@@ -33226,7 +33318,7 @@ async function mtReadFile(f) {
     g.fillStyle = "#fff"; g.fillRect(0, 0, c.width, c.height);   /* 透明な部分は白い紙として扱う */
     g.imageSmoothingQuality = "high";
     g.drawImage(im, 0, 0, c.width, c.height);
-    return Object.assign(base, { kind: "image", role: mtGuessRole(f.name, "image"), canvas: c, w: c.width, h: c.height, thumb: mtThumb(c), regions: mtDetectRegions(c) });
+    return Object.assign(base, { kind: "image", role: mtGuessRole(f.name, "image"), canvas: c, w: c.width, h: c.height, ow: w0, oh: h0, thumb: mtThumb(c), regions: mtDetectRegions(c) });
   }
   if (kind === "pdf") {
     const buf = await f.arrayBuffer();
@@ -33814,6 +33906,12 @@ function mtRenderManual() {
     result.classList.add(r.truncated ? "warn" : "ok");
     const figs = r.proposals.reduce((s, p) => s + p.items.filter(i => i.kind === "figure").length, 0);
     result.textContent = T`案 ${r.proposals.length}つ（項目 ${r.proposals.reduce((s, p) => s + p.items.length, 0)}個・教材の図 ${figs}）` + (r.truncated ? T("（返事が途中で切れています。読めた分だけ使います）") : T(" を読み取れます"));
+    /* 番号ではなく範囲（座標）で答えた図：番号の無い元の画像を添付したときに起きる。ずれやすいので知らせる */
+    const byCrop = r.proposals.reduce((s, p) => s + p.items.filter(i => i.kind === "figure" && !(i.regions && i.regions.length)).length, 0);
+    if (byCrop && ctx.figures) {
+      result.classList.remove("ok"); result.classList.add("warn");
+      result.textContent += T`。ただし図${byCrop}つが番号ではなく範囲で答えられています。範囲はずれやすいので、近くの図に合わせ直します。うまくいかないときは、ここで保存・コピーした番号付きの画像を添付して頼み直してください。`;
+    }
     next.disabled = false;
   };
   ta.addEventListener("input", check);
@@ -33861,7 +33959,10 @@ function mtPool(ctx) {
     g.drawImage(c, 0, 0, a.width, a.height);
     let data = null;
     try { data = g.getImageData(0, 0, a.width, a.height); } catch (e) { data = null; }
-    pool[m.n] = { id: uid("img"), dataURL: c.toDataURL("image/jpeg", 0.9), w: c.width, h: c.height, data, regions: m.ref.regions || [] };
+    const r = m.ref, km = Math.min(1, 2048 / Math.max(r.w, r.h));
+    const dims = [[r.w, r.h], [Math.round(r.w * km), Math.round(r.h * km)], [r.ow || r.w, r.oh || r.h]];
+    if (ctx.provider) dims.unshift(mtSendDims(ctx.provider, r));
+    pool[m.n] = { id: uid("img"), dataURL: c.toDataURL("image/jpeg", 0.9), w: c.width, h: c.height, data, regions: r.regions || [], dims };
   });
   ctx.pool = pool;
   return pool;
@@ -33921,9 +34022,10 @@ function mtBuildProject(prop, ctx, result, index) {
       if (!pl) return true;
       /* 範囲の決め方：①番号で選んだまとまり ②範囲の返事を、見つけたまとまりへ吸着 ③範囲の返事を地の色で整える */
       const aspect = pl.w / pl.h;
-      const okIds = (it.regions || []).filter(k => k >= 1 && k <= pl.regions.length);
+      const okIds = mtFigIds(pl.regions, (it.regions || []).filter(k => k >= 1 && k <= pl.regions.length), aspect);
       let c = okIds.length ? mtRegionsCrop(pl.regions, okIds, aspect) : null;
-      if (!c && it.crop) { const sn = mtSnapCrop(pl.regions, it.crop, aspect); c = sn ? sn.crop : null; }
+      const nums = it.cropRaw || it.crop;
+      if (!c && nums) { const sn = mtSnapCrop(pl.regions, nums, aspect, pl.dims); c = sn ? sn.crop : null; }
       if (!c && it.crop) c = pl.data ? mtRefineCrop(pl.data, it.crop) : it.crop.map(v => v / 1000);
       if (!c) return true;
       const cw = (c[2] - c[0]) * pl.w, ch = (c[3] - c[1]) * pl.h;
