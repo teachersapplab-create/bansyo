@@ -1714,6 +1714,36 @@ body{padding:env(safe-area-inset-top,0) env(safe-area-inset-right,0) env(safe-ar
 @media (max-width:600px){#kkpReady{flex-wrap:wrap}#kkpReady .krAct{margin-left:0;width:100%}#kkpReady .krBtn{flex:1}}
 /* 指の端末では、右クリックメニューのキーの目安（Ctrl+X など）は出さない */
 @media (hover:none){#ctxmenu button .k{display:none}}
+/* OneDrive で共有（13b_sync.js）。.card などアプリ共通のクラスと衝突しないよう sy 接頭辞 */
+.symodal .body{display:flex;flex-direction:column;gap:14px}
+.sywrap{display:flex;flex-direction:column;gap:14px}
+.sywrap .sylead{margin:0;font-size:13px;line-height:1.75;color:var(--tx2)}
+.sywrap .sycard{display:flex;flex-direction:column;gap:8px;padding:14px 16px;border:1px solid var(--line2);border-radius:10px;background:var(--panel2)}
+.sywrap .sytitle{font-size:14px;font-weight:700;color:var(--tx)}
+.sywrap .syhead{display:flex;align-items:flex-start;gap:8px}
+.sywrap .syhead .badge{flex:0 0 auto;margin-top:2px}
+.sywrap .syhead code{flex:1;min-width:0;font-family:var(--mono);font-size:12px;line-height:1.5;color:var(--tx);word-break:break-all;user-select:text}
+.sywrap .hint{margin:0}
+.sywrap .hint.sthint-warn{color:var(--warn)}
+.sywrap .hint.sthint-err{color:var(--err)}
+.sywrap .symeta{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:var(--tx2);line-height:1.6}
+.sywrap .syacts{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px}
+.sywrap .systep{display:flex;gap:14px;align-items:flex-start;padding:14px 16px;border:1px solid var(--line2);border-radius:10px;background:var(--panel2)}
+.sywrap .systep .syn{flex:0 0 30px;height:30px;border-radius:50%;display:grid;place-items:center;background:rgba(166,124,30,.14);color:var(--brass);font:700 14px/1 var(--ui)}
+.sywrap .systep .sytx{flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:6px}
+.sywrap .systep b{font-size:14px;color:var(--tx)}
+.sywrap .systep p{margin:0;font-size:12.5px;line-height:1.7;color:var(--tx2)}
+.sywrap .systep .btn{min-height:38px;padding:0 18px;margin-top:2px}
+.sywrap .sydevrow label{display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--tx2)}
+.sywrap .sydevrow input{flex:0 1 220px;min-width:0;height:32px;padding:0 10px;border:1px solid var(--line2);border-radius:6px;background:var(--panel);color:var(--tx);font:13px var(--ui)}
+.sywrap .sydevrow .syfile{font-family:var(--mono);font-size:11.5px;color:var(--tx);word-break:break-all}
+.sywrap .synote{padding:10px 12px;border-radius:8px;font-size:12.5px;line-height:1.7;border:1px solid var(--line2);background:var(--panel)}
+.sywrap .synote.ok{border-color:var(--ok);background:rgba(47,143,104,.08)}
+.sywrap .synote.warn{border-color:var(--warn);background:rgba(200,140,20,.08)}
+.sywrap .synote.err{border-color:var(--err);background:rgba(190,60,50,.08)}
+.sywrap .syman summary{cursor:pointer;font-size:12.5px;color:var(--tx2);padding:4px 0}
+.lside .lsync.lsyncon .ic{color:var(--brass)}
+@media (max-width:600px){.sywrap .systep{padding:12px}.sywrap .sydevrow label{flex-wrap:wrap}}
 </style>
 </head>
 <body>
@@ -2633,6 +2663,13 @@ const I18N_EN = {
   "メモの背景色": "Note background color",
   "札の上で文字を直す": "Edit text on the card",
   "札の色": "Card color",
+  "自動配置": "Auto Arrange",
+  "メモの自動配置": "Auto-arrange notes",
+  "手で動かした札を、黒板のまわりの自動の位置に並べ直します。ものを選んでいるときは、そのものに付いた札だけを戻します。札はマウスや指でつかんで好きな場所へ動かせます。": "Put cards you moved by hand back in their automatic places around the board. If something is selected, only the cards attached to it are reset. Drag a card with the mouse or your finger to place it anywhere.",
+  "自動の位置に戻す": "Reset to automatic position",
+  "メモの移動": "Move note",
+  "手で動かしたメモはありません。メモは自動の位置に並んでいます。": "No notes have been moved by hand. All notes are in their automatic positions.",
+  "{0}個のメモを自動の位置に戻しました": "Reset {0} note(s) to automatic positions",
   "種類の色に戻す（{0}）": "Reset to category color ({0})",
   "種類ごとの色に戻す": "Reset to category colors",
   "種類ごとの色": "Category colors",
@@ -2896,6 +2933,66 @@ const I18N_EN = {
   "このパソコンに保存されているすべての板書データを削除します。取り消せません。よろしいですか？": "This deletes every board stored on this computer. It cannot be undone. Continue?",
   "保存データを削除しました": "Stored data deleted",
   "保存場所": "Storage location",
+  /* OneDrive で共有（13b_sync.js） */
+  "OneDrive で共有": "Share via OneDrive",
+  "授業ライブラリを OneDrive で iPad やほかのパソコンと受け渡します。同じ授業は増えずに新しい方へ置き換わります。": "Exchange your lesson library with an iPad or another PC through OneDrive. The same lesson is not duplicated; the newer one replaces it.",
+  "授業ライブラリ全体を1つのファイルにまとめ、OneDrive で iPad やほかのパソコンと受け渡します。": "Bundle the whole lesson library into one file and exchange it with an iPad or another PC through OneDrive.",
+  "同期で置き換える前の控え": "Backup before sync replaced it",
+  "変わった授業はありませんでした。": "No lessons had changed.",
+  "フォルダーの変更": "folder changes",
+  "新しい授業 {0}件": "{0} new lesson(s)",
+  "新しくなった授業 {0}件": "{0} updated lesson(s)",
+  "削除 {0}件": "{0} deleted",
+  "{0}を取り込みました。": "Brought in {0}.",
+  "編集中の授業 {0}件は、次の同期で取り込みます。": "{0} lesson(s) you are editing will be brought in at the next sync.",
+  "読めなかった授業が {0}件ありました。": "{0} lesson(s) could not be read.",
+  "読めなかったファイル：{0}": "Files that could not be read: {0}",
+  "OneDrive から": "From OneDrive:",
+  "OneDrive と同期しました。": "Synced with OneDrive.",
+  "OneDrive と同期できませんでした。": "Could not sync with OneDrive.",
+  "開いている「{0}」を、ほかの端末で変えた新しい内容に切り替えました。前の内容は［版の履歴］に残っています。": "The open lesson \"{0}\" was switched to the newer version changed on another device. The previous content is kept in Version history.",
+  "まだありません": "Not yet",
+  "この端末の名前": "Name of this device",
+  "この端末が書き出すファイル：": "File this device writes: ",
+  "授業1つ分のファイル（.kkp）が {0}件ありました。それは［ファイル］→［開く］→［ファイルから読み込む］で開いてください。": "{0} single-lesson file(s) (.kkp) were included. Open those with File > Open > Open from file.",
+  "共有用のファイルとして読めなかったもの：{0}": "Not readable as a shared library file: {0}",
+  "選んだのはこの端末が書き出したファイルでした。ほかの端末のファイルを選んでください。": "That is the file this device wrote. Choose the file from your other device.",
+  "読み込めませんでした。": "Could not load.",
+  "まとめています…": "Bundling…",
+  "{0}件の授業をまとめました。共有シートで［\"ファイル\"に保存］→ OneDrive の共有フォルダーを選び、同じ名前のファイルがあれば置き換えてください。": "Bundled {0} lesson(s). In the share sheet choose Save to Files, pick the shared OneDrive folder, and replace the file with the same name if asked.",
+  "{0}件の授業をまとめました。OneDrive の共有フォルダーに保存してください（同じ名前のファイルは上書き）。": "Bundled {0} lesson(s). Save it in the shared OneDrive folder (overwrite the file with the same name).",
+  "書き出せませんでした。": "Could not export.",
+  "授業ライブラリを1つのファイルにまとめ、OneDrive のフォルダーで iPad とパソコンの間を受け渡します。同じ授業は増えずに新しい方へ置き換わり、古い方は［版の履歴］に残ります。フォルダー分けとゴミ箱も引き継ぎます。": "Your lesson library is bundled into one file and exchanged between your iPad and PC through a OneDrive folder. The same lesson is not duplicated: the newer one replaces it, and the older one stays in Version history. Folders and the trash are carried over too.",
+  "同期しています…": "Syncing…",
+  "同期できませんでした": "Sync failed",
+  "一部のファイルを読めませんでした": "Some files could not be read",
+  "自動で同期しています": "Syncing automatically",
+  "起動したとき・ほかの端末のファイルが OneDrive から届いたとき・授業を変えて少したったとき・閉じるときに、自動で読み書きします。": "The app reads and writes automatically when it starts, when another device's file arrives from OneDrive, shortly after you change a lesson, and when you close it.",
+  "最後の同期：{0}": "Last sync: {0}",
+  "今すぐ同期": "Sync now",
+  "フォルダーを変更…": "Change folder…",
+  "自動同期をやめる": "Stop auto sync",
+  "自動同期をやめますか？": "Stop auto sync?",
+  "OneDrive のフォルダーにあるファイルと、この端末の授業はどちらも消しません。": "Neither the files in the OneDrive folder nor the lessons on this device are deleted.",
+  "OneDrive のフォルダーを選ぶと、自動で同期します": "Choose a OneDrive folder to sync automatically",
+  "OneDrive の中に「板書計画Studio 共有」などのフォルダーを作って選んでください。iPad からも同じフォルダーのファイルを読み書きします。": "Make a folder such as \"Bansho Plan Studio share\" inside OneDrive and choose it. Your iPad reads and writes files in the same folder.",
+  "OneDrive のフォルダーを選ぶ…": "Choose a OneDrive folder…",
+  "このパソコンの OneDrive：{0}": "OneDrive on this PC: {0}",
+  "このパソコンでは OneDrive のフォルダーが見つかりませんでした。OneDrive アプリでサインインしてから選んでください。": "No OneDrive folder was found on this PC. Sign in to the OneDrive app first, then choose a folder.",
+  "手作業で受け渡す": "Exchange manually",
+  "ほかの端末のファイルを読み込む…": "Load another device's file…",
+  "この端末の分をファイルに保存…": "Save this device's file…",
+  "OneDrive から読み込む": "Load from OneDrive",
+  "ファイル App で OneDrive の共有フォルダーを開き、ほかの端末の「授業ライブラリ_〇〇.kkplib」を選びます（いくつでもまとめて選べます）。": "In the Files app, open the shared OneDrive folder and choose the other devices' \"授業ライブラリ_….kkplib\" files (you can choose several at once).",
+  "OneDrive の共有フォルダーにある、ほかの端末の「授業ライブラリ_〇〇.kkplib」を選びます（いくつでもまとめて選べます）。": "Choose the other devices' \"授業ライブラリ_….kkplib\" files in the shared OneDrive folder (you can choose several at once).",
+  "読み込む…": "Load…",
+  "OneDrive へ保存": "Save to OneDrive",
+  "この端末の授業ライブラリを1つのファイルにまとめます。共有シートで［\"ファイル\"に保存］を選び、同じ OneDrive のフォルダーへ保存してください（同じ名前のファイルは置き換え）。": "Bundles this device's lesson library into one file. In the share sheet choose Save to Files and save it in the same OneDrive folder (replace the file with the same name).",
+  "この端末の授業ライブラリを1つのファイルにまとめて、同じ OneDrive のフォルダーへ保存します（同じ名前のファイルは上書き）。": "Bundles this device's lesson library into one file and saves it in the same OneDrive folder (overwrite the file with the same name).",
+  "保存…": "Save…",
+  "最後に読み込んだ日時：{0}": "Last loaded: {0}",
+  "最後に保存した日時：{0}": "Last saved: {0}",
+  "授業を変えたら、終わりに［保存］まで済ませると、パソコン版が自動で取り込みます。パソコンで変えた授業は、次に［読み込む］を押したときに入ります。": "After changing lessons, finish with Save so the PC version picks them up automatically. Lessons changed on the PC come in the next time you press Load.",
   "ブラウザーで開いているときは、授業データはブラウザーの中に保存されます。保存場所を選べるのは Windows 版（ストア版・ポータブル版）です。消えては困る授業は［ファイル］→［エクスポート］→［プロジェクト ファイル］で控えを残してください。": "When the app is opened in a browser, lessons are stored inside that browser. You can choose a storage location only in the Windows version (Store or portable). For lessons you cannot afford to lose, keep a copy with File > Export > Project file.",
   "今回だけ既定の場所": "Default, this time only",
   "選んである保存場所（{0}）が見つからないため、今回だけ既定の場所で開いています。USBメモリーやネットワークのフォルダーなら、つないでから起動し直すと、もとの保存場所に戻ります。": "The chosen storage location ({0}) cannot be found, so the default location is used this time only. If it is a USB drive or network folder, connect it and restart the app to go back to it.",
@@ -5312,7 +5409,7 @@ async function setLang(k) {
 const APP = {
   name: T("板書計画Studio"),
   kana: T("ばんしょけいかくスタジオ"),
-  version: "1.21.2",
+  version: "1.23.0",
   vendor: T("先生のための道具箱"),
   copyright: T("© 2026 先生のための道具箱"),
 };
@@ -5433,6 +5530,7 @@ const P = {
   png: '<path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M4 19h16"/>',
   word: '<path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/><path d="m8.2 12.5 1.3 5 2-4.2 2 4.2 1.3-5"/>',
   upload: '<path d="M12 21V9"/><path d="m7 13 5-5 5 5"/><path d="M4 5h16"/>',
+  cloud: '<path d="M17.5 19H7.5a4.5 4.5 0 0 1-.9-8.9A6 6 0 0 1 18.2 9 5 5 0 0 1 17.5 19z"/><path d="M9.5 13.5a2.8 2.8 0 0 1 5-1.2M14.5 15.5a2.8 2.8 0 0 1-5 1.2"/><path d="M14.6 10.6v1.9h-1.9M9.4 18.4v-1.9h1.9"/>',
   gear: '<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2.1 2.1M16.9 16.9 19 19M19 5l-2.1 2.1M7.1 16.9 5 19"/>',
   help: '<circle cx="12" cy="12" r="9"/><path d="M9.6 9.2a2.5 2.5 0 1 1 3.4 2.4c-.7.3-1 .9-1 1.6"/><path d="M12 17h.01"/>',
   play: '<path d="M7 4 20 12 7 20z"/>',
@@ -12690,7 +12788,7 @@ function qrEncode(text, ecl = "M") {
 }
 const qrCache = new Map();
 function qrMatrix(text, ecl) {
-  const key = ecl + " " + text;
+  const key = ecl + " " + text;
   if (!qrCache.has(key)) { if (qrCache.size > 60) qrCache.clear(); qrCache.set(key, qrEncode(text, ecl)); }
   return qrCache.get(key);
 }
@@ -13784,7 +13882,7 @@ function touchLongPress(ev) {
     refreshAll(); render();
     return;
   }
-  if (d && !(d.type === "move" && !d.moved)) return;
+  if (d && !((d.type === "move" || d.type === "note") && !d.moved)) return;
   S.drag = null;
   TCH.lpAt = performance.now();
   TCH.down.moved = true;
@@ -13825,7 +13923,7 @@ function touchMove(e) {
     return true;
   }
   /* 指の小さなぶれで、ものが動いたり大きさが変わったりしないように */
-  if (d && TCH.down && !TCH.down.moved && ["move", "resize", "gscale", "rotate", "ctrl"].includes(d.type)) return true;
+  if (d && TCH.down && !TCH.down.moved && ["move", "resize", "gscale", "rotate", "ctrl", "note"].includes(d.type)) return true;
   onMove(e);
   return true;
 }
@@ -13875,6 +13973,7 @@ function touchAbortDrag(e) {
     case "gscale": d.list.forEach((o, i) => back(o, d.list0[i])); break;
     case "ctrl": d.o.props = deepClone(d.p0); break;
     case "tpan": S.panX = d.pan0.x; S.panY = d.pan0.y; break;
+    case "note": noteDragCancel(d); break;
     case "pan": case "free": case "create": case "marquee": break;
     case "erase": if (d.erased) pushHistory(T("消しゴム")); break;
     default: S.drag = d; onUp(e); break;
@@ -13960,7 +14059,8 @@ function onDown(e) {
       return;
     }
     /* 黒板の枠をつかんで大きさを変える（第5部d） */
-    const bh = boardHandleAt(sp, wp);
+    /* 教師用メモの札が枠の上に重なっているときは、上に描いてある札をつかむ */
+    const bh = noteHitAt(wp) ? null : boardHandleAt(sp, wp);
     if (bh) { S.drag = startBoardResize(bh, sp, wp); render(); return; }
     /* 書式のコピー（はけ）を持っているときは、押したものに書式を貼る */
     if (S.painter && S.painter.kind === "obj") {
@@ -13978,7 +14078,7 @@ function onDown(e) {
     }
     /* 教師用メモの札を押したら、メモを付けたものを選ぶ（第7部f） */
     const nh = noteHitAt(wp);
-    if (nh) { S.sel = nh.o ? expandGroup([nh.o.id]) : []; refreshAll(); render(); return; }
+    if (nh) { S.sel = nh.o ? expandGroup([nh.o.id]) : []; S.drag = noteDragStart(nh, wp, e.pointerType === "touch" || e.pointerType === "pen"); refreshAll(); render(); return; }
     const hit = hitTest(wp);
     if (hit) {
       const ids = expandGroup([hit.id]);
@@ -14024,9 +14124,9 @@ function onMove(e) {
       const h = handleAt(sp);
       const onCol = !h && colTopHandleHit(sp);
       if (onCol !== !!S.colTopHover) { S.colTopHover = onCol; render(); }
-      const bh = !h && !onCol ? boardHandleAt(sp, wp) : null;
+      const bh = !h && !onCol && !noteHitAt(wp) ? boardHandleAt(sp, wp) : null;
       if ((bh || null) !== (S.boardHover || null)) { S.boardHover = bh; render(); }
-      cv.style.cursor = h && h.startsWith("ctrl:") ? "pointer" : h === "rot" ? "grab" : h ? cursorFor(h) : onCol ? "ns-resize" : bh ? cursorFor(bh) : S.painter ? PAINTER_CURSOR : hitTest(wp) ? "move" : clickCursorFor(wp);
+      cv.style.cursor = h && h.startsWith("ctrl:") ? "pointer" : h === "rot" ? "grab" : h ? cursorFor(h) : onCol ? "ns-resize" : bh ? cursorFor(bh) : S.painter ? PAINTER_CURSOR : noteHitAt(wp) ? "grab" : hitTest(wp) ? "move" : clickCursorFor(wp);
     } else cv.style.cursor = "crosshair";
     return;
   }
@@ -14075,6 +14175,7 @@ function onMove(e) {
     }
     case "gscale": scaleGroup(d.list, d.list0, d.b0, d.handle, wp, !e.shiftKey); render(); break;
     case "coltop": moveColTopDrag(d, wp, e.altKey); render(); break;
+    case "note": noteDragMove(d, wp); break;
     case "tsel": wedPointerMove(d, wp); break;
     case "bsize": moveBoardResize(d, sp, wp, e.shiftKey, e.altKey); break;
     case "crop": cropDragMove(d, wp, e); break;
@@ -14160,6 +14261,7 @@ function onUp(e) {
     case "gscale": pushHistory(T("拡大縮小")); break;
     case "rotate": pushHistory(T("回転")); break;
     case "coltop": endColTopDrag(d); break;
+    case "note": noteDragEnd(d); break;
     case "tsel": wedPointerUp(d); return;
     case "bsize": endBoardResize(d); break;
     case "pan": schedulePageSync(); break;
@@ -19537,6 +19639,7 @@ function bsPage(key) {
     box.appendChild(el("div", { class: "bstiles" }, [
       bsTile("lib", T("授業ライブラリ"), T("保存した授業を、板書とプリントの見本つきで一覧します（Ctrl+O）。"), () => openProjectDialog()),
       bsTile("folder", T("ファイルから読み込む"), T("ほかのパソコンで出力したプロジェクト ファイル（.kkp）を開きます。"), () => pickProjectFile()),
+      bsTile("cloud", T("OneDrive で共有"), T("授業ライブラリを OneDrive で iPad やほかのパソコンと受け渡します。同じ授業は増えずに新しい方へ置き換わります。"), () => syncDialog()),
     ]));
   } else if (key === "export") {
     h(T("エクスポート"));
@@ -19544,6 +19647,7 @@ function bsPage(key) {
       bsTile("png", T("画像（PNG）"), T("板書やプリントを画像にします。黒板の色を白い紙用に置き換えることもできます。"), () => exportPngDialog()),
       bsTile("word", T("Word 文書（.docx）"), T("文字や図を編集できるまま Word に出します。"), () => exportWordDialog()),
       bsTile("upload", T("プロジェクト ファイル（.kkp）"), T("ほかのパソコンへ持っていくときや、控えを残すときに使います。"), () => exportProjectFile()),
+      bsTile("cloud", T("OneDrive で共有"), T("授業ライブラリ全体を1つのファイルにまとめ、OneDrive で iPad やほかのパソコンと受け渡します。"), () => syncDialog()),
     ]));
   } else {
     h(T("情報"));
@@ -21689,6 +21793,9 @@ function projHelpDialog() {
    - 札の色は、作るときに選んだ種類で色分けする（NOTE_KIND_BG）。札ごとに変えた色は n.bg。
    - 本文の文字ごとの飾りは n.spans（文字の箱と同じ形。z は札の文字の大きさに対する倍率・c は色・h は背景色）。
      札をダブルクリックすると、札の上でじかに文字と飾りを直せる（noteEditStart）。
+   - 札はマウスや指でつかんで好きな場所へ動かせる（noteDragStart）。動かした札は n.at＝付けたものの中心から札の左上までのずれ
+     を持ち、付けたものを動かすと札もいっしょに動く。n.at の無い札だけが自動で並ぶ（手で置いた札は避けて並べる）。
+     ［表示］→［自動配置］（noteAutoPlace）で n.at を外すと、また自動の位置に戻る。
    ========================================================================= */
 
 const NOTE_DEF = { font: "gothic", size: 1, bg: "#fff3b0" };
@@ -21854,12 +21961,18 @@ function noteLayoutCalc(mode, onlyIds) {
       c.dist = { top: bb.y - F.y, bottom: F.y + F.h - (bb.y + bb.h), left: bb.x - F.x, right: F.x + F.w - (bb.x + bb.w) };
       c.cx = bb.x + bb.w / 2; c.cy = bb.y + bb.h / 2;
     } else { c.dist = { top: 0, bottom: 1e9, left: 1e9, right: 1e9 }; c.cx = F.x; c.cy = F.y; }
+    /* 手で置いた札：付けたものの中心からのずれで置く */
+    if (noteAtOk(n.at)) {
+      c.pinned = true; c.x = c.cx + n.at.x; c.y = c.cy + n.at.y;
+      c.side = !bb ? "top" : c.y + c.h <= bb.y ? "top" : c.y >= bb.y + bb.h ? "bottom" : c.x + c.w <= bb.x ? "left" : "right";
+    }
     cards.push(c);
   }
   if (!cards.length) return null;
+  const auto = cards.filter(c => !c.pinned);
   /* 辺の振り分け：近い辺から選ぶ。その辺が札で埋まったら、次に近い辺へ回す（全部埋まったら外側の列へ） */
   const room = { top: F.w, bottom: F.w, left: F.h, right: F.h };
-  cards.slice().sort((a, b) => Math.min(...Object.values(a.dist)) - Math.min(...Object.values(b.dist))).forEach(c => {
+  auto.slice().sort((a, b) => Math.min(...Object.values(a.dist)) - Math.min(...Object.values(b.dist))).forEach(c => {
     const order = Object.keys(c.dist).sort((a, b) => c.dist[a] - c.dist[b]);
     const len = s => (s === "top" || s === "bottom" ? c.w : c.h) + sp;
     c.side = order.find(s => room[s] >= len(s)) || order[0];
@@ -21868,7 +21981,7 @@ function noteLayoutCalc(mode, onlyIds) {
   for (const side of ["top", "bottom", "left", "right"]) {
     const horiz = side === "top" || side === "bottom";
     const lo = horiz ? F.x : F.y, hi = horiz ? F.x + F.w : F.y + F.h;
-    const its = cards.filter(c => c.side === side)
+    const its = auto.filter(c => c.side === side)
       .map(c => Object.assign(c, { size: horiz ? c.w : c.h, pref: (horiz ? c.cx - c.w / 2 : c.cy - c.h / 2) }))
       .sort((a, b) => a.pref - b.pref);
     /* 入りきらない札は外側の列へ回す */
@@ -21893,6 +22006,22 @@ function noteLayoutCalc(mode, onlyIds) {
       off += depth + sp * 1.6;
     });
   }
+  /* 手で置いた札と重なる自動の札は、黒板から遠ざかる向きへ押し出す（黒板に近い札から順に。押すのは外向きだけなので必ず止まる） */
+  if (auto.length < cards.length) {
+    const placed = cards.filter(c => c.pinned);
+    const depthOf = c => c.side === "top" ? F.y - (c.y + c.h) : c.side === "bottom" ? c.y - (F.y + F.h) : c.side === "left" ? F.x - (c.x + c.w) : c.x - (F.x + F.w);
+    auto.slice().sort((a, b) => depthOf(a) - depthOf(b)).forEach(c => {
+      for (let k = 0; k < 200; k++) {
+        const p = placed.find(q => rectsHit(c, q, sp * 0.5));
+        if (!p) break;
+        if (c.side === "top") c.y = p.y - sp - c.h;
+        else if (c.side === "bottom") c.y = p.y + p.h + sp;
+        else if (c.side === "left") c.x = p.x - sp - c.w;
+        else c.x = p.x + p.w + sp;
+      }
+      placed.push(c);
+    });
+  }
   /* 引き出し線：札の黒板に向いた辺の上の点（5か所）と、付けたものの外形の点（辺の中ほど・角・札に近い所）を
      総当たりで結び、ほかの文字や図・ほかの札を横切る数がいちばん少なく、そのうえで短い組み合わせを選ぶ。
      （線は文字や図の下に描くので隠しはしないが、上を通ると読みにくいため） */
@@ -21900,17 +22029,24 @@ function noteLayoutCalc(mode, onlyIds) {
   for (const c of cards) {
     if (!c.bb) continue;
     const bb = c.bb, ts = [0.15, 0.32, 0.5, 0.68, 0.85];
-    const from = c.side === "top" ? ts.map(t => [c.x + c.w * t, c.y + c.h])
-      : c.side === "bottom" ? ts.map(t => [c.x + c.w * t, c.y])
-      : c.side === "left" ? ts.map(t => [c.x + c.w, c.y + c.h * t]) : ts.map(t => [c.x, c.y + c.h * t]);
+    /* 付けたものに重ねて置いた札には線を引かない */
+    if (c.pinned && rectsHit(c, bb, 0)) { c.lead = null; continue; }
+    const edge = s => s === "top" ? ts.map(t => [c.x + c.w * t, c.y + c.h])
+      : s === "bottom" ? ts.map(t => [c.x + c.w * t, c.y])
+      : s === "left" ? ts.map(t => [c.x + c.w, c.y + c.h * t]) : ts.map(t => [c.x, c.y + c.h * t]);
+    /* 手で置いた札は、4辺のどこからでも結べる */
+    const from = c.pinned ? ["top", "bottom", "left", "right"].flatMap(edge) : edge(c.side);
     const mx = clamp(c.x + c.w / 2, bb.x, bb.x + bb.w), my = clamp(c.y + c.h / 2, bb.y, bb.y + bb.h);
     const to = [[bb.x + bb.w / 2, bb.y], [bb.x + bb.w / 2, bb.y + bb.h], [bb.x, bb.y + bb.h / 2], [bb.x + bb.w, bb.y + bb.h / 2],
       [bb.x, bb.y], [bb.x + bb.w, bb.y], [bb.x, bb.y + bb.h], [bb.x + bb.w, bb.y + bb.h],
       c.side === "top" ? [mx, bb.y] : c.side === "bottom" ? [mx, bb.y + bb.h] : c.side === "left" ? [bb.x, my] : [bb.x + bb.w, my]];
     const others = cards.filter(d => d !== c && d.x !== undefined);
+    /* 札そのものを横切る線（向こう側の辺から出る線）は選ばない */
+    const inner = { x: c.x + 1, y: c.y + 1, w: c.w - 2, h: c.h - 2 };
     let best = null;
     for (const [x1, y1] of from) for (const [x2, y2] of to) {
-      const cross = obs.filter(r => segHitsRect(x1, y1, x2, y2, r)).length + others.filter(d => segHitsRect(x1, y1, x2, y2, d)).length;
+      const cross = obs.filter(r => segHitsRect(x1, y1, x2, y2, r)).length + others.filter(d => segHitsRect(x1, y1, x2, y2, d)).length
+        + (c.pinned && segHitsRect(x1, y1, x2, y2, inner) ? 1 : 0);
       const score = cross * 1e6 + Math.hypot(x2 - x1, y2 - y1);
       if (!best || score < best.score) best = { score, lead: [x1, y1, x2, y2] };
     }
@@ -21999,6 +22135,51 @@ function noteHitAt(wp) {
   }
   return null;
 }
+
+/* ---------- 札を手で動かす（マウス・指） ----------
+   05_interact の onDown／touchDown が札を押したときに S.drag = noteDragStart(...) とし、動かした分だけ n.at を書きかえる。
+   少し動かすまでは「押しただけ」（付けたものを選ぶ・ダブルクリックで札の上の編集）として扱う。 */
+const noteAtOk = a => !!a && Number.isFinite(a.x) && Number.isFinite(a.y);
+function noteDragStart(c, wp, touch) {
+  return { type: "note", id: c.n.id, start: { x: wp.x, y: wp.y }, x0: c.x, y0: c.y, cx: c.cx, cy: c.cy,
+    at0: noteAtOk(c.n.at) ? { x: c.n.at.x, y: c.n.at.y } : null, slop: touch ? 8 : 4, moved: false };
+}
+function noteDragMove(d, wp) {
+  const n = (S.project.notes || []).find(x => x.id === d.id);
+  if (!n) return;
+  const dx = wp.x - d.start.x, dy = wp.y - d.start.y;
+  if (!d.moved && Math.hypot(dx, dy) * S.zoom < d.slop) return;
+  d.moved = true;
+  n.at = { x: Math.round((d.x0 + dx - d.cx) * 10) / 10, y: Math.round((d.y0 + dy - d.cy) * 10) / 10 };
+  cv.style.cursor = "grabbing";
+  render();
+}
+function noteDragEnd(d) {
+  if (!d.moved) return;
+  pushHistory(T("メモの移動"));
+}
+/* 動かしている途中でやめる（Esc・指が増えたとき） */
+function noteDragCancel(d) {
+  const n = d && (S.project.notes || []).find(x => x.id === d.id);
+  if (!n || !d.moved) return;
+  if (d.at0) n.at = d.at0; else delete n.at;
+  render();
+}
+/* 手で動かした札を、自動の位置に戻す。list が無ければ、選んでいるものに付いた札（無ければこの面の全部） */
+const notesMoved = list => list.filter(n => noteAtOk(n.at));
+function noteAutoTargets() {
+  const mine = S.sel.length ? notesMoved(notesOf(S.sel)) : [];
+  return mine.length ? mine : notesMoved(notesHere());
+}
+function noteAutoPlace(list) {
+  list = notesMoved(list || noteAutoTargets());
+  if (!list.length) return toast(T("手で動かしたメモはありません。メモは自動の位置に並んでいます。"));
+  list.forEach(n => { delete n.at; });
+  pushHistory(T("メモの自動配置"));
+  render(); refreshAll();
+  if (list.some(n => n.show)) noteRevealIfHidden();
+  toast(T`${list.length}個のメモを自動の位置に戻しました`);
+}
 /* 札の上で右クリックしたとき */
 function noteContextMenu(e, wp) {
   const c = noteHitAt(wp);
@@ -22010,6 +22191,7 @@ function noteContextMenu(e, wp) {
     { label: T("メモを編集..."), run: () => noteDialog(c.n.targetId, c.n.id) },
     { label: T("札の色"), run: () => noteCardBgPop({ x: e.clientX, y: e.clientY }, [c.n]) },
     { label: T("このメモを隠す"), run: () => setNotesShown([c.n], false) },
+    ...(noteAtOk(c.n.at) ? [{ label: T("自動の位置に戻す"), run: () => noteAutoPlace([c.n]) }] : []),
     { sep: true },
     { label: T("メモを削除"), run: () => deleteNote(c.n.id) },
   ], e.clientX, e.clientY);
@@ -22093,6 +22275,11 @@ function noteQuickRun(b) {
 }
 
 /* ---------- リボン［表示］の「教師用メモ」グループ ---------- */
+/* ［自動配置］の絵：黒板のまわりに札が整列している */
+const NOTE_AUTO_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true">`
+  + `<rect x="6.5" y="8" width="11" height="8" rx="1"/>`
+  + `<g fill="#ffe27a" stroke-width="1.3"><rect x="9" y="2" width="6" height="3.6" rx=".8"/><rect x="9" y="18.4" width="6" height="3.6" rx=".8"/><rect x="1.2" y="10.2" width="3.4" height="3.6" rx=".8"/><rect x="19.4" y="10.2" width="3.4" height="3.6" rx=".8"/></g>`
+  + `</svg>`;
 function noteFontPop(anchor) {
   const cur = noteStyle().font;
   rbMenuAt(anchor, [
@@ -22134,6 +22321,7 @@ function rbNoteGroup() {
   const none = () => ({ disabled: !notesHere().length });
   return rbGroup(T("教師用メモ"), [
     rbBtn({ iconHtml: ico("note"), label: T("メモを表示"), big: true, title: T("教師用メモをすべて表示／非表示"), desc: T("この面の教師用メモを、黒板の外にまとめて出す／隠す。1つずつは、ものを右クリックして切り替えます。"), run: () => toggleAllNotes(), state: () => ({ on: allNotesShown(), disabled: !notesHere().length }) }),
+    rbBtn({ iconHtml: NOTE_AUTO_ICON, label: T("自動配置"), big: true, title: T("メモの自動配置"), desc: T("手で動かした札を、黒板のまわりの自動の位置に並べ直します。ものを選んでいるときは、そのものに付いた札だけを戻します。札はマウスや指でつかんで好きな場所へ動かせます。"), run: () => noteAutoPlace(), state: () => ({ disabled: !noteAutoTargets().length }) }),
     rbCol(
       rbBtn({ iconHtml: ri("case", 18), label: T("書体"), drop: true, title: T("メモの書体"), run: b => noteFontPop(b), state: none }),
       rbBtn({ iconHtml: ri("grow", 18), label: T("文字の大きさ"), drop: true, title: T("メモの文字の大きさ"), run: b => noteSizePop(b), state: none }),
@@ -35680,7 +35868,7 @@ const LS = {
   del(id) { localStorage.removeItem(this.key(id)); },
 };
 /* 索引に載せる項目（中身 project と画像 images は載せない） */
-const INDEX_KEYS = ["id", "title", "subject", "grade", "unit", "tags", "favorite", "folderId", "createdAt", "updatedAt",
+const INDEX_KEYS = ["id", "title", "subject", "grade", "unit", "tags", "favorite", "folderId", "createdAt", "updatedAt", "changedAt",
   "openedAt", "trashed", "deletedAt", "thumb", "thumbSheet", "parts", "pages", "thumbVer", "proposalOf"];
 function indexEntry(rec) {
   const o = {};
@@ -35690,7 +35878,11 @@ function indexEntry(rec) {
 async function storePut(rec) {
   try {
     const r = await idb("projects", "readwrite", s => s.put(rec));
-    if (r !== null) { await indexPut(indexEntry(rec)); return true; }
+    if (r !== null) {
+      await indexPut(indexEntry(rec));
+      if (typeof syncNoteChange === "function") syncNoteChange();
+      return true;
+    }
   } catch (e) { console.warn(e); }
   return LS.put(rec);
 }
@@ -35799,6 +35991,9 @@ function currentRecord() {
     favorite: !!S.project.favorite, tags: S.project.tags || [],
     folderId: S.project.folderId || "",
     createdAt: S.project.createdAt, updatedAt: nowISO(), openedAt: S.project.openedAt || nowISO(),
+    /* 中身を書き換えた時刻（OneDrive の同期で、どちらが新しいかを比べる）。
+       updatedAt は授業を切り替えるだけでも進むので使わない。書き換えは markDirty が S.chg に控える */
+    changedAt: S.chg && S.chg.id === S.project.id ? S.chg.at : nowISO(),
     trashed: false, deletedAt: null,
     /* 一覧に出す見本。板書とプリントは別々に作る（どちらか一方だけの授業もある） */
     thumb: thumbDataURL(S.project, THUMB_BOARD_W, "board"),
@@ -35814,6 +36009,7 @@ function currentRecord() {
 let dirty = false, saveTimer = null;
 function markDirty() {
   dirty = true;
+  if (S.project) S.chg = { id: S.project.id, at: nowISO() };
   if (typeof schedulePageThumbs === "function") schedulePageThumbs();
   if (S.saving !== "error") { S.saving = "saving"; refreshStatus(); }
   clearTimeout(saveTimer);
@@ -35892,6 +36088,7 @@ async function loadRecord(id) {
   const v = validateProject(r.project, r.images);
   S.project = v.project; S.images = v.images;
   S.sel = []; resetHistory(); dirty = false; S.saving = "saved"; S.lastSaved = r.updatedAt;
+  S.chg = { id: S.project.id, at: r.changedAt || r.updatedAt };
   /* 板書が空でプリントだけがある授業は、プリントを開いた状態にする */
   S.mode = preferredMode(S.project); S.page = 0;
   S.project.openedAt = nowISO();
@@ -36004,6 +36201,7 @@ function validateProject(raw, images) {
     if (Array.isArray(src.phases)) p.phases = src.phases.filter(x => x && x.id && typeof x.name === "string").map(x => ({ id: String(x.id), name: String(x.name), minutes: Number(x.minutes) || 0, color: x.color || "#8fd4ea" }));
     if (Array.isArray(src.notes)) p.notes = src.notes.filter(n => n && typeof n.text === "string").map(n => Object.assign({ id: String(n.id || uid("nt")), kind: String(n.kind || T("メモ")), text: String(n.text), targetId: n.targetId || null, phaseId: n.phaseId || null, show: !!n.show },
       /^#[0-9a-f]{6}$/i.test(n.bg || "") ? { bg: n.bg } : {},
+      n.at && Number.isFinite(+n.at.x) && Number.isFinite(+n.at.y) ? { at: { x: +n.at.x, y: +n.at.y } } : {},
       Array.isArray(n.spans) && n.spans.length ? { spans: normalizeSpans(n.spans.filter(sp => sp && typeof sp === "object").map(sp => {
         const o = { s: sp.s | 0, e: sp.e | 0 };
         if (Number(sp.z) > 0) o.z = Number(sp.z);
@@ -36334,6 +36532,7 @@ async function boot() {
       const v = validateProject(r.project, r.images);
       S.project = v.project; S.images = v.images;
       S.lastSaved = r.updatedAt;
+      S.chg = { id: S.project.id, at: r.changedAt || r.updatedAt };
       S.mode = preferredMode(S.project); S.page = 0;
       if (v.problems.length) toast(T("前回の板書の一部を読み込めませんでした。読み込めた内容で開いています。"), "warn", 7000);
     }
@@ -37690,9 +37889,19 @@ async function libFoldersAll() {
     try { return JSON.parse(localStorage.getItem("kkp_lessonFolders") || "[]"); } catch (e2) { return []; }
   }
 }
-async function libFoldersSave(list) {
+/* フォルダーの並びを丸ごと保存する。at＝最後に変えた時刻（同期で新しい方を選ぶ）。
+   消したフォルダーは同期の相手から戻ってこないよう、消した印を残す（opt.at を渡したとき＝同期で合わせたときは残さない） */
+async function libFoldersSave(list, opt = {}) {
+  const at = opt.at || nowISO();
+  if (!opt.at && typeof syncTombAdd === "function") {
+    const before = await libFoldersAll();
+    const keep = new Set(list.map(f => f.id));
+    const gone = before.filter(f => !keep.has(f.id)).map(f => "f:" + f.id);
+    if (gone.length) await syncTombAdd(gone);
+  }
   try {
-    const r = await idb("app", "readwrite", s => s.put({ k: LIB_FOLDERS_KEY, list }));
+    const r = await idb("app", "readwrite", s => s.put({ k: LIB_FOLDERS_KEY, list, at }));
+    if (typeof syncNoteChange === "function") syncNoteChange();
     if (r !== null) return;
   } catch (e) { console.warn(e); }
   try { localStorage.setItem("kkp_lessonFolders", JSON.stringify(list)); } catch (e) { }
@@ -37763,6 +37972,7 @@ async function libIndexAll() {
 async function libUpdate(id, patch) {
   if (S.project && S.project.id === id) {
     Object.assign(S.project, patch);
+    S.chg = { id, at: nowISO() };
     refreshHeader();
     await autosaveNow();
     return;
@@ -37770,6 +37980,7 @@ async function libUpdate(id, patch) {
   const r = await storeGet(id);
   if (!r) return;
   Object.assign(r, patch);
+  r.changedAt = nowISO();
   r.project = Object.assign(r.project || {}, patch);
   await storePut(r);
 }
@@ -37779,7 +37990,7 @@ async function libTrash(ids) {
     if (S.project && S.project.id === id) { await autosaveNow(); leaveOpen = true; }
     const r = await storeGet(id);
     if (!r) continue;
-    r.trashed = true; r.deletedAt = nowISO();
+    r.trashed = true; r.deletedAt = r.changedAt = nowISO();
     await storePut(r);
   }
   if (leaveOpen) leaveDeletedProject();
@@ -37788,11 +37999,13 @@ async function libRestore(ids) {
   for (const id of ids) {
     const r = await storeGet(id);
     if (!r) continue;
-    r.trashed = false; r.deletedAt = null;
+    r.trashed = false; r.deletedAt = null; r.changedAt = nowISO();
     await storePut(r);
   }
 }
 async function libPurge(ids) {
+  /* 完全に消したことを同期の相手にも伝える（相手の控えから生き返らないように） */
+  if (typeof syncTombAdd === "function") await syncTombAdd(ids);
   for (const id of ids) {
     await storeDel(id);
     for (const v of await versionsOf(id)) { try { await idb("versions", "readwrite", s => s.delete(v.id)); } catch (e) { } }
@@ -37806,7 +38019,7 @@ async function libDuplicate(id) {
   const c = deepClone(r);
   c.id = uid("prj");
   c.title = T`${r.title} のコピー`;
-  c.createdAt = c.updatedAt = nowISO();
+  c.createdAt = c.updatedAt = c.changedAt = nowISO();
   c.favorite = false; c.trashed = false; c.deletedAt = null;
   c.project = Object.assign(c.project || {}, { id: c.id, title: c.title, createdAt: c.createdAt, favorite: false });
   await storePut(c);
@@ -38205,6 +38418,12 @@ async function libraryDialog(opt = {}) {
     groups("subject", T("教科"), jaCompare);
 
     side.appendChild(el("div", { class: "lspacer" }));
+    /* OneDrive で共有（13b_sync.js）。自動で同期しているときは雲を金色にする */
+    const syncItem = sideItem({ icon: "cloud", label: T("OneDrive で共有"), active: false, onclick: () => syncDialog(),
+      title: typeof syncAutoOn === "function" && syncAutoOn() ? T("自動で同期しています") : T("OneDrive で共有") });
+    syncItem.classList.add("lsync");
+    if (typeof syncAutoOn === "function" && syncAutoOn()) syncItem.classList.add("lsyncon");
+    side.appendChild(syncItem);
     side.appendChild(sideItem({ icon: "trash", label: T("ゴミ箱"), count: entries.filter(e => e.trashed).length, active: pref.view === "trash",
       onclick: () => go("trash"), drop: ids => doTrash(ids) }));
   }
@@ -38619,6 +38838,11 @@ async function libraryDialog(opt = {}) {
   search.addEventListener("input", () => { clearTimeout(qTimer); qTimer = setTimeout(() => { query = search.value.trim(); sel = []; renderMain(); renderFoot(); }, 120); });
 
   body.appendChild(el("div", { class: "lload", text: T("読み込んでいます…") }));
+  /* OneDrive から授業が届いたら、開いている一覧も入れ替える */
+  const onSynced = () => { if (!api.root.isConnected) { document.removeEventListener("kkp-sync-merged", onSynced); document.removeEventListener("kkp-sync", onSyncState); return; } reload(true); };
+  const onSyncState = () => { if (!api.root.isConnected) return; const b = side.querySelector(".lsync"); if (b) b.classList.toggle("lsyncon", syncAutoOn()); };
+  document.addEventListener("kkp-sync-merged", onSynced);
+  document.addEventListener("kkp-sync", onSyncState);
   await reload();
   const ld = body.querySelector(".lload"); if (ld) ld.remove();
   setTimeout(() => { const first = grid.querySelector(".lcard.open") || grid.querySelector(".lcard"); if (first) first.focus({ preventScroll: false }); }, 40);
@@ -38662,6 +38886,548 @@ async function libAutoOrganize() {
   for (const [id, fid] of plan) await libUpdate(id, { folderId: fid });
   toast(T`${plan.length}件をフォルダーに整理しました`);
   return true;
+}
+/* =========================================================================
+   第13部b：OneDrive で授業ライブラリを共有する（同期）
+
+   しくみ
+     ・ライブラリ全体（フォルダーの並び・授業・ゴミ箱・完全に消した印・動画）を
+       1つのファイル「授業ライブラリ_端末名.kkplib」にまとめる。端末ごとに自分のファイルだけを書き、
+       ほかの端末のファイルは読むだけ（OneDrive で同じファイルを2台が書いて衝突するのを避ける）。
+     ・読み込むと、同じ授業（同じ id）は増やさずに「中身を書き換えた時刻 changedAt」の新しい方を残す。
+       置き換えられる側は［版の履歴］に控えを残す。
+     ・Windows 版は OneDrive の中のフォルダーを選んでおくと、起動したとき・ほかの端末のファイルが
+       届いたとき・授業を変えたあとに自動で読み書きする（ホストの /__sync/ を通す。HostForm.Sync.cs）。
+     ・iPad（ウェブ版）はフォルダーへ直接書けないので、［読み込む］＝ファイル App で OneDrive から選ぶ、
+       ［保存］＝共有シートで OneDrive へ保存、の2つのボタンで受け渡す。
+
+   ファイルの形（1行目が見出し、2行目から授業が1行に1つ。動画があれば後ろに付ける＝.kkp と同じ目印）
+     {"app":"kokuban-plan-library","v":1,"exportedAt","device","folders":{list,at},"tombs":{id:時刻},
+      "lessons":[{id,stamp,trashed,title,line}],"videoFiles":[…]}
+     {授業1の保存データ（projects の1件そのもの）}
+     …
+   ========================================================================= */
+const SYNC_APP = "kokuban-plan-library", SYNC_EXT = ".kkplib", SYNC_TOMBS_KEY = "syncTombs", SYNC_PREF_KEY = "kkp.sync";
+const SYNC_TOMB_DAYS = 400;            /* 消した印を覚えておく日数 */
+const SYNC_WRITE_DELAY = 45000;        /* 授業を変えてから、自分のファイルを書き出すまで（Windows 版の自動同期） */
+/* Windows 版のホストが受ける窓口（アプリ本体とは別のホスト名。HostForm.Sync.cs） */
+const SYNC_URL = "https://sync.bansho-studio.local/__sync/";
+const SYNC = { host: null, busy: null, again: false, timer: 0, changeTimer: 0, error: "", started: false };
+/* iPad／iPhone か（ウェブ版は 01_core の KKP_IOS。本体・配布用のツリーには無いので自分で調べる） */
+const SYNC_IOS = typeof KKP_IOS !== "undefined" ? KKP_IOS
+  : /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
+/* ---------- 設定（端末ごと） ---------- */
+function syncPrefs() { try { return JSON.parse(localStorage.getItem(SYNC_PREF_KEY) || "{}") || {}; } catch (e) { return {}; } }
+function syncSavePrefs(p) { try { localStorage.setItem(SYNC_PREF_KEY, JSON.stringify(p)); } catch (e) { /* 覚えられなくても同期はできる */ } }
+function syncDefaultDevice() {
+  if (SYNC.host && SYNC.host.machine) return SYNC.host.machine;
+  if (SYNC_IOS) return /iPhone/.test(navigator.userAgent) ? "iPhone" : "iPad";
+  return "Web";
+}
+function syncDeviceName() { return syncPrefs().device || syncDefaultDevice(); }
+/* ファイル名は表示言語によらず同じにする（言語を切り替えても、前のファイルが取り残されない） */
+function syncFileName(dev) {
+  const d = String(dev || syncDeviceName()).replace(/[\\/:*?"<>|\s]+/g, "_").replace(/^_+|_+$/g, "").slice(0, 40) || "device";
+  return "授業ライブラリ_" + d + SYNC_EXT;
+}
+const syncStamp = e => String((e && (e.changedAt || e.updatedAt || e.createdAt)) || "");
+const syncIsHost = () => typeof isHostApp === "function" && isHostApp();
+const syncAutoOn = () => !!(SYNC.host && SYNC.host.dir);
+
+/* ---------- 消した印・フォルダー ---------- */
+async function syncTombsGet() {
+  try {
+    const r = await idb("app", "readonly", s => s.get(SYNC_TOMBS_KEY));
+    if (r && r.map && typeof r.map === "object") return r.map;
+  } catch (e) { /* 無ければ空 */ }
+  return {};
+}
+async function syncTombsSave(map) {
+  /* 古すぎる印は捨てる（ファイルが大きくなり続けないように） */
+  const limit = new Date(Date.now() - SYNC_TOMB_DAYS * 86400000).toISOString();
+  Object.keys(map).forEach(k => { if (String(map[k]) < limit) delete map[k]; });
+  try { await idb("app", "readwrite", s => s.put({ k: SYNC_TOMBS_KEY, map })); } catch (e) { console.warn(e); }
+}
+async function syncTombAdd(ids) {
+  if (!ids || !ids.length) return;
+  const m = await syncTombsGet(), at = nowISO();
+  ids.forEach(id => { m[id] = at; });
+  await syncTombsSave(m);
+  syncNoteChange();
+}
+async function syncFoldersRec() {
+  try {
+    const r = await idb("app", "readonly", s => s.get(LIB_FOLDERS_KEY));
+    if (r && Array.isArray(r.list)) return { list: r.list, at: String(r.at || "") };
+  } catch (e) { /* 下へ */ }
+  return { list: await libFoldersAll(), at: "" };
+}
+
+/* ---------- いまのライブラリの「指紋」（変わったときだけ書き出す） ---------- */
+async function syncSignature() {
+  const [idx, f, t] = await Promise.all([libIndexAll(), syncFoldersRec(), syncTombsGet()]);
+  return idx.map(e => e.id + "@" + syncStamp(e) + (e.trashed ? "t" : "")).sort().join("|")
+    + "#" + f.at + "#" + Object.keys(t).sort().join(",");
+}
+
+/* ---------- まとめファイルを作る ---------- */
+async function syncBuildBundle() {
+  if (S.project && dirty) await autosaveNow();
+  const [idx, folders, tombs] = await Promise.all([libIndexAll(), syncFoldersRec(), syncTombsGet()]);
+  const lines = [], lessons = [], vids = new Set();
+  for (const e of idx) {
+    const r = await storeGet(e.id);
+    if (!r || !r.project) continue;
+    const s = JSON.stringify(r);
+    for (const m of s.matchAll(VIDEO_REF)) vids.add(m[1]);
+    lessons.push({ id: r.id, stamp: syncStamp(r), trashed: !!r.trashed, title: String(r.title || ""), line: lines.length + 1 });
+    lines.push(s);
+  }
+  const videoFiles = [], blobs = [];
+  let off = 0;
+  for (const id of vids) {
+    const v = await videoGet(id);
+    if (!v || !v.blob) continue;
+    videoFiles.push({ id, name: v.name || "", type: v.blob.type || "", size: v.blob.size, offset: off });
+    blobs.push(v.blob);
+    off += v.blob.size;
+  }
+  const head = { app: SYNC_APP, v: 1, exportedAt: nowISO(), device: syncDeviceName(), appVersion: APP.version, folders, tombs, lessons, videoFiles };
+  const parts = [JSON.stringify(head)];
+  lines.forEach(s => parts.push("\n", s));
+  parts.push("\n");
+  const text = new Blob(parts, { type: "application/octet-stream" });
+  if (!blobs.length) return { blob: text, count: lessons.length };
+  const foot = VIDEO_PACK_MAGIC + String(text.size).padStart(20, "0") + "\n";
+  return { blob: new Blob([text, ...blobs, foot], { type: "application/octet-stream" }), count: lessons.length };
+}
+
+/* ---------- まとめファイルを読む ---------- */
+async function syncReadBundle(file) {
+  const pack = await videoPackInfo(file).catch(() => null);
+  const text = await (pack ? pack.json : file).text();
+  const nl = text.indexOf("\n");
+  let head = null;
+  try { head = JSON.parse(nl < 0 ? text : text.slice(0, nl)); } catch (e) { head = null; }
+  if (!head || head.app !== SYNC_APP) {
+    let one = null;
+    try { one = JSON.parse(text); } catch (e) { one = null; }
+    const err = new Error(one && one.app === "kokuban-plan" ? "project" : "notlib");
+    err.code = err.message;
+    throw err;
+  }
+  let lines = null;
+  return {
+    head, file, pack, name: file.name || "",
+    line(i) { if (!lines) lines = text.split("\n"); return lines[i]; },
+  };
+}
+
+/* ---------- 合わせる ---------- */
+async function syncPurgeLocal(id) {
+  await storeDel(id);
+  for (const v of await versionsOf(id)) { try { await idb("versions", "readwrite", s => s.delete(v.id)); } catch (e) { /* 続ける */ } }
+  if (localStorage.getItem("kkp_last") === id) localStorage.removeItem("kkp_last");
+}
+async function syncRestoreVideos(b, rec) {
+  const files = (b.head.videoFiles || []);
+  if (!files.length || !b.pack) return;
+  const s = JSON.stringify(rec.project || {});
+  for (const m of s.matchAll(VIDEO_REF)) {
+    const id = m[1];
+    if (await videoGet(id)) continue;
+    const v = files.find(x => String(x.id) === id);
+    if (!v) continue;
+    const at = b.pack.offset + v.offset;
+    try { await videoPut(id, b.file.slice(at, at + v.size, v.type || "video/mp4"), v.name || ""); }
+    catch (e) { console.warn(e); }
+  }
+}
+async function syncMergeFolders(remote, tombs) {
+  if (!remote || !Array.isArray(remote.list)) return false;
+  const loc = await syncFoldersRec();
+  const rAt = String(remote.at || ""), lAt = loc.at;
+  const map = new Map(loc.list.map(f => [f.id, Object.assign({}, f)]));
+  let changed = false;
+  for (const f of remote.list) {
+    if (!f || typeof f.id !== "string" || tombs["f:" + f.id]) continue;
+    const g = { id: f.id, name: String(f.name || "").slice(0, 40), parentId: typeof f.parentId === "string" ? f.parentId : "" };
+    if (f.at) g.at = String(f.at);
+    const cur = map.get(f.id);
+    if (!cur) { map.set(f.id, g); changed = true; }
+    else if (rAt > lAt && (cur.name !== g.name || (cur.parentId || "") !== g.parentId)) { map.set(f.id, Object.assign(cur, g)); changed = true; }
+  }
+  for (const id of [...map.keys()]) if (tombs["f:" + id]) { map.delete(id); changed = true; }
+  for (const f of map.values()) if (f.parentId && !map.has(f.parentId)) { f.parentId = ""; changed = true; }
+  if (!changed) return false;
+  await libFoldersSave([...map.values()], { at: (rAt > lAt ? rAt : lAt) || nowISO() });
+  return true;
+}
+/* 開いている授業がほかの端末で新しくなったときは、保存の予約を取り消してから入れ替える
+   （でないと、古い中身の自動保存で新しい方を上書きしてしまう） */
+async function syncReopen(id) {
+  const r = await storeGet(id);
+  if (!r || !r.project) return;
+  clearTimeout(saveTimer); dirty = false;
+  const keepMode = S.mode;
+  const v = validateProject(r.project, r.images);
+  S.project = v.project; S.images = v.images;
+  S.sel = []; resetHistory(); S.saving = "saved"; S.lastSaved = r.updatedAt;
+  S.chg = { id, at: r.changedAt || r.updatedAt };
+  S.mode = keepMode === "proj" ? "proj" : preferredMode(S.project); S.page = 0;
+  syncModeUI();
+  Object.keys(imgCache).forEach(k => delete imgCache[k]);
+  Object.keys(procCache).forEach(k => delete procCache[k]);
+  fitView(); refreshAll();
+  toast(T`開いている「${S.project.title}」を、ほかの端末で変えた新しい内容に切り替えました。前の内容は［版の履歴］に残っています。`, "", 8000);
+}
+/* bundles を自分のライブラリへ合わせる。戻り値は件数のまとめ */
+async function syncMerge(bundles, opt = {}) {
+  const sum = { added: 0, updated: 0, removed: 0, folders: false, bad: 0, deferred: 0, titles: [] };
+  if (S.project && dirty) await autosaveNow();
+  const idx = new Map((await libIndexAll()).map(e => [e.id, e]));
+  const tombs = await syncTombsGet();
+  let tombsChanged = false, reopen = null, leaveOpen = false;
+  const openId = S.project && S.project.id;
+  /* 編集の最中（直前2分以内に書き換えた）に自動で入れ替えるのは避け、次の同期に回す */
+  const busyHere = () => opt.auto && S.chg && S.chg.id === openId && (Date.now() - new Date(S.chg.at).getTime() < 120000 || S.editing);
+  bundles.sort((a, b) => String(a.head.exportedAt).localeCompare(String(b.head.exportedAt)));
+  for (const b of bundles) {
+    for (const [id, at] of Object.entries(b.head.tombs || {})) {
+      if (typeof at !== "string") continue;
+      if (!(String(tombs[id] || "") >= at)) { tombs[id] = at; tombsChanged = true; }
+      if (id.startsWith("f:")) continue;
+      const loc = idx.get(id);
+      if (!loc || syncStamp(loc) > at) continue;
+      if (id === openId) { if (busyHere()) { sum.deferred++; continue; } leaveOpen = true; }
+      await syncPurgeLocal(id);
+      idx.delete(id);
+      sum.removed++;
+    }
+    for (const m of b.head.lessons || []) {
+      if (!m || typeof m.id !== "string") continue;
+      const st = String(m.stamp || "");
+      if (tombs[m.id] && String(tombs[m.id]) >= st) continue;
+      const loc = idx.get(m.id);
+      if (loc && syncStamp(loc) >= st) continue;
+      if (loc && m.id === openId && busyHere()) { sum.deferred++; continue; }
+      let rec = null;
+      try { rec = JSON.parse(b.line(m.line)); } catch (e) { rec = null; }
+      if (!rec || rec.id !== m.id || !rec.project || typeof rec.project !== "object") { sum.bad++; continue; }
+      if (!rec.changedAt) rec.changedAt = st;
+      if (loc) {
+        const old = await storeGet(m.id);
+        if (old && old.project) {
+          await versionsPut({
+            id: uid("v"), projectId: m.id, at: nowISO(), label: T("同期で置き換える前の控え"), auto: true,
+            project: old.project, images: old.images || {}, thumb: old.thumb || "",
+          });
+          await versionsTrim(m.id);
+        }
+        sum.updated++;
+      } else sum.added++;
+      if (sum.titles.length < 6) sum.titles.push(rec.title || T("無題の板書"));
+      if (!(await storePut(rec))) { sum.bad++; continue; }
+      idx.set(m.id, indexEntry(rec));
+      await syncRestoreVideos(b, rec);
+      if (m.id === openId) reopen = m.id;
+    }
+    if (await syncMergeFolders(b.head.folders, tombs)) sum.folders = true;
+  }
+  if (tombsChanged) await syncTombsSave(tombs);
+  if (reopen) await syncReopen(reopen);
+  else if (leaveOpen) leaveDeletedProject();
+  if (sum.added || sum.updated || sum.removed || sum.folders) document.dispatchEvent(new CustomEvent("kkp-sync-merged", { detail: sum }));
+  return sum;
+}
+function syncSummaryText(sum) {
+  if (!sum) return T("変わった授業はありませんでした。");
+  const a = [];
+  if (sum.added) a.push(T`新しい授業 ${sum.added}件`);
+  if (sum.updated) a.push(T`新しくなった授業 ${sum.updated}件`);
+  if (sum.removed) a.push(T`削除 ${sum.removed}件`);
+  if (!a.length && sum.folders) a.push(T("フォルダーの変更"));
+  let s = a.length ? T`${a.join(TSEP)}を取り込みました。` : T("変わった授業はありませんでした。");
+  if (sum.deferred) s += " " + T`編集中の授業 ${sum.deferred}件は、次の同期で取り込みます。`;
+  if (sum.bad) s += " " + T`読めなかった授業が ${sum.bad}件ありました。`;
+  return s;
+}
+
+/* ---------- Windows 版：OneDrive のフォルダーと自動で読み書き ---------- */
+function syncHostReq(kind) {
+  if (!syncIsHost()) return false;
+  window.chrome.webview.postMessage({ kkpSync: kind });
+  return true;
+}
+async function syncHostFetch(path, init) {
+  const r = await fetch(SYNC_URL + path, Object.assign({ cache: "no-store" }, init || {}));
+  if (!r.ok) throw new Error((await r.text().catch(() => "")) || ("HTTP " + r.status));
+  return r;
+}
+const syncHostList = async () => (await syncHostFetch("list")).json();
+async function syncHostRead(name) {
+  const b = await (await syncHostFetch("read?name=" + encodeURIComponent(name))).blob();
+  return new File([b], name);
+}
+/* 種類の無い Blob で送る（Content-Type が付かないので、事前の確認要求なしで届く） */
+async function syncHostWrite(name, blob) { await syncHostFetch("write?name=" + encodeURIComponent(name), { method: "POST", body: new Blob([blob]) }); }
+
+/* 授業やフォルダーを変えたら呼ばれる（storePut・libFoldersSave）。しばらくまとめてから書き出す */
+function syncNoteChange() {
+  if (!syncAutoOn() || SYNC.changeTimer) return;
+  SYNC.changeTimer = setTimeout(() => { SYNC.changeTimer = 0; syncRun({ auto: true }); }, SYNC_WRITE_DELAY);
+}
+/* 自動同期の1回分：ほかの端末のファイルで変わったものを読み、自分の分が変わっていれば書き出す */
+function syncRun(opt = {}) {
+  if (!syncAutoOn()) return Promise.resolve(null);
+  if (SYNC.busy) { SYNC.again = true; return SYNC.busy; }
+  SYNC.busy = (async () => {
+    let sum = null;
+    SYNC.state = "busy"; syncFire();
+    try {
+      const pr = syncPrefs();
+      const own = syncFileName(), seen = (pr.seenDir === SYNC.host.dir && pr.seen) || {};
+      const list = await syncHostList();
+      const files = (list.files || []).filter(f => /\.kkplib$/i.test(f.name));
+      const want = files.filter(f => f.name !== own && (opt.full || seen[f.name] !== f.mtime + ":" + f.size));
+      const bundles = [], errs = [];
+      for (const f of want) {
+        try { bundles.push(await syncReadBundle(await syncHostRead(f.name))); seen[f.name] = f.mtime + ":" + f.size; }
+        catch (e) { console.warn(e); errs.push(f.name); }
+      }
+      if (bundles.length) sum = await syncMerge(bundles, { auto: !opt.manual });
+      const sig = await syncSignature();
+      const ownFile = files.find(f => f.name === own);
+      if (opt.manual || sig !== pr.sig || !ownFile) {
+        const { blob } = await syncBuildBundle();
+        await syncHostWrite(own, blob);
+        pr.sig = sig; pr.lastOut = nowISO();
+      }
+      pr.seen = seen; pr.seenDir = SYNC.host.dir; pr.lastAt = nowISO();
+      if (sum) pr.last = { at: pr.lastAt, text: syncSummaryText(sum) };
+      syncSavePrefs(pr);
+      SYNC.error = errs.length ? T`読めなかったファイル：${errs.join(TSEP)}` : "";
+      SYNC.state = errs.length ? "warn" : "ok";
+      if (sum && (sum.added || sum.updated || sum.removed)) toast(T("OneDrive から") + " " + syncSummaryText(sum), "", 6000);
+      else if (opt.manual) toast(T("OneDrive と同期しました。") + (sum ? " " + syncSummaryText(sum) : ""));
+    } catch (e) {
+      console.warn(e);
+      SYNC.state = "error"; SYNC.error = String(e && e.message || e);
+      if (opt.manual) toast(T("OneDrive と同期できませんでした。") + " " + SYNC.error, "err", 8000);
+    } finally {
+      SYNC.busy = null; syncFire();
+      if (SYNC.again) { SYNC.again = false; setTimeout(() => syncRun({ auto: true }), 500); }
+    }
+    return sum;
+  })();
+  return SYNC.busy;
+}
+/* 閉じる前（ホストの FormClosing から）：変わった分だけ書き出す */
+async function syncFlush() {
+  if (!syncAutoOn()) return;
+  clearTimeout(SYNC.changeTimer); SYNC.changeTimer = 0;
+  if (SYNC.busy) await SYNC.busy;
+  if (S.project && dirty) await autosaveNow();
+  const pr = syncPrefs();
+  if ((await syncSignature()) === pr.sig) return;
+  await syncRun({ auto: true });
+}
+function syncFire() { document.dispatchEvent(new CustomEvent("kkp-sync")); }
+if (window.chrome && window.chrome.webview && window.chrome.webview.addEventListener) {
+  window.chrome.webview.addEventListener("message", e => {
+    const d = e.data || {};
+    if (d.kkpSyncInfo) {
+      const was = SYNC.host && SYNC.host.dir;
+      SYNC.host = d.kkpSyncInfo;
+      if (d.kkpSyncInfo.error) toast(d.kkpSyncInfo.error, "err", 8000);
+      syncFire();
+      if (SYNC.host.dir && SYNC.host.dir !== was) {
+        /* 起動したとき・フォルダーを選んだとき：全部のファイルを読み直す */
+        const first = !SYNC.started; SYNC.started = true;
+        setTimeout(() => syncRun({ auto: true, full: true }), first ? 2500 : 100);
+      }
+    }
+    if (d.kkpSyncChanged && syncAutoOn()) {
+      clearTimeout(SYNC.timer);
+      SYNC.timer = setTimeout(() => syncRun({ auto: true }), 2000);
+    }
+  });
+  /* 起動したら、選んであるフォルダーを尋ねる（ホストが古い版なら返事は来ない＝何もしない） */
+  setTimeout(() => syncHostReq("info"), 1200);
+}
+
+/* ---------- 手作業で受け渡す（iPad・選んでいない Windows・ブラウザー） ---------- */
+function syncPickFiles() {
+  return new Promise(res => {
+    /* iPad は拡張子 .kkplib を知らないので、絞り込むと選べなくなる */
+    const inp = el("input", { type: "file", multiple: true, accept: SYNC_IOS ? null : SYNC_EXT + ",application/octet-stream" });
+    inp.addEventListener("change", () => res([...(inp.files || [])]));
+    inp.addEventListener("cancel", () => res([]));
+    inp.click();
+  });
+}
+async function syncImportFiles(files) {
+  const own = syncFileName(), bundles = [], errs = [];
+  let skippedOwn = 0, projectFiles = 0;
+  for (const f of files) {
+    if (f.name === own && files.length > 1) { skippedOwn++; continue; }
+    try { bundles.push(await syncReadBundle(f)); }
+    catch (e) { if (e && e.code === "project") projectFiles++; else errs.push(f.name); }
+  }
+  let sum = null;
+  if (bundles.length) sum = await syncMerge(bundles, { auto: false });
+  const pr = syncPrefs();
+  if (sum) { pr.lastIn = nowISO(); pr.last = { at: pr.lastIn, text: syncSummaryText(sum) }; syncSavePrefs(pr); }
+  return { sum, errs, projectFiles, skippedOwn, read: bundles.length };
+}
+async function syncExportFile() {
+  const { blob, count } = await syncBuildBundle();
+  const pr = syncPrefs();
+  pr.lastOutManual = nowISO(); syncSavePrefs(pr);
+  downloadBlob(blob, syncFileName());
+  return count;
+}
+
+/* ---------- 画面 ---------- */
+function syncWhen(iso) { return iso ? fmtWhen(iso) : T("まだありません"); }
+function syncDialog() {
+  const body = el("div", { class: "sywrap" });
+  const api = modal({ title: T("OneDrive で共有"), body, width: 640 });
+  api.root.classList.add("symodal");
+  const onEv = () => { if (!api.root.isConnected) { document.removeEventListener("kkp-sync", onEv); document.removeEventListener("kkp-sync-merged", onEv); return; } draw(); };
+  document.addEventListener("kkp-sync", onEv);
+  document.addEventListener("kkp-sync-merged", onEv);
+  let note = null;       /* 直前の操作の結果 { kind, text } */
+
+  function devRow() {
+    const inp = el("input", { type: "text", class: "sydev", value: syncDeviceName(), maxlength: "40", "aria-label": T("この端末の名前") });
+    const file = el("code", { class: "syfile", text: syncFileName() });
+    inp.addEventListener("input", () => { file.textContent = syncFileName(inp.value.trim() || syncDefaultDevice()); });
+    inp.addEventListener("change", () => {
+      const pr = syncPrefs(), v = inp.value.trim();
+      if (v && v !== syncDefaultDevice()) pr.device = v.slice(0, 40); else delete pr.device;
+      pr.sig = "";        /* 新しい名前のファイルを書き直す */
+      syncSavePrefs(pr);
+      if (syncAutoOn()) syncRun({ auto: true });
+    });
+    return el("div", { class: "sydevrow" }, [
+      el("label", {}, [el("span", { text: T("この端末の名前") }), inp]),
+      el("div", { class: "hint", style: "margin:4px 0 0" }, [el("span", { text: T("この端末が書き出すファイル：") }), file]),
+    ]);
+  }
+  function step(n, title, text, button) {
+    return el("div", { class: "systep" }, [
+      el("div", { class: "syn", text: String(n) }),
+      el("div", { class: "sytx" }, [el("b", { text: title }), el("p", { text }), button]),
+    ]);
+  }
+  function noteBox() {
+    if (!note) return null;
+    return el("div", { class: "synote " + (note.kind || "") , text: note.text });
+  }
+  async function doImport() {
+    const files = await syncPickFiles();
+    if (!files.length) return;
+    note = { kind: "", text: T("読み込んでいます…") }; draw();
+    try {
+      const r = await syncImportFiles(files);
+      const parts = [];
+      if (r.read) parts.push(syncSummaryText(r.sum));
+      if (r.projectFiles) parts.push(T`授業1つ分のファイル（.kkp）が ${r.projectFiles}件ありました。それは［ファイル］→［開く］→［ファイルから読み込む］で開いてください。`);
+      if (r.errs.length) parts.push(T`共有用のファイルとして読めなかったもの：${r.errs.join(TSEP)}`);
+      if (!r.read && !r.projectFiles && !r.errs.length && r.skippedOwn) parts.push(T("選んだのはこの端末が書き出したファイルでした。ほかの端末のファイルを選んでください。"));
+      note = { kind: r.errs.length || !r.read ? "warn" : "ok", text: parts.join(" ") };
+    } catch (e) {
+      console.warn(e);
+      note = { kind: "err", text: T("読み込めませんでした。") + " " + String(e && e.message || e) };
+    }
+    draw();
+  }
+  async function doExport() {
+    note = { kind: "", text: T("まとめています…") }; draw();
+    try {
+      const n = await syncExportFile();
+      note = { kind: "ok", text: SYNC_IOS
+        ? T`${n}件の授業をまとめました。共有シートで［"ファイル"に保存］→ OneDrive の共有フォルダーを選び、同じ名前のファイルがあれば置き換えてください。`
+        : T`${n}件の授業をまとめました。OneDrive の共有フォルダーに保存してください（同じ名前のファイルは上書き）。` };
+    } catch (e) {
+      console.warn(e);
+      note = { kind: "err", text: T("書き出せませんでした。") + " " + String(e && e.message || e) };
+    }
+    draw();
+  }
+
+  function draw() {
+    body.innerHTML = "";
+    const pr = syncPrefs();
+    body.appendChild(el("p", { class: "sylead", text: T("授業ライブラリを1つのファイルにまとめ、OneDrive のフォルダーで iPad とパソコンの間を受け渡します。同じ授業は増えずに新しい方へ置き換わり、古い方は［版の履歴］に残ります。フォルダー分けとゴミ箱も引き継ぎます。") }));
+
+    if (syncIsHost()) {
+      const h = SYNC.host;
+      const card = el("div", { class: "sycard" });
+      if (!h) card.appendChild(el("div", { class: "hint", text: T("確認中…") }));
+      else if (h.dir) {
+        const st = SYNC.state === "busy" ? ["busy", T("同期しています…")]
+          : SYNC.state === "error" ? ["err", T("同期できませんでした")]
+          : SYNC.state === "warn" ? ["warn", T("一部のファイルを読めませんでした")]
+          : ["ok", T("自動で同期しています")];
+        card.appendChild(el("div", { class: "syhead" }, [el("span", { class: "badge " + (st[0] === "busy" ? "" : st[0]), text: st[1] }), el("code", { text: h.dir, title: h.dir })]));
+        if (SYNC.error) card.appendChild(el("div", { class: "hint sthint-err", text: SYNC.error }));
+        card.appendChild(el("div", { class: "hint", text: T("起動したとき・ほかの端末のファイルが OneDrive から届いたとき・授業を変えて少したったとき・閉じるときに、自動で読み書きします。") }));
+        card.appendChild(el("div", { class: "symeta" }, [
+          el("span", { text: T`最後の同期：${syncWhen(pr.lastAt)}` }),
+          pr.last ? el("span", { text: pr.last.text }) : null,
+        ]));
+        card.appendChild(el("div", { class: "grid2 syacts" }, [
+          btn(T("今すぐ同期"), "cloud", async () => { await syncRun({ manual: true, full: true }); draw(); }, "on sm"),
+          btn(T("フォルダーを開く"), "folder", () => syncHostReq("open"), "sm"),
+          btn(T("フォルダーを変更…"), "folder", () => syncHostReq("choose"), "sm"),
+          btn(T("自動同期をやめる"), "undo", async () => {
+            if (await askConfirm(T("自動同期をやめますか？"), escapeHtml(T("OneDrive のフォルダーにあるファイルと、この端末の授業はどちらも消しません。")), T("やめる"))) syncHostReq("off");
+          }, "sm"),
+        ]));
+      } else {
+        card.appendChild(el("div", { class: "sytitle", text: T("OneDrive のフォルダーを選ぶと、自動で同期します") }));
+        card.appendChild(el("p", { class: "hint", text: T("OneDrive の中に「板書計画Studio 共有」などのフォルダーを作って選んでください。iPad からも同じフォルダーのファイルを読み書きします。") }));
+        card.appendChild(el("div", { class: "syacts" }, [btn(T("OneDrive のフォルダーを選ぶ…"), "cloud", () => syncHostReq("choose"), "on")]));
+        if (h.oneDriveRoot) card.appendChild(el("div", { class: "hint", text: T`このパソコンの OneDrive：${h.oneDriveRoot}` }));
+        else card.appendChild(el("div", { class: "hint sthint-warn", text: T("このパソコンでは OneDrive のフォルダーが見つかりませんでした。OneDrive アプリでサインインしてから選んでください。") }));
+      }
+      body.appendChild(card);
+      body.appendChild(devRow());
+      const n = noteBox(); if (n) body.appendChild(n);
+      const man = el("details", { class: "syman" }, [
+        el("summary", { text: T("手作業で受け渡す") }),
+        el("div", { class: "grid2", style: "margin-top:8px" }, [
+          btn(T("ほかの端末のファイルを読み込む…"), "folder", doImport, "sm"),
+          btn(T("この端末の分をファイルに保存…"), "upload", doExport, "sm"),
+        ]),
+      ]);
+      body.appendChild(man);
+      return;
+    }
+
+    /* iPad・ブラウザー */
+    body.appendChild(step(1, T("OneDrive から読み込む"),
+      SYNC_IOS ? T("ファイル App で OneDrive の共有フォルダーを開き、ほかの端末の「授業ライブラリ_〇〇.kkplib」を選びます（いくつでもまとめて選べます）。")
+        : T("OneDrive の共有フォルダーにある、ほかの端末の「授業ライブラリ_〇〇.kkplib」を選びます（いくつでもまとめて選べます）。"),
+      btn(T("読み込む…"), "folder", doImport, "on")));
+    body.appendChild(step(2, T("OneDrive へ保存"),
+      SYNC_IOS ? T("この端末の授業ライブラリを1つのファイルにまとめます。共有シートで［\"ファイル\"に保存］を選び、同じ OneDrive のフォルダーへ保存してください（同じ名前のファイルは置き換え）。")
+        : T("この端末の授業ライブラリを1つのファイルにまとめて、同じ OneDrive のフォルダーへ保存します（同じ名前のファイルは上書き）。"),
+      btn(T("保存…"), "upload", doExport, "on")));
+    const n = noteBox(); if (n) body.appendChild(n);
+    body.appendChild(el("div", { class: "symeta" }, [
+      el("span", { text: T`最後に読み込んだ日時：${syncWhen(pr.lastIn)}` }),
+      el("span", { text: T`最後に保存した日時：${syncWhen(pr.lastOutManual)}` }),
+    ]));
+    body.appendChild(devRow());
+    body.appendChild(el("div", { class: "hint", text: T("授業を変えたら、終わりに［保存］まで済ませると、パソコン版が自動で取り込みます。パソコンで変えた授業は、次に［読み込む］を押したときに入ります。") }));
+  }
+  draw();
+  if (syncIsHost()) syncHostReq("info");
+  return api;
 }
 /* =========================================================================
    第14部：ウェブアプリとしての動き（iPad などの指での操作・全画面表示）
