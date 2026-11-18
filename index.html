@@ -2966,15 +2966,17 @@ const I18N_EN = {
   "同期しています…": "Syncing…",
   "同期できませんでした": "Sync failed",
   "一部のファイルを読めませんでした": "Some files could not be read",
-  "自動で同期しています": "Syncing automatically",
-  "起動したとき・ほかの端末のファイルが OneDrive から届いたとき・授業を変えて少したったとき・閉じるときに、自動で読み書きします。": "The app reads and writes automatically when it starts, when another device's file arrives from OneDrive, shortly after you change a lesson, and when you close it.",
+  "保存したときに同期します": "Syncs when you save",
+  "［保存］（Ctrl+S）を押したときだけ、OneDrive のファイルを書き換えます。起動したときと保存したときに、ほかの端末で変えた授業を読み込みます。": "Your OneDrive file is updated only when you press Save (Ctrl+S). Lessons changed on your other devices are read when the app starts and when you save.",
+  "OneDrive へ最後に保存：{0}": "Last saved to OneDrive: {0}",
+  "OneDrive にも保存しました。": "Also saved to OneDrive.",
   "最後の同期：{0}": "Last sync: {0}",
   "今すぐ同期": "Sync now",
   "フォルダーを変更…": "Change folder…",
-  "自動同期をやめる": "Stop auto sync",
-  "自動同期をやめますか？": "Stop auto sync?",
+  "OneDrive での共有をやめる": "Stop sharing via OneDrive",
+  "OneDrive での共有をやめますか？": "Stop sharing via OneDrive?",
   "OneDrive のフォルダーにあるファイルと、この端末の授業はどちらも消しません。": "Neither the files in the OneDrive folder nor the lessons on this device are deleted.",
-  "OneDrive のフォルダーを選ぶと、自動で同期します": "Choose a OneDrive folder to sync automatically",
+  "OneDrive のフォルダーを選ぶと、保存したときに同期します": "Choose a OneDrive folder to sync whenever you save",
   "OneDrive の中に「板書計画Studio 共有」などのフォルダーを作って選んでください。iPad からも同じフォルダーのファイルを読み書きします。": "Make a folder such as \"Bansho Plan Studio share\" inside OneDrive and choose it. Your iPad reads and writes files in the same folder.",
   "OneDrive のフォルダーを選ぶ…": "Choose a OneDrive folder…",
   "このパソコンの OneDrive：{0}": "OneDrive on this PC: {0}",
@@ -5409,7 +5411,7 @@ async function setLang(k) {
 const APP = {
   name: T("板書計画Studio"),
   kana: T("ばんしょけいかくスタジオ"),
-  version: "1.23.0",
+  version: "1.23.1",
   vendor: T("先生のための道具箱"),
   copyright: T("© 2026 先生のための道具箱"),
 };
@@ -12788,7 +12790,7 @@ function qrEncode(text, ecl = "M") {
 }
 const qrCache = new Map();
 function qrMatrix(text, ecl) {
-  const key = ecl + " " + text;
+  const key = ecl + " " + text;
   if (!qrCache.has(key)) { if (qrCache.size > 60) qrCache.clear(); qrCache.set(key, qrEncode(text, ecl)); }
   return qrCache.get(key);
 }
@@ -36037,6 +36039,8 @@ async function saveProject(silent) {
   await autosaveNow();
   await snapshot(T("保存時のひかえ"), true);
   if (!silent) toast(T("保存しました"));
+  /* OneDrive で共有しているときは、保存したときだけ後ろで読み書きする（13b_sync.js） */
+  if (typeof syncAfterSave === "function") syncAfterSave();
 }
 async function autosaveNow() {
   dirty = true; clearTimeout(saveTimer);
@@ -38420,7 +38424,7 @@ async function libraryDialog(opt = {}) {
     side.appendChild(el("div", { class: "lspacer" }));
     /* OneDrive で共有（13b_sync.js）。自動で同期しているときは雲を金色にする */
     const syncItem = sideItem({ icon: "cloud", label: T("OneDrive で共有"), active: false, onclick: () => syncDialog(),
-      title: typeof syncAutoOn === "function" && syncAutoOn() ? T("自動で同期しています") : T("OneDrive で共有") });
+      title: typeof syncAutoOn === "function" && syncAutoOn() ? T("保存したときに同期します") : T("OneDrive で共有") });
     syncItem.classList.add("lsync");
     if (typeof syncAutoOn === "function" && syncAutoOn()) syncItem.classList.add("lsyncon");
     side.appendChild(syncItem);
@@ -38896,8 +38900,9 @@ async function libAutoOrganize() {
        ほかの端末のファイルは読むだけ（OneDrive で同じファイルを2台が書いて衝突するのを避ける）。
      ・読み込むと、同じ授業（同じ id）は増やさずに「中身を書き換えた時刻 changedAt」の新しい方を残す。
        置き換えられる側は［版の履歴］に控えを残す。
-     ・Windows 版は OneDrive の中のフォルダーを選んでおくと、起動したとき・ほかの端末のファイルが
-       届いたとき・授業を変えたあとに自動で読み書きする（ホストの /__sync/ を通す。HostForm.Sync.cs）。
+     ・Windows 版は OneDrive の中のフォルダーを選んでおくと、利用者が［保存］（Ctrl+S）したときだけ
+       読み書きする（ホストの /__sync/ を通す。HostForm.Sync.cs）。起動したときは読むだけ（書かない）。
+       授業を変えるたび・閉じるときには通信しない（通信の節約と、閉じるのを待たせないため。2026-11-18 利用者の指示）。
      ・iPad（ウェブ版）はフォルダーへ直接書けないので、［読み込む］＝ファイル App で OneDrive から選ぶ、
        ［保存］＝共有シートで OneDrive へ保存、の2つのボタンで受け渡す。
 
@@ -38909,10 +38914,9 @@ async function libAutoOrganize() {
    ========================================================================= */
 const SYNC_APP = "kokuban-plan-library", SYNC_EXT = ".kkplib", SYNC_TOMBS_KEY = "syncTombs", SYNC_PREF_KEY = "kkp.sync";
 const SYNC_TOMB_DAYS = 400;            /* 消した印を覚えておく日数 */
-const SYNC_WRITE_DELAY = 45000;        /* 授業を変えてから、自分のファイルを書き出すまで（Windows 版の自動同期） */
 /* Windows 版のホストが受ける窓口（アプリ本体とは別のホスト名。HostForm.Sync.cs） */
 const SYNC_URL = "https://sync.bansho-studio.local/__sync/";
-const SYNC = { host: null, busy: null, again: false, timer: 0, changeTimer: 0, error: "", started: false };
+const SYNC = { host: null, busy: null, again: null, error: "", started: false };
 /* iPad／iPhone か（ウェブ版は 01_core の KKP_IOS。本体・配布用のツリーには無いので自分で調べる） */
 const SYNC_IOS = typeof KKP_IOS !== "undefined" ? KKP_IOS
   : /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
@@ -38954,7 +38958,6 @@ async function syncTombAdd(ids) {
   const m = await syncTombsGet(), at = nowISO();
   ids.forEach(id => { m[id] = at; });
   await syncTombsSave(m);
-  syncNoteChange();
 }
 async function syncFoldersRec() {
   try {
@@ -39173,15 +39176,24 @@ async function syncHostRead(name) {
 /* 種類の無い Blob で送る（Content-Type が付かないので、事前の確認要求なしで届く） */
 async function syncHostWrite(name, blob) { await syncHostFetch("write?name=" + encodeURIComponent(name), { method: "POST", body: new Blob([blob]) }); }
 
-/* 授業やフォルダーを変えたら呼ばれる（storePut・libFoldersSave）。しばらくまとめてから書き出す */
-function syncNoteChange() {
-  if (!syncAutoOn() || SYNC.changeTimer) return;
-  SYNC.changeTimer = setTimeout(() => { SYNC.changeTimer = 0; syncRun({ auto: true }); }, SYNC_WRITE_DELAY);
+/* 授業やフォルダーを変えたら呼ばれる（storePut・libFoldersSave）。
+   変えるたびには書き出さない（［保存］したときだけ＝syncAfterSave）。呼び出し側のために名前だけ残す */
+function syncNoteChange() { /* 何もしない */ }
+/* 利用者が［保存］したとき（09_store の saveProject から）：後ろで OneDrive と読み書きする。保存の操作は待たせない */
+function syncAfterSave() {
+  if (!syncAutoOn()) return;
+  syncRun({ write: true, save: true });
 }
-/* 自動同期の1回分：ほかの端末のファイルで変わったものを読み、自分の分が変わっていれば書き出す */
+/* 同期の1回分：ほかの端末のファイルで変わったものを読み、opt.write（保存・今すぐ同期）のときだけ自分の分を書き出す */
 function syncRun(opt = {}) {
   if (!syncAutoOn()) return Promise.resolve(null);
-  if (SYNC.busy) { SYNC.again = true; return SYNC.busy; }
+  if (opt.manual) opt.write = true;
+  if (SYNC.busy) {
+    /* 実行中に頼まれた分は、終わってから1回にまとめてやり直す（書き出しの頼みは落とさない） */
+    const a = SYNC.again || {};
+    SYNC.again = { write: a.write || !!opt.write, save: a.save || !!opt.save, manual: a.manual || !!opt.manual, full: a.full || !!opt.full };
+    return SYNC.busy;
+  }
   SYNC.busy = (async () => {
     let sum = null;
     SYNC.state = "busy"; syncFire();
@@ -39196,13 +39208,17 @@ function syncRun(opt = {}) {
         try { bundles.push(await syncReadBundle(await syncHostRead(f.name))); seen[f.name] = f.mtime + ":" + f.size; }
         catch (e) { console.warn(e); errs.push(f.name); }
       }
-      if (bundles.length) sum = await syncMerge(bundles, { auto: !opt.manual });
-      const sig = await syncSignature();
-      const ownFile = files.find(f => f.name === own);
-      if (opt.manual || sig !== pr.sig || !ownFile) {
-        const { blob } = await syncBuildBundle();
-        await syncHostWrite(own, blob);
-        pr.sig = sig; pr.lastOut = nowISO();
+      if (bundles.length) sum = await syncMerge(bundles, { auto: !opt.manual && !opt.save });
+      let wrote = false;
+      if (opt.write) {
+        /* 保存のときは、中身が前回の書き出しと同じなら書かない（通信の節約）。今すぐ同期は必ず書く */
+        const sig = await syncSignature();
+        const ownFile = files.find(f => f.name === own);
+        if (opt.manual || sig !== pr.sig || !ownFile) {
+          const { blob } = await syncBuildBundle();
+          await syncHostWrite(own, blob);
+          pr.sig = sig; pr.lastOut = nowISO(); wrote = true;
+        }
       }
       pr.seen = seen; pr.seenDir = SYNC.host.dir; pr.lastAt = nowISO();
       if (sum) pr.last = { at: pr.lastAt, text: syncSummaryText(sum) };
@@ -39211,28 +39227,21 @@ function syncRun(opt = {}) {
       SYNC.state = errs.length ? "warn" : "ok";
       if (sum && (sum.added || sum.updated || sum.removed)) toast(T("OneDrive から") + " " + syncSummaryText(sum), "", 6000);
       else if (opt.manual) toast(T("OneDrive と同期しました。") + (sum ? " " + syncSummaryText(sum) : ""));
+      else if (opt.save && wrote) toast(T("OneDrive にも保存しました。"), "", 2500);
     } catch (e) {
       console.warn(e);
       SYNC.state = "error"; SYNC.error = String(e && e.message || e);
-      if (opt.manual) toast(T("OneDrive と同期できませんでした。") + " " + SYNC.error, "err", 8000);
+      if (opt.manual || opt.save) toast(T("OneDrive と同期できませんでした。") + " " + SYNC.error, "err", 8000);
     } finally {
       SYNC.busy = null; syncFire();
-      if (SYNC.again) { SYNC.again = false; setTimeout(() => syncRun({ auto: true }), 500); }
+      if (SYNC.again) { const a = SYNC.again; SYNC.again = null; setTimeout(() => syncRun(a), 300); }
     }
     return sum;
   })();
   return SYNC.busy;
 }
-/* 閉じる前（ホストの FormClosing から）：変わった分だけ書き出す */
-async function syncFlush() {
-  if (!syncAutoOn()) return;
-  clearTimeout(SYNC.changeTimer); SYNC.changeTimer = 0;
-  if (SYNC.busy) await SYNC.busy;
-  if (S.project && dirty) await autosaveNow();
-  const pr = syncPrefs();
-  if ((await syncSignature()) === pr.sig) return;
-  await syncRun({ auto: true });
-}
+/* 閉じる前（古い版のホストの FormClosing から呼ばれることがある）：閉じるのを待たせないよう、何もしない */
+async function syncFlush() { /* 何もしない */ }
 function syncFire() { document.dispatchEvent(new CustomEvent("kkp-sync")); }
 if (window.chrome && window.chrome.webview && window.chrome.webview.addEventListener) {
   window.chrome.webview.addEventListener("message", e => {
@@ -39243,15 +39252,12 @@ if (window.chrome && window.chrome.webview && window.chrome.webview.addEventList
       if (d.kkpSyncInfo.error) toast(d.kkpSyncInfo.error, "err", 8000);
       syncFire();
       if (SYNC.host.dir && SYNC.host.dir !== was) {
-        /* 起動したとき・フォルダーを選んだとき：全部のファイルを読み直す */
+        /* 起動したとき・フォルダーを選んだとき：ほかの端末のファイルを読む（書き出しは［保存］のときだけ） */
         const first = !SYNC.started; SYNC.started = true;
         setTimeout(() => syncRun({ auto: true, full: true }), first ? 2500 : 100);
       }
     }
-    if (d.kkpSyncChanged && syncAutoOn()) {
-      clearTimeout(SYNC.timer);
-      SYNC.timer = setTimeout(() => syncRun({ auto: true }), 2000);
-    }
+    /* ほかの端末のファイルが届いた知らせ（kkpSyncChanged）では読み込まない。次の［保存］で取り込む */
   });
   /* 起動したら、選んであるフォルダーを尋ねる（ホストが古い版なら返事は来ない＝何もしない） */
   setTimeout(() => syncHostReq("info"), 1200);
@@ -39371,24 +39377,25 @@ function syncDialog() {
         const st = SYNC.state === "busy" ? ["busy", T("同期しています…")]
           : SYNC.state === "error" ? ["err", T("同期できませんでした")]
           : SYNC.state === "warn" ? ["warn", T("一部のファイルを読めませんでした")]
-          : ["ok", T("自動で同期しています")];
+          : ["ok", T("保存したときに同期します")];
         card.appendChild(el("div", { class: "syhead" }, [el("span", { class: "badge " + (st[0] === "busy" ? "" : st[0]), text: st[1] }), el("code", { text: h.dir, title: h.dir })]));
         if (SYNC.error) card.appendChild(el("div", { class: "hint sthint-err", text: SYNC.error }));
-        card.appendChild(el("div", { class: "hint", text: T("起動したとき・ほかの端末のファイルが OneDrive から届いたとき・授業を変えて少したったとき・閉じるときに、自動で読み書きします。") }));
+        card.appendChild(el("div", { class: "hint", text: T("［保存］（Ctrl+S）を押したときだけ、OneDrive のファイルを書き換えます。起動したときと保存したときに、ほかの端末で変えた授業を読み込みます。") }));
         card.appendChild(el("div", { class: "symeta" }, [
           el("span", { text: T`最後の同期：${syncWhen(pr.lastAt)}` }),
+          el("span", { text: T`OneDrive へ最後に保存：${syncWhen(pr.lastOut)}` }),
           pr.last ? el("span", { text: pr.last.text }) : null,
         ]));
         card.appendChild(el("div", { class: "grid2 syacts" }, [
           btn(T("今すぐ同期"), "cloud", async () => { await syncRun({ manual: true, full: true }); draw(); }, "on sm"),
           btn(T("フォルダーを開く"), "folder", () => syncHostReq("open"), "sm"),
           btn(T("フォルダーを変更…"), "folder", () => syncHostReq("choose"), "sm"),
-          btn(T("自動同期をやめる"), "undo", async () => {
-            if (await askConfirm(T("自動同期をやめますか？"), escapeHtml(T("OneDrive のフォルダーにあるファイルと、この端末の授業はどちらも消しません。")), T("やめる"))) syncHostReq("off");
+          btn(T("OneDrive での共有をやめる"), "undo", async () => {
+            if (await askConfirm(T("OneDrive での共有をやめますか？"), escapeHtml(T("OneDrive のフォルダーにあるファイルと、この端末の授業はどちらも消しません。")), T("やめる"))) syncHostReq("off");
           }, "sm"),
         ]));
       } else {
-        card.appendChild(el("div", { class: "sytitle", text: T("OneDrive のフォルダーを選ぶと、自動で同期します") }));
+        card.appendChild(el("div", { class: "sytitle", text: T("OneDrive のフォルダーを選ぶと、保存したときに同期します") }));
         card.appendChild(el("p", { class: "hint", text: T("OneDrive の中に「板書計画Studio 共有」などのフォルダーを作って選んでください。iPad からも同じフォルダーのファイルを読み書きします。") }));
         card.appendChild(el("div", { class: "syacts" }, [btn(T("OneDrive のフォルダーを選ぶ…"), "cloud", () => syncHostReq("choose"), "on")]));
         if (h.oneDriveRoot) card.appendChild(el("div", { class: "hint", text: T`このパソコンの OneDrive：${h.oneDriveRoot}` }));
