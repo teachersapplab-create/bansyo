@@ -1113,6 +1113,20 @@ header .qbtn.langbtn.rbopen{background:var(--rbOn);color:var(--tx)}
 .vround:hover{background:rgba(14,16,20,.82);transform:scale(1.07);box-shadow:0 10px 30px rgba(0,0,0,.5),inset 0 0 0 1.5px rgba(255,255,255,.85)}
 .vround:active{transform:scale(.97)}
 .vround:focus-visible{outline:2px solid #fff;outline-offset:2px}
+/* 図・図形などを黒板いっぱいに広げる（第7部p）：ボタンは動画と同じ暗いガラスの丸 */
+.vround.fxchip svg,.vround.fxhov svg,.vround.fxclose svg{margin-left:0}
+.fxchip{position:absolute;z-index:4;width:30px;height:30px;display:none;touch-action:manipulation}
+.fxchip.on{display:grid}
+.fxchip.in{animation:nqIn .16s cubic-bezier(.2,.8,.2,1)}
+.fxhov{position:absolute;width:34px;height:34px;opacity:0;visibility:hidden;pointer-events:none;scale:.86;transition:opacity .12s ease,visibility 0s linear .12s,scale .16s cubic-bezier(.2,.8,.2,1),transform .14s cubic-bezier(.2,.8,.2,1),background-color .14s ease,box-shadow .14s ease}
+.fxhov.on{opacity:1;visibility:visible;pointer-events:auto;scale:1;transition:opacity .12s ease,scale .16s cubic-bezier(.2,.8,.2,1),transform .14s cubic-bezier(.2,.8,.2,1),background-color .14s ease,box-shadow .14s ease}
+.fxshield{position:absolute;inset:0;pointer-events:none;cursor:zoom-out}
+.fxshield.on{pointer-events:auto}
+.fxclose{position:absolute;z-index:1;width:40px;height:40px;opacity:0;pointer-events:none;scale:.86}
+.fxclose.on{opacity:1;pointer-events:auto;scale:1}
+#pjstage .fxhov,#pjstage .fxclose{cursor:pointer}
+#pjstage:not(.curon) .fxshield{cursor:none}
+@media (pointer:coarse){.fxchip{width:38px;height:38px}.fxhov{width:42px;height:42px}.fxclose{width:48px;height:48px}}
 
 .vhov{position:absolute;display:grid;place-items:center;opacity:0;visibility:hidden;pointer-events:none;
   background:linear-gradient(180deg,rgba(0,0,0,.02),rgba(0,0,0,.16));
@@ -5411,7 +5425,7 @@ async function setLang(k) {
 const APP = {
   name: T("板書計画Studio"),
   kana: T("ばんしょけいかくスタジオ"),
-  version: "1.23.1",
+  version: "1.24.0",
   vendor: T("先生のための道具箱"),
   copyright: T("© 2026 先生のための道具箱"),
 };
@@ -6520,16 +6534,19 @@ function drawAll() {
     drawOtherPages(ctx);
     drawScene(ctx, { background: true, noteLeads: nl, noteScreen: true });
     drawNoteCards(ctx, nl, true);
+    /* 黒板いっぱいに広げているもの（第7部p） */
+    fxPaint(ctx);
   }
-  if (S.grid.on && !S.play.on) drawGridOverlay(ctx);
-  if (!S.play.on) drawDragPreview(ctx);
+  if (S.grid.on && !S.play.on && !fxOn()) drawGridOverlay(ctx);
+  if (!S.play.on && !fxOn()) drawDragPreview(ctx);
   ctx.restore();
   if (S.editing) { const eo = objById(S.editing); if (eo) positionEditor(eo); }
   if (NOTE_ED) noteEdPosition();
   if (isProj() && !S.play.on) projEditorFrame(ctx);
-  if (!S.play.on) drawOverlay(ctx);
-  vpSync();
+  if (!S.play.on && !fxOn()) drawOverlay(ctx);
+  /* ［メモ］ボタンを先に置く（［広げる］ボタンはその隣に並べる。第7部p） */
   noteQuickSync();
+  vpSync();
 }
 
 function drawScene(g, opt = {}) {
@@ -16186,6 +16203,7 @@ $("#stage").addEventListener("drop", async e => {
 
 /* ---------- キーボード ---------- */
 window.addEventListener("keydown", e => {
+  if (fxKey(e)) return;
   if (vpKey(e)) return;
   if (S.play.on && playKey(e)) return;
   if (e.key === " " && !S.editing && e.target === document.body) { spaceDown = true; cv.style.cursor = "grab"; e.preventDefault(); }
@@ -21018,6 +21036,8 @@ function projPaint(g, opt = {}) {
     drawObject(sg, o, {});
   }
   flush();
+  /* 黒板いっぱいに広げているもの（第7部p） */
+  fxPaintProj(g, sg, begin, flush, opt);
   pjNoShadow(sg, false);
   g.restore();
   /* 編集画面：黒板の外にはみ出したものは映らないので、幕をかけて暗くする */
@@ -21624,6 +21644,7 @@ window.addEventListener("keydown", e => {
   if (!PJ.on) return;
   const k = e.key;
   e.stopImmediatePropagation();
+  if (fxKey(e)) return;
   if (vpKey(e)) return;
   if (["F11", "F12"].includes(k)) return;
   e.preventDefault();
@@ -23203,6 +23224,7 @@ function vpFilter(o) {
   return f.join(" ");
 }
 function vpSync() {
+  fxSync();
   const ly = (PJ.on && PJ.stage) || VP || VH.id ? vpLayer() : null;
   if (ly) {
     ly.style.transform = PJ.on && PJ.cv ? PJ.cv.style.transform : "";
@@ -34385,6 +34407,400 @@ async function mtRenderResult() {
     ]));
   }
   side.appendChild(el("button", { class: "pi-linkbtn mt-again", type: "button", text: T("資料と設定を見直して、もう一度作る"), onclick: () => { MT.saved = null; MT.result = null; mtGo(1); } }));
+}
+/* =========================================================================
+   第7部p：図・図形・グラフなどを黒板いっぱいに広げて見せる（最大化）
+   - 動画の最大化（第7部g の videoFitRect）と同じ考え方で、黒板の座標で
+     「黒板の中で、もとの縦横比のまま一番大きくなる長方形」を求めて描く
+   - 表示だけの拡大。位置・大きさなどのデータは書き換えない（取り消しの履歴にも残らない）
+   - 編集画面：1つ（または1つのグループ）を選ぶと、選択の右上（［メモ］の隣）に［広げる］ボタン
+   - 授業の再生（F5）・投影の舞台：ものにカーソルを乗せると右上に同じボタン（動画の再生ボタンと同じ出し方）
+   - 戻す：右上の［戻す］ボタン・どこかをクリック・Esc
+   描くのは drawAll（fxPaint）と projPaint（fxPaintProj）。ボタンの位置合わせは vpSync から呼ぶ fxSync
+   ========================================================================= */
+const FX = {
+  ids: null, list: null, fit: null, ink: null, k: 0, k0: 0, to: 0, t: 0, raf: 0, key: "", view0: null,
+  shield: null, close: null, chip: null, chipIds: null, chipKey: "", hov: null, hovIds: null,
+};
+const FX_MS = 260, FX_MIN_GAIN = 1.15;
+const fxOn = () => !!FX.ids;
+const fxEase = k => 1 - Math.pow(1 - k, 3);
+const fxCtxKey = () => [S.mode, S.page, S.play.on ? 1 : 0, PJ.on ? 1 : 0, S.project && S.project.id].join("|");
+const fxRedraw = () => { if (projStageOn()) projStageDraw(); else render(); };
+const fxReduced = () => { try { return matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { return false; } };
+
+/* ---------- 何を広げるか ---------- */
+/* 1つ、または同じグループのもの全部（ホワイトボードの中の1つでもよい）。重なりの順に並べる */
+function fxBundle(o) { return o ? (o.groupId ? expandGroup([o.id]) : [o.id]) : []; }
+function fxObjects(ids) {
+  const order = new Map(topLevel().map((o, i) => [o.id, i]));
+  const top = o => { let r = o; while (r && r.parentId) r = objById(r.parentId) || null; return r || o; };
+  return (ids || []).map(objById).filter(Boolean)
+    .sort((a, b) => (order.get(top(a).id) || 0) - (order.get(top(b).id) || 0) || (a.zIndex || 0) - (b.zIndex || 0));
+}
+/* いまの選択が「1つ、または1つのグループ」なら、その id の並び */
+function fxSelIds() {
+  if (!S.sel.length) return null;
+  const ids = fxBundle(objById(S.sel[0]));
+  if (!ids.length || ids.length !== S.sel.length || !S.sel.every(id => ids.includes(id))) return null;
+  return ids;
+}
+/* 黒板の中で、縦横比のまま一番大きくなる長方形（単位は黒板の座標。周りに少しだけ余白） */
+function fxFit(list) { return fxFitBox(list && list.length ? selBBox(list) : null); }
+function fxFitBox(bb) {
+  const b = curBoard();
+  if (!b || !bb || bb.w < 1 || bb.h < 1) return null;
+  /* 目盛りの数字など、枠の少し外に描くものもあるので、余白はやや広めに */
+  const m = Math.min(b.width, b.height) * 0.1;
+  const s = Math.min((b.width - m * 2) / bb.w, (b.height - m * 2) / bb.h);
+  const w = bb.w * s, h = bb.h * s;
+  return { bb, s, R: { x: (b.width - w) / 2, y: (b.height - h) / 2, w, h } };
+}
+/* 実際に描かれる範囲。グラフの目盛りの数字や矢印などは枠の外にはみ出して描かれるので、
+   広げる前に小さなキャンバスへ一度描いて、色の付いた所の外接矩形を測る（枠より小さくはしない） */
+function fxInkBox(list) {
+  const bb = selBBox(list);
+  if (!bb || bb.w < 1 || bb.h < 1) return bb;
+  try {
+    const ex = 0.5, X0 = bb.x - bb.w * ex, Y0 = bb.y - bb.h * ex, W = bb.w * (1 + ex * 2), H = bb.h * (1 + ex * 2);
+    const k = 640 / Math.max(W, H), cw = Math.max(1, Math.ceil(W * k)), ch = Math.max(1, Math.ceil(H * k));
+    const c = document.createElement("canvas");
+    c.width = cw; c.height = ch;
+    const g = c.getContext("2d", { willReadFrequently: true });
+    g.setTransform(k, 0, 0, k, -X0 * k, -Y0 * k);
+    for (const o of list) {
+      g.save();
+      const P = parentMatrix(o);
+      g.transform(P[0], P[1], P[2], P[3], P[4], P[5]);
+      drawObject(g, o, {});
+      g.restore();
+    }
+    const d = g.getImageData(0, 0, cw, ch).data;
+    let x0 = cw, y0 = ch, x1 = -1, y1 = -1;
+    for (let y = 0; y < ch; y++) {
+      for (let x = 0, i = y * cw * 4 + 3; x < cw; x++, i += 4) {
+        if (d[i] > 24) { if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+      }
+    }
+    if (x1 < 0) return bb;
+    const ix = X0 + x0 / k, iy = Y0 + y0 / k, ix2 = X0 + (x1 + 1) / k, iy2 = Y0 + (y1 + 1) / k;
+    const nx = Math.min(bb.x, ix), ny = Math.min(bb.y, iy);
+    return { x: nx, y: ny, w: Math.max(bb.x + bb.w, ix2) - nx, h: Math.max(bb.y + bb.h, iy2) - ny };
+  } catch (e) { return bb; }
+}
+/* もう黒板いっぱいに近いもの（背景の大きな画像など）は広げても変わらないので、ボタンを出さない */
+function fxWorth(list) {
+  if (!S.project || isSheet() || !list || !list.length) return false;
+  const f = fxFit(list);
+  return !!f && f.s >= FX_MIN_GAIN;
+}
+
+/* ---------- 描く ---------- */
+/* いまの広がりぐあい（0＝もとの位置、1＝黒板いっぱい）を補間した写し方 */
+function fxXf() {
+  const f = FX.fit, e = fxEase(clamp(FX.k, 0, 1));
+  return { e, sc: 1 + (f.s - 1) * e, x: f.bb.x + (f.R.x - f.bb.x) * e, y: f.bb.y + (f.R.y - f.bb.y) * e };
+}
+function fxDrawOne(g, o, X) {
+  g.save();
+  g.translate(X.x, X.y);
+  g.scale(X.sc, X.sc);
+  g.translate(-FX.fit.bb.x, -FX.fit.bb.y);
+  const P = parentMatrix(o);
+  g.transform(P[0], P[1], P[2], P[3], P[4], P[5]);
+  drawObject(g, o, {});
+  g.restore();
+}
+/* もとの下地：ホワイトボードの中のもの（濃い色の字や線）は、黒板の上に出すと読めないので、その下地ごと見せる */
+function fxSurface(list) {
+  for (const o of list || []) {
+    for (let p = o.parentId ? objById(o.parentId) : null; p; p = p.parentId ? objById(p.parentId) : null) {
+      if (p.type === "whiteboard") return p;
+    }
+  }
+  return null;
+}
+/* 編集画面・再生（drawAll から。黒板の座標）：盤面を描き直して、ほかのもの（重なっている画像など）をすべて隠し、
+   広げたものだけを大きく描く。ホワイトボードの中のものは、そのホワイトボードと同じ色の板を敷いてから描く */
+function fxPaint(g) {
+  if (!FX.ids || !FX.fit || !FX.list) return;
+  const X = fxXf(), b = curBoard();
+  g.save();
+  g.globalAlpha = X.e;
+  drawBoardBase(g, b, { background: true });
+  const wb = fxSurface(FX.list);
+  if (wb) fxPanel(g, X, wb, true);
+  g.restore();
+  for (const o of FX.list) fxDrawOne(g, o, X);
+}
+/* 広げたものの後ろに敷く、ホワイトボードと同じ色・縁の板（少し余白をとる） */
+function fxPanel(g, X, wb, shadow) {
+  const b = curBoard(), f = FX.fit, p = wb.props, pad = Math.min(b.width, b.height) * 0.055;
+  const x = X.x - pad, y = X.y - pad, w = f.bb.w * X.sc + pad * 2, h = f.bb.h * X.sc + pad * 2;
+  const bw = Math.min(p.borderWidth || 14, pad * 0.45), r = Math.min(p.radius || 10, pad);
+  g.save();
+  if (shadow && p.shadow) { g.shadowColor = "rgba(0,0,0,.45)"; g.shadowBlur = 26; g.shadowOffsetY = 10; }
+  g.fillStyle = p.borderColor || "#c8ccc7";
+  roundRectPath(g, x, y, w, h, r + bw / 2); g.fill();
+  g.restore();
+  g.fillStyle = p.bg || "#f4f5f2";
+  roundRectPath(g, x + bw, y + bw, Math.max(1, w - bw * 2), Math.max(1, h - bw * 2), r); g.fill();
+}
+/* 投影（projPaint から）：映さない所は黒。投影の色の分類（begin）はもとのものと同じにする */
+function fxPaintProj(g, sg, begin, flush, opt) {
+  if (!FX.ids || !FX.fit || !FX.list) return;
+  flush();
+  const b = curBoard(), X = fxXf();
+  g.save();
+  g.globalAlpha = X.e;
+  if (opt.sim) drawBoardBase(g, b, { background: true });
+  else { g.fillStyle = "#000"; g.fillRect(0, 0, b.width, b.height); }
+  g.restore();
+  const clsOf = o => {
+    let r = o;
+    while (r.parentId && objById(r.parentId)) r = objById(r.parentId);
+    const c = projClass(r);
+    return c === "hide" ? (opt.editor ? "ghost" : null) : c;
+  };
+  /* ホワイトボードの中のものは、ホワイトボードと同じ映し方で板も映す（黒の上に濃い色の線だけでは見えない） */
+  const wb = fxSurface(FX.list);
+  if (wb && clsOf(wb)) {
+    begin(clsOf(wb));
+    sg.save(); sg.globalAlpha *= X.e; fxPanel(sg, X, wb, false); sg.restore();
+  }
+  for (const o of FX.list) {
+    const cls = clsOf(o);
+    if (!cls) continue;
+    begin(cls);
+    fxDrawOne(sg, o, X);
+  }
+  flush();
+}
+
+/* ---------- 広げる・戻す ---------- */
+function fxOpen(ids) {
+  const list = fxObjects(ids);
+  if (!list.length) return;
+  /* 動画は再生画面の最大化（第7部g）に任せる */
+  if (list.length === 1 && isVideoObj(list[0])) return videoPlay(list[0], { paused: true, max: true });
+  if (!fxWorth(list)) return;
+  if (FX.ids) fxClear();
+  vhHide(); fxHovHide();
+  FX.ids = list.map(o => o.id); FX.list = list; FX.ink = fxInkBox(list); FX.fit = fxFitBox(FX.ink) || fxFit(list); FX.key = fxCtxKey();
+  /* 黒板が画面からはみ出して拡大しているときは、いったん全体を見せる（戻すときに元の見え方へ） */
+  if (!PJ.on && !FX.view0) {
+    const a = safeArea(), b = curBoard(), p = worldToScreen(0, 0), q = worldToScreen(b.width, b.height);
+    if (p.x < a.x - 1 || p.y < a.y - 1 || q.x > a.x + a.w + 1 || q.y > a.y + a.h + 1) {
+      FX.view0 = { z: S.zoom, x: S.panX, y: S.panY };
+      fitView();
+      FX.key = fxCtxKey();
+    }
+  }
+  fxDomEnsure();
+  FX.shield.classList.add("on");
+  FX.close.classList.add("on");
+  fxAnim(1);
+}
+function fxOff(now) {
+  if (!FX.ids) return;
+  if (FX.view0) { S.zoom = FX.view0.z; S.panX = FX.view0.x; S.panY = FX.view0.y; FX.view0 = null; }
+  if (FX.shield) FX.shield.classList.remove("on");
+  if (FX.close) FX.close.classList.remove("on");
+  if (now || fxReduced()) { fxClear(); fxRedraw(); return; }
+  fxAnim(0);
+}
+function fxClear() {
+  cancelAnimationFrame(FX.raf);
+  FX.raf = 0; FX.ids = null; FX.list = null; FX.fit = null; FX.ink = null; FX.k = 0; FX.to = 0;
+  if (FX.shield) FX.shield.classList.remove("on");
+  if (FX.close) FX.close.classList.remove("on");
+}
+function fxAnim(to) {
+  cancelAnimationFrame(FX.raf);
+  FX.to = to; FX.k0 = FX.k; FX.t = performance.now();
+  const ms = fxReduced() ? 1 : FX_MS;
+  const step = now => {
+    const p = Math.min(1, (now - FX.t) / ms);
+    FX.k = FX.k0 + (FX.to - FX.k0) * p;
+    if (p < 1) FX.raf = requestAnimationFrame(step);
+    else { FX.raf = 0; if (!FX.to) fxClear(); }
+    fxRedraw();
+  };
+  FX.raf = requestAnimationFrame(step);
+}
+function fxToggleSel() {
+  if (FX.ids) return fxOff();
+  const ids = fxSelIds();
+  if (ids) fxOpen(ids);
+}
+
+/* ---------- 画面の部品 ---------- */
+const fxStop = n => ["pointerdown", "pointerup", "mousedown", "dblclick", "contextmenu"].forEach(t => n.addEventListener(t, e => {
+  e.stopPropagation();
+  if (t === "contextmenu") e.preventDefault();
+}));
+/* 広げている間：黒板の上を覆う透明の幕（押すと戻る）と、右上の［戻す］ボタン。動画の層（vpLayer）に置くので投影の舞台でも同じ */
+function fxDomEnsure() {
+  const ly = vpLayer();
+  if (FX.shield && FX.shield.parentNode === ly) return;
+  [FX.shield, FX.close].forEach(n => n && n.remove());
+  FX.shield = el("div", { class: "fxshield", title: T("元の大きさに戻す") });
+  FX.close = el("button", { type: "button", class: "fxclose vround", html: vpIco("min"), title: T("元の大きさに戻す") + " (Esc)", "aria-label": T("元の大きさに戻す") });
+  [FX.shield, FX.close].forEach(n => {
+    fxStop(n);
+    n.addEventListener("click", e => { e.stopPropagation(); fxOff(); });
+  });
+  ly.appendChild(FX.shield);
+  ly.appendChild(FX.close);
+}
+/* ［メモ］ボタン（第7部f）の位置と大きさ。版によって作りが違う（NQ＝left/top で置く／NOTE_QB＝transform で置く） */
+function fxNoteChipBox() {
+  if (typeof NQ !== "undefined" && NQ.el && NQ.el.classList.contains("on")) {
+    const n = NQ.el;
+    return { x: parseFloat(n.style.left) || 0, y: parseFloat(n.style.top) || 0, w: n.offsetWidth || 64, h: n.offsetHeight || 28 };
+  }
+  if (typeof NOTE_QB !== "undefined" && NOTE_QB && NOTE_QB.isConnected && NOTE_QB.style.display !== "none") {
+    const m = /translate\(\s*(-?[\d.]+)px\s*,\s*(-?[\d.]+)px\s*\)/.exec(NOTE_QB.style.transform || "");
+    if (m) return { x: +m[1], y: +m[2], w: NOTE_QB.offsetWidth || 64, h: NOTE_QB.offsetHeight || 26 };
+  }
+  return null;
+}
+function fxNoteChipHide() {
+  if (typeof nqHide === "function") nqHide();
+  if (typeof NOTE_QB !== "undefined" && NOTE_QB && NOTE_QB.style.display !== "none") NOTE_QB.style.display = "none";
+}
+/* 編集画面：選択の右上に出す［広げる］ボタン（［メモ］ボタンの隣） */
+function fxChipEnsure() {
+  const host = cv.parentElement;
+  if (FX.chip && FX.chip.parentNode === host) return FX.chip;
+  if (FX.chip) FX.chip.remove();
+  const b = el("button", { type: "button", class: "fxchip vround", html: vpIco("max"), "aria-label": T("板書いっぱいに広げる") });
+  fxStop(b);
+  b.addEventListener("wheel", e => { e.preventDefault(); cv.dispatchEvent(new WheelEvent("wheel", e)); }, { passive: false });
+  b.addEventListener("click", e => { e.stopPropagation(); if (FX.chipIds) fxOpen(FX.chipIds); });
+  tipify(b, T("板書いっぱいに広げる"));
+  host.appendChild(b);
+  FX.chip = b;
+  return b;
+}
+function fxChipHide() { if (FX.chip && FX.chip.classList.contains("on")) { FX.chip.classList.remove("on"); FX.chipKey = ""; } FX.chipIds = null; }
+function fxChipSync() {
+  if (FX.ids || !S.project || !S.sel.length || S.play.on || isSheet() || S.drag || S.editing || NOTE_ED || CROP
+    || S.tool !== "select" || animAssignOn || projStageOn() || (VP && VP.max)) return fxChipHide();
+  const ids = fxSelIds(), H = ids ? handlePoints() : null;
+  if (!ids || !H || !H._poly) return fxChipHide();
+  const list = fxObjects(ids);
+  if (VP && list.length === 1 && VP.id === list[0].id) return fxChipHide();
+  if (!(list.length === 1 && isVideoObj(list[0])) && !fxWorth(list)) return fxChipHide();
+  const b = fxChipEnsure();
+  FX.chipIds = ids;
+  const key = ids.join(",");
+  if (!b.classList.contains("on") || FX.chipKey !== key) { b.classList.remove("in"); void b.offsetWidth; b.classList.add("in"); }
+  FX.chipKey = key;
+  b.classList.add("on");
+  /* ［メモ］ボタンが出ていればその隣（外側）。無ければ右上の取っ手の外側。入らなければ画面の中へ寄せる */
+  const a = safeArea(), w = b.offsetWidth || 30, h = b.offsetHeight || 30, gap = HSIZE + 4;
+  const xs = H._poly.map(p => p.x), ys = H._poly.map(p => p.y);
+  const x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(...ys);
+  let x, y;
+  const nq = fxNoteChipBox();
+  if (nq) {
+    const nx = nq.x, ny = nq.y, nw = nq.w, nh = nq.h;
+    x = nx >= x1 ? nx + nw + 6 : nx - 6 - w;
+    if (x + w > a.vw - 6) x = nx - 6 - w;
+    y = ny + (nh - h) / 2;
+  } else {
+    x = x1 + gap;
+    if (x + w > a.vw - 6) x = x0 - gap - w;
+    y = y0 - h / 2;
+  }
+  x = clamp(x, 6, a.vw - w - 6);
+  y = clamp(y, 6, a.vh - h - 6);
+  b.style.left = Math.round(x) + "px"; b.style.top = Math.round(y) + "px";
+}
+
+/* 再生・投影の舞台：カーソルを乗せたものの右上に出す［広げる］ボタン（動画の再生ボタンと同じ出し方） */
+function fxHovEnsure() {
+  const ly = vpLayer();
+  if (FX.hov && FX.hov.parentNode === ly) return FX.hov;
+  if (FX.hov) FX.hov.remove();
+  const b = el("button", { type: "button", class: "fxhov vround", html: vpIco("max"), title: T("板書いっぱいに広げる"), "aria-label": T("板書いっぱいに広げる") });
+  fxStop(b);
+  b.addEventListener("click", e => { e.stopPropagation(); const ids = FX.hovIds; fxHovHide(); if (ids) fxOpen(ids); });
+  ly.appendChild(b);
+  FX.hov = b;
+  return b;
+}
+function fxHovHide() { FX.hovIds = null; if (FX.hov) FX.hov.classList.remove("on"); }
+function fxHovPlace() {
+  if (!FX.hovIds) return;
+  const list = fxObjects(FX.hovIds);
+  if (FX.ids || !list.length || !list.every(isShown) || !fxWorth(list)) return fxHovHide();
+  const b = fxHovEnsure(), f = vpXf(), bb = selBBox(list);
+  const L = bb.x * f.s + f.tx, T0 = bb.y * f.s + f.ty, W = bb.w * f.s, Hh = bb.h * f.s;
+  const d = 34, pad = 8;
+  /* 大きいものは内側の右上、小さいものは外側の右上に */
+  const inside = W > d * 2.4 && Hh > d * 2.4;
+  const x = inside ? L + W - d - pad : L + W + 4, y = inside ? T0 + pad : T0 - d - 4;
+  b.style.left = Math.round(x) + "px"; b.style.top = Math.round(y) + "px";
+  b.classList.add("on");
+}
+function fxMove(e) {
+  const t = e.target, pj = PJ.on && PJ.stage;
+  if (t && t.closest && t.closest(".fxhov")) return;
+  if (FX.ids || !S.project || isSheet() || !(pj || S.play.on)) return fxHovHide();
+  const onBoard = t === cv || (t && t.closest && t.closest(".vhov")) || (pj && (t === PJ.stage || t === PJ.cv));
+  if (!onBoard) return fxHovHide();
+  let hit = null;
+  if (pj) {
+    if (PJ.calib || PJ.laser || PJ.black || (PJ.drag && PJ.drag.moved)) return fxHovHide();
+    hit = pjHit(pjStageToBoard(e.clientX, e.clientY));
+    if (hit && PJ.pick && !PJ.picked.has(hit.id)) hit = null;
+  } else {
+    const sp = evtPos(e);
+    hit = hitTest(screenToWorld(sp.x, sp.y), true, true);
+  }
+  if (!hit || isVideoObj(hit)) return fxHovHide();
+  const ids = fxBundle(hit);
+  if (!fxWorth(fxObjects(ids))) return fxHovHide();
+  FX.hovIds = ids;
+  fxHovPlace();
+}
+window.addEventListener("pointermove", fxMove, { passive: true });
+document.documentElement.addEventListener("pointerleave", fxHovHide);
+
+/* ---------- 位置合わせ（vpSync から：drawAll・projStageDraw のたびに呼ばれる） ---------- */
+function fxSync() {
+  if (FX.ids) {
+    const list = fxObjects(FX.ids);
+    if (FX.key !== fxCtxKey() || list.length !== FX.ids.length || !list.every(isShown)) { fxOff(true); return; }
+    FX.list = list;
+    FX.fit = fxFitBox(FX.ink) || fxFit(list) || FX.fit;
+  }
+  const ly = FX.ids || FX.hovIds ? vpLayer() : null;
+  if (ly) ly.style.transform = PJ.on && PJ.cv ? PJ.cv.style.transform : "";
+  if (FX.ids) fxNoteChipHide();
+  if (FX.ids && FX.shield) {
+    /* ［戻す］ボタンは黒板の右上の角（額縁の上）。広げたものに重ならないように。画面からはみ出すときは内側へ */
+    const f = vpXf(), b = curBoard(), d = FX.close.offsetWidth || 40, ly = FX.close.parentNode;
+    const lw = (ly && ly.clientWidth) || innerWidth, lh = (ly && ly.clientHeight) || innerHeight;
+    FX.close.style.left = Math.round(clamp(f.tx + b.width * f.s - d / 2, 6, lw - d - 6)) + "px";
+    FX.close.style.top = Math.round(clamp(f.ty - d / 2, 6, lh - d - 6)) + "px";
+  }
+  fxChipSync();
+  fxHovPlace();
+}
+
+/* ---------- キー操作：Esc で戻す。広げている間は、見えていないものを消したり動かしたりしない ---------- */
+function fxKey(e) {
+  if (e._fxDone) return true;
+  if (!FX.ids || !FX.to) return false;
+  const t = e.target, k = e.key;
+  if (t && (/^(input|textarea|select)$/i.test(t.tagName || "") || t.isContentEditable)) return false;
+  const eat = () => { e._fxDone = true; e.preventDefault(); e.stopPropagation(); return true; };
+  if (k === "Escape") { fxOff(); return eat(); }
+  if (!S.play.on && !PJ.on && ["Delete", "Backspace", "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(k)) return eat();
+  return false;
 }
 /* =========================================================================
    第8部：ダイアログ・テンプレート・出力・チェック
