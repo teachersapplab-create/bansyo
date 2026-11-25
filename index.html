@@ -1935,6 +1935,66 @@ body{padding:env(safe-area-inset-top,0) env(safe-area-inset-right,0) env(safe-ar
   .modal.psm .co-cmp{flex-direction:column;overflow:auto}
   .modal.psm .co-cmpmain{flex:0 0 auto;padding:12px 12px 0;min-height:60vh}
 }
+/* ---------- 構図の型（第7部w） ---------- */
+.kz-pick{display:flex;flex-direction:column;gap:8px}
+.kz-tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.kz-tile{position:relative;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px 7px;border:1px solid var(--line);border-radius:9px;background:var(--panel);color:var(--tx2);transition:border-color .12s ease-out,color .12s ease-out,background .12s ease-out}
+.kz-tile:hover{border-color:var(--line2);color:var(--tx)}
+.kz-tile.on{border-color:var(--brass);box-shadow:0 0 0 1px var(--brass);color:var(--tx);background:var(--panel2)}
+.kz-tile .nm{font-size:10.5px;line-height:1.25;text-align:center;min-height:2.5em;display:flex;align-items:center}
+.kz-tile .no{position:absolute;top:4px;right:4px;width:17px;height:17px;border-radius:50%;background:var(--brass);color:var(--onBrass);font-size:10.5px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.kz-gridbtn{display:flex;align-items:center;gap:6px;padding:5px 11px;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:var(--tx2);font-size:12.5px;transition:border-color .12s ease-out,color .12s ease-out}
+.kz-gridbtn:hover{border-color:var(--brass);color:var(--tx)}
+.kz-ov{flex:1;min-height:0;display:flex;flex-direction:column;gap:14px;padding:16px 18px;overflow:auto}
+.kz-ovhead{display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.kz-ovsub{font-size:12.5px;color:var(--tx2);margin-top:4px;line-height:1.7}
+.kz-ovgrid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));align-content:start}
+.kz-ovgrid.n2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.kz-ovgrid.n3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.kz-card{display:flex;flex-direction:column;text-align:left;padding:0;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--tx2);overflow:hidden;transition:border-color .14s ease-out,box-shadow .14s ease-out,transform .14s ease-out}
+.kz-card:hover{border-color:var(--brass);box-shadow:0 10px 28px rgba(0,0,0,.35);transform:translateY(-2px)}
+.kz-card:focus-visible{outline:2px solid var(--brass);outline-offset:2px}
+.kz-card.gone{opacity:.5}
+.kz-thumb{display:block;background:#14171b;padding:12px;border-bottom:1px solid var(--line)}
+.kz-thumb img{display:block;width:100%;height:auto;border-radius:4px;box-shadow:0 4px 14px rgba(0,0,0,.4)}
+.kz-meta{display:flex;flex-direction:column;gap:6px;padding:12px 14px 14px}
+.kz-row{display:flex;align-items:center;gap:8px}
+.kz-no{width:22px;height:22px;border-radius:6px;background:var(--brass);color:var(--onBrass);font-weight:700;font-size:11.5px;display:flex;align-items:center;justify-content:center;flex:0 0 22px}
+.kz-badge{display:inline-flex;align-items:center;gap:6px;padding:2px 9px 2px 4px;border-radius:999px;border:1px solid var(--line);font-size:11.5px;color:var(--tx2)}
+.kz-badge.plain{padding:2px 9px}
+.kz-ttl{font-size:15px;font-weight:700;color:var(--tx);line-height:1.45}
+.kz-cpt{font-size:12px;line-height:1.75;color:var(--tx2);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.kz-open{align-self:flex-start;margin-top:2px;font-size:12px;font-weight:600;color:var(--brass)}
+.kz-design{display:flex;flex-direction:column;gap:9px}
+.kz-design.busy{opacity:.55;pointer-events:none}
+.kz-sub{display:flex;flex-direction:column;gap:2px}
+.kz-sub.gap{margin-top:8px}
+.kz-sub .t{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:var(--tx)}
+.kz-sub .t svg{color:var(--brass)}
+.kz-sub .s{font-size:11.5px;line-height:1.6;color:var(--tx3)}
+.kz-now{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:10px;background:var(--panel2);color:var(--tx)}
+.kz-now .tx{display:flex;flex-direction:column}
+.kz-now .k{font-size:10.5px;color:var(--tx3)}
+.kz-now .v{font-size:13px;font-weight:700}
+.kz-mini{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:4px}
+.kz-mt{display:flex;align-items:center;justify-content:center;padding:4px 0;border:1px solid var(--line);border-radius:7px;background:var(--panel);color:var(--tx2);transition:border-color .12s ease-out,color .12s ease-out}
+.kz-mt svg{width:100%;max-width:40px;height:auto}
+.kz-mt:hover:not(:disabled){border-color:var(--brass);color:var(--tx)}
+.kz-mt.on{border-color:var(--brass);box-shadow:0 0 0 1px var(--brass);color:var(--tx);opacity:1}
+.kz-chips{display:flex;flex-wrap:wrap;gap:5px}
+.kz-chip{padding:4px 10px;border-radius:999px;border:1px solid var(--line);background:var(--panel);color:var(--tx2);font-size:11.5px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;transition:border-color .12s ease-out,color .12s ease-out,background .12s ease-out}
+.kz-chip:hover{border-color:var(--line2);color:var(--tx)}
+.kz-chip.on{border-color:var(--brass);background:var(--brass);color:var(--onBrass);font-weight:600}
+.kz-go{display:flex;align-items:center;justify-content:center;gap:7px;width:100%}
+.kz-undo{display:flex;align-items:center;gap:6px;align-self:flex-start}
+.kz-prog{display:flex;flex-direction:column;align-items:center;gap:8px;padding:18px 10px;border:1px dashed var(--line2);border-radius:12px;text-align:center}
+.kz-prog .t{font-size:13px;font-weight:600;color:var(--tx)}
+.kz-prog .m{font-size:12px;color:var(--tx3);font-variant-numeric:tabular-nums}
+.kz-man{display:flex;flex-direction:column;gap:10px;width:min(640px,88vw)}
+.kz-man .pi-paste{min-height:160px}
+.kz-manfoot{justify-content:flex-end}
+@media (max-width:1100px){.kz-ovgrid.n3{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:760px){.kz-ovgrid.n2,.kz-ovgrid.n3{grid-template-columns:minmax(0,1fr)}.kz-mini{grid-template-columns:repeat(6,minmax(0,1fr))}}
 </style>
 </head>
 <body>
@@ -5684,7 +5744,7 @@ async function setLang(k) {
 const APP = {
   name: T("板書計画Studio"),
   kana: T("ばんしょけいかくスタジオ"),
-  version: "1.28.0",
+  version: "1.29.0",
   vendor: T("先生のための道具箱"),
   copyright: T("© 2026 先生のための道具箱"),
 };
@@ -32157,27 +32217,38 @@ function coNormItem(raw, gw, gh, idx) {
   return it;
 }
 /* extraNorm(raw, gw, gh, k)：呼び出し側が足す種類（教材から板書を作るときの図など）。null を返せば標準の種類として読む */
-function coNormProposal(raw, gw, gh, i, extraNorm) {
+function coNormProposal(raw, gw, gh, i, extraNorm, opt) {
   if (!raw || typeof raw !== "object") return null;
-  const list = Array.isArray(raw.items) ? raw.items : Array.isArray(raw.elements) ? raw.elements : Array.isArray(raw.board) ? raw.board : null;
-  if (!list) return null;
-  const items = [];
-  list.slice(0, CO_MAX_ITEMS).forEach((r, k) => { const it = (extraNorm && extraNorm(r, gw, gh, k)) || coNormItem(r, gw, gh, k); if (it) items.push(it); });
+  /* 構図の型（第7部v）：枠に中身を入れた返事は、アプリが置き場所を計算して項目の並びにする */
+  let layout = null, placed = null;
+  if (raw.layout && typeof raw.layout === "object" && typeof kzNormLayout === "function") {
+    layout = kzNormLayout(raw.layout, (q, k) => (extraNorm && extraNorm(q, gw, gh, k)) || coNormItem(q, gw, gh, k));
+    if (layout) placed = kzPlace(layout, gw, gh, { dir: (opt && opt.dir) || "" });
+  }
+  const list = placed ? null : Array.isArray(raw.items) ? raw.items : Array.isArray(raw.elements) ? raw.elements : Array.isArray(raw.board) ? raw.board : null;
+  if (!list && !placed) return null;
+  const items = placed ? placed.items : [];
+  if (list) list.slice(0, CO_MAX_ITEMS).forEach((r, k) => { const it = (extraNorm && extraNorm(r, gw, gh, k)) || coNormItem(r, gw, gh, k); if (it) items.push(it); });
   if (!items.length) return null;
+  const slotItem = s => (placed && s ? placed.slotN[String(s).trim().toLowerCase()] || (String(s) === "header" ? (items.find(x => x.role === "goal") || {}).n : 0) || 0 : 0);
   /* 通し番号が重なっていたら振り直す（工夫の「どの項目か」を引くため） */
   const seen = new Set();
   items.forEach((it, k) => { if (seen.has(it.n)) it.n = 1000 + k; seen.add(it.n); });
   const points = (Array.isArray(raw.points) ? raw.points : Array.isArray(raw.reasons) ? raw.reasons : []).slice(0, 8).map(p => {
     if (typeof p === "string") return { title: p.slice(0, 40), detail: "", item: 0 };
     if (!p || typeof p !== "object") return null;
-    const item = coNum(Array.isArray(p.item) ? p.item[0] : p.item !== undefined ? p.item : p.n);
-    return { title: coStr(p.title || p.point, 60).trim(), detail: coStr(p.detail || p.reason || p.why, 300).trim(), item: isFinite(item) ? Math.round(item) : 0 };
+    const item = p.slot !== undefined && placed ? slotItem(p.slot) : coNum(Array.isArray(p.item) ? p.item[0] : p.item !== undefined ? p.item : p.n);
+    const pt = { title: coStr(p.title || p.point, 60).trim(), detail: coStr(p.detail || p.reason || p.why, 300).trim(), item: isFinite(item) ? Math.round(item) : 0 };
+    if (placed && p.slot !== undefined) pt.slot = String(p.slot).trim().toLowerCase().slice(0, 20);
+    return pt;
   }).filter(p => p && (p.title || p.detail));
-  return {
+  const out = {
     title: coStr(raw.title || raw.name, 40).trim() || T`案${i + 1}`,
-    concept: coStr(raw.concept || raw.summary || raw.idea, 500).trim(),
+    concept: coStr(raw.concept || (typeof raw.summary === "string" ? raw.summary : "") || raw.idea, 500).trim(),
     points, items,
   };
+  if (placed) { out.layout = layout; out.zones = placed.zones; out.slotN = placed.slotN; out.dir = placed.dir; }
+  return out;
 }
 /* gw・gh は送った黒板の大きさ（座標の単位） */
 function coParseProposals(text, gw, gh) {
@@ -32403,6 +32474,7 @@ function coProposalPrompt(ctx) {
     `- "space": a dotted area for students' ideas or name cards. x, y, w, h, label.`,
     `- "keep": reuse an item of the current board. ref, x, y, w (to resize; aspect ratio is kept).`,
     `Every item has n (serial number from 1) and step (writing order from 1; items written in the same scene share a number).`,
+    ...(ctx.scope !== "write" && typeof kzPromptLines === "function" ? ["", ...kzPromptLines(true, { types: ctx.kouzuTypes || [], count: ctx.count }), `- In a layout, reuse items of the current board with {"kind":"keep","ref":"o3"} inside a slot.`, `- Return format with a layout: {"proposals":[{"title","concept","points":[{"title","detail","slot"}],"layout":{…}}]}`] : []),
     ``,
     `# Return format`,
     JSON.stringify(ex),
@@ -32452,6 +32524,7 @@ function coProposalPrompt(ctx) {
     `- "space"：子どもの考えや名前カードを貼る場所（点線の枠）。x、y、w、h、label（例：「みんなの考え」）。`,
     `- "keep"：元の板書のものを使い回す。ref、x、y、w（大きさを変えるとき。縦横の比は保たれる）。`,
     `すべての項目に n（1からの通し番号）と step（書く順番。1から。同じ場面に書くものは同じ番号）を入れる。`,
+    ...(ctx.scope !== "write" && typeof kzPromptLines === "function" ? ["", ...kzPromptLines(false, { types: ctx.kouzuTypes || [], count: ctx.count }), `- 構図の枠の中で元の板書のものを使い回すときは {"kind":"keep","ref":"o3"} を入れます。`, `- 構図で答えるときの返す形：{"proposals":[{"title","concept","points":[{"title","detail","slot"}],"layout":{…}}]}`] : []),
     ``,
     `# 返す形`,
     JSON.stringify(ex),
@@ -32662,7 +32735,14 @@ function coBuildProposal(prop, ctx) {
   const byN = new Map();
   /* 本文の大きさ：返事に size が無いときの目安。黒板の高さの 4.5% を下回らない */
   const minFs = b.height * 0.03;
-  const put = (o, it) => { coFresh(o); if (it.step) o.timelineOrder = it.step; objects.push(o); byN.set(it.n, byN.get(it.n) || o); return o; };
+  /* 構図の型で置いたもの：どの枠の何番目か（kzRefit が実寸で詰め直す）。見出しの札は戻す位置も持つ */
+  const kzTag = (o, it) => {
+    if (!prop.zones || it.zone === undefined) return;
+    o._kz = { z: it.zone, col: it.col || 0, ord: it.ord || 0, lab: !!it.lab };
+    if (it.lrect) o._kz.rect = { x: it.lrect.x * k, y: it.lrect.y * k, w: it.lrect.w * k, h: it.lrect.h * k };
+    if (it.lab) { o._kz.align = it.lalign || "center"; o._kz.mid = !!it.lmid; o._kz.ltop = !!it.ltop; }
+  };
+  const put = (o, it) => { coFresh(o); kzTag(o, it); if (it.step) o.timelineOrder = it.step; objects.push(o); byN.set(it.n, byN.get(it.n) || o); return o; };
   prop.items.forEach(it => {
     const X = (it.x || 0) * k, Y = (it.y || 0) * k, W = it.w ? it.w * k : 0, H = it.h ? it.h * k : 0;
     if (ctx.buildExtra && ctx.buildExtra(it, { X, Y, W, H, k, b, light, font, sw, minFs, put, images, objects, project: p })) return;
@@ -32686,6 +32766,13 @@ function coBuildProposal(prop, ctx) {
         if (light) o.props.outline = false;
       }
       if (it.bold) o.props.weight = 700;
+      if (it.align === "center" && it.kind === "text") o.props.align = "center";
+      /* 大事な一文の囲み（構図の型のめあて・まとめなど）：文字の箱の枠線で囲む */
+      if (it.boxed && it.kind === "text") {
+        o.props.borderColor = coInk(it.boxed, light);
+        o.props.borderWidth = Math.max(3, Math.round(sw * 0.9));
+        o.props.bgPad = Math.max(o.props.bgPad || 0, Math.round(fs * 0.32));
+      }
       const spans = coMarkSpans(it.text, it.marks, light || it.kind === "card");
       if (spans.length) o.props.spans = spans;
       o.width = vert ? 0 : W; o.height = vert ? H : 0;
@@ -32705,14 +32792,24 @@ function coBuildProposal(prop, ctx) {
       coInside(o, b);
       put(o, it);
     } else if (it.kind === "rect" || it.kind === "ellipse") {
-      const o = makeShape(it.kind, X, Y, W, H, { stroke: coInk(it.color || "white", light), strokeWidth: sw, dash: it.dash || "solid", radius: Math.round(Math.min(W, H) * 0.12) });
-      coInside(o, b);
+      const r = it.radius !== undefined ? it.radius : 0.12;
+      const o = makeShape(it.kind, X, Y, W, H, { stroke: coInk(it.color || "white", light), strokeWidth: it.thin ? Math.max(2, Math.round(sw * 0.6)) : sw, dash: it.dash || "solid", radius: Math.round(Math.min(W, H) * r) });
+      /* うすい塗り（構図の型のコマ・段など）。黒板でも白い面でも、地の色に近いごく薄い色にする */
+      if (it.fill) { const f = coInk(it.fill, light); o.props.fill = f.slice(0, 7) + (light ? "14" : "12"); }
+      if (!it.deco) coInside(o, b);
+      put(o, it);
+    } else if (it.kind === "geo") {
+      const o = makeShape("geo", X, Y, W, H, { geo: it.geo || "triangle" });
+      Object.assign(o.props, { stroke: coInk(it.color || "white", light), strokeWidth: it.thin ? Math.max(2, Math.round(sw * 0.6)) : sw, fill: "#00000000", dash: it.dash || "solid" });
+      o._rank = 0;
       put(o, it);
     } else if (it.kind === "line" || it.kind === "arrow") {
       const x1 = it.x1 * k, y1 = it.y1 * k, x2 = it.x2 * k, y2 = it.y2 * k;
       const o = makeShape(it.kind, Math.min(x1, x2), Math.min(y1, y2), Math.abs(x2 - x1), Math.abs(y2 - y1),
-        { stroke: coInk(it.color || "white", light), strokeWidth: sw, dash: it.dash || "solid", p1: [x1 <= x2 ? 0 : 1, y1 <= y2 ? 0 : 1], arrowHead: it.kind === "arrow" });
+        { stroke: coInk(it.color || "white", light), strokeWidth: it.thin ? Math.max(2, Math.round(sw * 0.6)) : sw, dash: it.dash || "solid", p1: [x1 <= x2 ? 0 : 1, y1 <= y2 ? 0 : 1], arrowHead: it.kind === "arrow" });
       o.width = Math.round(Math.abs(x2 - x1)); o.height = Math.round(Math.abs(y2 - y1));
+      /* 構図の型の矢印は、後ろの席からも向きが分かる大きさの矢じりにする */
+      if (it.deco && it.kind === "arrow") o.props.headSize = Math.round(Math.max(sw * 5.5, b.height * 0.022));
       put(o, it);
     } else if (it.kind === "table") {
       const rows = it.rows.length, cols = Math.max(...it.rows.map(r => r.length));
@@ -32739,6 +32836,7 @@ function coBuildProposal(prop, ctx) {
         coFresh(t); if (it.step) t.timelineOrder = it.step;
         const gid = uid("g");
         box.groupId = gid; t.groupId = gid;
+        t._kzf = { o: box, dx: t.x - box.x, dy: t.y - box.y };
         objects.push(t);
       }
     } else if (it.kind === "keep") {
@@ -32759,8 +32857,25 @@ function coBuildProposal(prop, ctx) {
         objects.push(c);
       });
       if (it.step) root.timelineOrder = it.step;
+      kzTag(root, it);
+      tree.slice(1).forEach(c => { if (!c.parentId) c._kzf = { o: root, dx: c.x - root.x, dy: c.y - root.y }; });
       byN.set(it.n, root);
     }
+  });
+  /* 構図の型：枠の中を実寸で詰め直す（見積もりの字の幅と実際の字の幅の差を吸収する） */
+  if (prop.zones && typeof kzRefit === "function") {
+    const zs = prop.zones.map(z => {
+      const s = r => (r ? { x: r.x * k, y: r.y * k, w: r.w * k, h: r.h * k } : null);
+      return { dir: z.dir, valign: z.valign, C: s(z.C), cols: (z.cols || []).map(c => ({ x: c.x * k, w: c.w * k })) };
+    });
+    kzRefit(objects, zs, b, Math.round(minFs * 0.92));
+  }
+  objects.forEach(o => {
+    if (o._kzf) {
+      o.x = Math.round(o._kzf.o.x + o._kzf.dx); o.y = Math.round(o._kzf.o.y + o._kzf.dy);
+      if (o._kzf.fit) { o.width = o._kzf.o.width; o.height = o._kzf.o.height; }
+    }
+    delete o._kzf; delete o._kz;
   });
   /* 重なりの順：囲み・場所の枠を下、文字を上に（作った順のままだと枠が文字を隠すことがある） */
   const rank = o => (o._rank !== undefined ? o._rank : o.type === "shape" && ["rect", "ellipse"].includes(o.props.kind) ? 0 : o.type === "whiteboard" ? 0 : o.type === "image" ? 1 : 2);
@@ -33827,6 +33942,15 @@ function mtPrompt(ctx) {
     /* 反映先は項目を書いたあとに答えるよう、案の最後に置く */
     ex.proposals[0].coverage = [{ point: en ? "Cut paper trapezoids and rearrange them" : "画用紙の台形を切って並べかえる", where: "both", items: [4, 6], how: "…" }];
   }
+  /* 構図の型（第7部v）：座標の代わりに型と枠で答えてもらう。例も型で示す */
+  const useKz = ctx.kouzu !== false && typeof kzPromptLines === "function";
+  if (useKz) {
+    const k0 = kzExample(en, figOK, firstImg);
+    k0.notes = ex.proposals[0].notes.map(n => Object.assign({}, n, { item: undefined, slot: n.item === 2 ? "header" : "left" }));
+    if (plan) k0.coverage = [{ point: en ? "Cut paper trapezoids and rearrange them" : "画用紙の台形を切って並べかえる", where: "both", items: [], slots: ["left"], how: "…" }];
+    ex.proposals = [k0];
+  }
+  const kzLines = useKz ? ["", ...kzPromptLines(en, { types: ctx.kouzuTypes || [], count: ctx.count })] : [];
   const fig2 = plan ? mtPlanFigures(ctx, en) : null;
   const J = [];
   if (en) {
@@ -33873,6 +33997,7 @@ function mtPrompt(ctx) {
       `- "space": dotted area for students' ideas. x, y, w, h, label.`,
       `- "figure", "diagram" and "math": see Figures.`,
       `Every item has n (serial number from 1), step (writing order from 1) and phase (1-based index into lesson.flow).`,
+      ...kzLines,
       ``, `# Teacher's notes`,
       plan && !ctx.notes ? `- Put in notes only the points of the teacher's plan that are not written on the board (teacher's actions, grouping, things to prepare). kind is one of "question", "reaction", "support", "caution", "assessment", "materials", "board". item = the n of the related board item, phase = flow index.` : null,
       plan && ctx.notes ? `- In notes, list the main questions (発問), expected reactions, support for students who struggle, assessment points, and things to prepare. Put the teacher's own questions and activities first, in their words, then add what is standard for this lesson. kind is one of "question", "reaction", "support", "caution", "assessment", "materials", "board". item = the n of the related board item, phase = flow index. 4–12 notes.` : null,
@@ -33928,6 +34053,7 @@ function mtPrompt(ctx) {
       `- "space"：子どもの考えや名前カードを貼る場所（点線の枠）。x、y、w、h、label。`,
       `- "figure"・"diagram"・"math"：「図の扱い」のとおり。`,
       `すべての項目に n（1からの通し番号）、step（書く順番。1から。同じ場面に書くものは同じ番号）、phase（lesson.flow の何番目の段階か。1から）を入れる。`,
+      ...kzLines,
       ``, `# 教師用メモ（notes）`,
       plan && !ctx.notes ? `- notes には、構想のうち板書に書かないもの（先生の動き・グループの作り方・準備物など）だけを入れます。kind は "発問"・"予想される反応"・"支援方法"・"注意事項"・"評価場面"・"準備物"・"板書の工夫" のどれか。item は関係する板書の項目の n、phase は授業の段階。` : null,
       plan && ctx.notes ? `- 主な発問・予想される反応・つまずきへの支援・評価の場面・準備物を、教師用メモとして notes に入れます。先生の構想にある発問や活動を先に、先生の言葉のまま入れ、そのあとこの時間に標準的なものを補います。kind は "発問"・"予想される反応"・"支援方法"・"注意事項"・"評価場面"・"準備物"・"板書の工夫" のどれか。item は関係する板書の項目の n、phase は授業の段階。4〜12個。発問は子どもに話す言葉で書きます。` : null,
@@ -34117,7 +34243,10 @@ function mtNormNotes(list) {
     if (!text) return null;
     const item = coNum(Array.isArray(n.item) ? n.item[0] : n.item !== undefined ? n.item : n.target);
     const phase = coNum(n.phase);
-    return { kind: mtNoteKind(n.kind || n.type), text, item: isFinite(item) ? Math.round(item) : 0, phase: isFinite(phase) ? Math.round(phase) : 0 };
+    const out = { kind: mtNoteKind(n.kind || n.type), text, item: isFinite(item) ? Math.round(item) : 0, phase: isFinite(phase) ? Math.round(phase) : 0 };
+    /* 構図の型で答えた案は、付け先を枠の名前（slot）で言うことがある */
+    if (n.slot !== undefined && n.slot !== null && String(n.slot).trim()) out.slot = String(n.slot).trim().toLowerCase().slice(0, 20);
+    return out;
   }).filter(Boolean);
 }
 function mtNormLesson(r) {
@@ -34161,10 +34290,16 @@ function mtParse(text, gw, gh, imageSrcs) {
     const pr = coNormProposal(p, gw, gh, i, extra);
     if (!pr) return null;
     const own = mtNormNotes(p && (p.notes || p.teacherNotes));
-    pr.notes = own.length ? own : rootNotes.slice();
+    pr.notes = (own.length ? own : rootNotes).map(n => Object.assign({}, n));
+    /* 構図の型：メモの付け先（枠の名前）を項目の番号へ。授業の段階は、見出し＝最初・まとめ＝最後・枠は順に間へ */
+    if (pr.layout) {
+      pr.notes.forEach(n => { if (n.slot && !n.item) n.item = pr.slotN[n.slot] || (n.slot === "header" ? (pr.items.find(x => x.role === "goal") || {}).n || 0 : 0); });
+      kzAutoPhase(pr.items, lesson.flow.length);
+    }
     /* 構想から作るとき：構想の要点の反映先（第7部q） */
     pr.coverage = mtNormCoverage(p && (p.coverage || p.reflection || p.reflected));
     if (!pr.coverage.length && i === 0) pr.coverage = mtNormCoverage(root.coverage);
+    if (pr.layout) pr.coverage.forEach(c => { (c.slots || []).forEach(s => { const n = pr.slotN[s]; if (n && !c.items.includes(n)) c.items.push(n); }); });
     return pr;
   }).filter(Boolean);
   if (!proposals.length) return { error: "noitems" };
@@ -34801,6 +34936,8 @@ function materialBoardDialog(opt) {
       count: clamp(Number(st.count) || 1, 1, 3), dir: ["auto", "h", "v"].includes(st.dir) ? st.dir : "auto",
       figures: st.figures !== false, notes: st.notes !== false,
       range: "", aim: "", wish: st.wish || "",
+      /* 構図の型（第7部v）：使うか・先生が選んだ型 */
+      kouzu: st.kouzu !== false, kouzuTypes: Array.isArray(st.kouzuTypes) ? st.kouzuTypes.filter(k => KZ_TYPES[k]).slice(0, 3) : [],
       /* いま開いている授業が白紙なら、その教科・学年を手がかりにする */
       grade: objs().length ? "" : pr.grade || "", subject: objs().length ? "" : pr.subject || "", unit: "",
     },
@@ -35252,6 +35389,7 @@ function mtRenderSide() {
     el("div", { class: "mt-row2" }, [
       el("div", { class: "mt-col" }, [el("div", { class: "pi-lbl", text: T("案の数") }), segBtns([[1, "1"], [2, "2"], [3, "3"]], o.count, v => { o.count = Number(v); mtSaveSettings({ count: o.count }); mtRenderSide(); }, "co-seg co-num")]),
     ]),
+    kzPicker(o, () => mtRenderSide()),
     mtToggle(T("教科書の図を切り抜いて貼る"), T("問題の図・立体図・グラフなどを、画像の資料から切り抜いて掲示物のように貼ります。"), o.figures, v => { o.figures = v; mtSaveSettings({ figures: v }); }),
     mtToggle(T("発問などを教師用メモに入れる"), T("主な発問・予想される反応・支援・評価を、板書のものにメモとして付けます。"), o.notes, v => { o.notes = v; mtSaveSettings({ notes: v }); }),
     field("wish", T("そのほかの希望（任意）"), T("例：子どもの考えを3つ並べたい／色は3色まで／右端に適用問題"), 2),
@@ -35348,6 +35486,7 @@ function mtSnapshot(provider) {
     mode: MT.mode, plan,
     mats, gw, gh, board, color: isLightColor(board.bgColor) ? "white" : "green",
     count: o.count, dir: o.dir, figures: o.figures, notes: o.notes, range: o.range.trim(), aim: o.aim.trim(), wish: o.wish.trim(),
+    kouzu: o.kouzu !== false, kouzuTypes: (o.kouzuTypes || []).slice(),
     lesson: plan ? { subject: plan.subject, grade: plan.grade, unit: plan.unit } : { subject: o.subject, grade: o.grade, unit: o.unit },
     textStyles: deepClone(pr.textStyles || DEFAULT_TEXT_STYLES),
     provider: provider === "manual" ? "" : provider, model: provider === "manual" ? "" : piGetModel(provider),
@@ -35716,7 +35855,11 @@ function mtBuildProject(prop, ctx, result, index) {
         else env.put(o, it);
       });
       /* 方眼と図形は同じ大きさ・同じ位置に（coInside で別々にずれないように） */
-      if (list.length > 1) { const a = list[0], z = list[list.length - 1]; z.x = a.x; z.y = a.y; z.width = a.width; z.height = a.height; const gid = uid("g"); a.groupId = gid; z.groupId = gid; }
+      if (list.length > 1) {
+        const a = list[0], z = list[list.length - 1]; z.x = a.x; z.y = a.y; z.width = a.width; z.height = a.height; const gid = uid("g"); a.groupId = gid; z.groupId = gid;
+        /* 構図の型で詰め直すと図形が動くので、方眼もいっしょに動かす（大きさも合わせる） */
+        if (z._kz) a._kzf = { o: z, dx: 0, dy: 0, fit: true };
+      }
       return true;
     }
     return false;
@@ -35748,10 +35891,13 @@ function mtBuildProject(prop, ctx, result, index) {
     const ins = p.objects.filter(o => o !== f && !o.parentId && !mtIsLineish(o) && !mtIsFrame(o) && o.x + o.width / 2 > f.x && o.x + o.width / 2 < f.x + f.width && o.y + o.height / 2 > f.y && o.y + o.height / 2 < f.y + f.height);
     if (ins.length === 1 && ins[0].type === "text" && ins[0].props.bgColor && !papers.includes(ins[0].props.bgColor)) ins[0].props.bgColor = "";
   });
-  /* 先に黒板の中へ収めてから重なりを解く（後で収めると、下にはみ出したものが上のものに押し戻されて重なる） */
-  p.objects.forEach(o => { if (!o.parentId) coInside(o, p.board); });
-  mtUnoverlap(p.objects, p.board);
-  p.objects.forEach(o => { if (!o.parentId) coInside(o, p.board); });
+  /* 先に黒板の中へ収めてから重なりを解く（後で収めると、下にはみ出したものが上のものに押し戻されて重なる）。
+     構図の型で置いた案は、枠の中で詰め直してあるので動かさない（ベン図の円どうしのように、わざと重ねた枠がある） */
+  if (!prop.layout) {
+    p.objects.forEach(o => { if (!o.parentId) coInside(o, p.board); });
+    mtUnoverlap(p.objects, p.board);
+    p.objects.forEach(o => { if (!o.parentId) coInside(o, p.board); });
+  }
   p.material = {
     title: prop.title, concept: prop.concept, provider: ctx.provider || "", model: ctx.model || "", at: nowISO(),
     aim: aim || "", period: lesson.period || "",
@@ -35761,8 +35907,10 @@ function mtBuildProject(prop, ctx, result, index) {
   if (plan) Object.assign(p.material, { mode: "plan", brief: ctx.plan.text, estimate: result.estimate || null, coverage: (prop.coverage || []).map(c => ({ point: c.point, where: c.where, how: c.how })) });
   return { project: p, images: built.images };
 }
-async function mtSaveOne(prop, ctx, result, i) {
+/* prev があれば、その授業（同じ id）を作り直したものとして上書きする（構図を変える・一部を作り直す） */
+async function mtSaveOne(prop, ctx, result, i, prev) {
   const built = mtBuildProject(prop, ctx, result, i);
+  if (prev) { built.project.id = prev.id; if (prev.project && prev.project.createdAt) built.project.createdAt = prev.project.createdAt; }
   const v = validateProject(built.project, built.images);
   const pr = v.project;
   const thumb = (await coRenderProject(pr, v.images, THUMB_BOARD_W)).toDataURL("image/png");
@@ -35794,9 +35942,12 @@ async function mtRenderResult() {
     }
     if (!MT) return;
     MT.saved = out;
+    /* 案が2つ以上なら、まず一覧で見比べてもらう */
+    MT.view = out.length > 1 ? "grid" : "one";
     toast(T`板書を${out.length}つ作り、授業ライブラリに保存しました`);
   }
   host.textContent = "";
+  if (MT.view === "grid" && MT.saved.length > 1) { kzOverview(host); return; }
   const list = MT.saved, sel = clamp(MT.sel, 0, list.length - 1), cur = list[sel];
   const box = el("div", { class: "co-cmp" });
   const main = el("div", { class: "co-cmpmain" });
@@ -35807,6 +35958,7 @@ async function mtRenderResult() {
   box.append(main, side);
   host.appendChild(box);
   if (list.length > 1) {
+    bar.appendChild(el("button", { class: "kz-gridbtn", type: "button", title: T("案を一覧で見比べる"), html: kzSvg("grid", 16) + `<span>${escapeHtml(T("一覧"))}</span>`, onclick: () => { MT.view = "grid"; mtRenderResult(); } }));
     const tabs = el("div", { class: "co-tabs", role: "tablist" });
     list.forEach((s, i) => tabs.appendChild(el("button", { class: "co-tab" + (i === sel ? " on" : "") + (s.trashed ? " gone" : ""), type: "button", role: "tab", "aria-selected": i === sel ? "true" : "false", onclick: () => { MT.sel = i; mtRenderResult(); } }, [
       el("span", { class: "n", text: String(i + 1) }), el("span", { class: "t", text: s.prop.title }),
@@ -35847,6 +35999,8 @@ async function mtRenderResult() {
   if (MT.result.truncated) warn.push(T("返事が途中で切れていたため、読めた分だけで板書を作りました。"));
   if (MT.result.dropped) warn.push(T`使えない図や形の指定が${MT.result.dropped}個あったため、省きました。`);
   if (warn.length) side.appendChild(el("div", { class: "pi-privacy", text: warn.join(" ") }));
+  /* デザインを変える：構図の付け替え（通信なし）と、言葉で頼んで一部だけ作り直す（第7部w） */
+  if (!cur.trashed && cur.prop.layout) kzDesignPanel(side, cur, sel);
   side.appendChild(el("div", { class: "co-saved" + (cur.trashed ? " gone" : "") }, [
     el("span", { class: "ic", html: cur.trashed ? piIcon(PI_ICONS.trash, 16) : coSvg("coLib", 16) }),
     el("span", { text: cur.trashed ? T("この板書はゴミ箱へ移しました。") : T`授業ライブラリに「${cur.title}」として保存しました。いま開いている授業は変えていません。` }),
@@ -36406,7 +36560,11 @@ function mtNormCoverage(list) {
     const where = /both|両/.test(w) ? "both" : /note|memo|メモ/.test(w) ? "note" : /board|板書/.test(w) ? "board" : "";
     const raw = Array.isArray(c.items) ? c.items : c.items !== undefined ? [c.items] : c.item !== undefined ? [c.item] : [];
     const items = [...new Set(raw.map(coNum).filter(v => isFinite(v) && v >= 1).map(Math.round))].slice(0, 12);
-    return { point, where: where || (items.length ? "board" : ""), items, how: coStr(c.how || c.note || c.detail, 300).trim() };
+    /* 構図の型で答えた案は、反映先を枠の名前（slots）で言う。番号への読み替えは mtParse で */
+    const sl = (Array.isArray(c.slots) ? c.slots : c.slot !== undefined ? [c.slot] : []).map(s => String(s).trim().toLowerCase()).filter(Boolean).slice(0, 8);
+    const out = { point, where: where || (items.length || sl.length ? "board" : ""), items, how: coStr(c.how || c.note || c.detail, 300).trim() };
+    if (sl.length) out.slots = sl;
+    return out;
   }).filter(Boolean);
 }
 
@@ -36646,6 +36804,7 @@ function mtPlanRenderSide() {
     el("div", { class: "mt-row2" }, [
       el("div", { class: "mt-col" }, [el("div", { class: "pi-lbl", text: T("案の数") }), segBtns([[1, "1"], [2, "2"], [3, "3"]], o.count, v => { o.count = Number(v); mtSaveSettings({ count: o.count }); mtPlanRenderSide(); }, "co-seg co-num")]),
     ]),
+    kzPicker(o, () => mtPlanRenderSide()),
     mtToggle(T("添付した図を板書に取り入れる"), T("役立つ図だけを選んで、合う場所に貼ります。切りとる範囲も自動で決めます。"), o.figures, v => { o.figures = v; mtSaveSettings({ figures: v }); }),
     mtToggle(T("発問などを教師用メモに入れる"), T("構想の発問や活動に、予想される反応・支援・評価を補ってメモにします。切っても、板書に書かない構想はメモに入ります。"), o.notes, v => { o.notes = v; mtSaveSettings({ notes: v }); }),
     el("div", { class: "co-field" }, [el("label", { class: "pi-lbl", text: T("そのほかの希望（任意）") }), wish]),
@@ -37093,8 +37252,9 @@ const PS_PURPOSES = [
   ["homework", "家庭学習", "家で取り組む復習と、少しだけ発展の問題です。"],
 ];
 /* 項目の種類と、返事で使われがちな言い換え */
-const PS_KINDS = ["heading", "text", "question", "table", "figure", "formula", "summary", "reflect", "selfeval", "space", "note", "pagebreak"];
+const PS_KINDS = ["heading", "text", "question", "table", "figure", "formula", "summary", "reflect", "selfeval", "space", "note", "tool", "pagebreak"];
 const PS_KIND_WORDS = {
+  tool: ["tool", "thinking_tool", "thinkingtool", "organizer", "graphic_organizer", "chart", "思考ツール", "図解", "整理の図"],
   heading: ["heading", "section", "header", "subtitle", "見出し", "小見出し", "帯"],
   text: ["text", "paragraph", "body", "explanation", "passage", "description", "本文", "説明", "文", "文章", "教材文"],
   question: ["question", "problem", "q", "exercise", "task", "quiz", "問題", "問", "設問", "大問"],
@@ -37204,11 +37364,34 @@ function psNormBlock(raw) {
   let kind = PS_KIND_MAP[kraw] || "", atHint = "";
   /* 「種類：問題の答え方」と書く返事（kind:"choice" など）は、問題として読む */
   if (!kind && psAnsWord(kraw)) { kind = "question"; atHint = psAnsWord(kraw); }
+  /* 「種類：ベン図」のように、思考ツールの型の名前を kind に書く返事 */
+  if (!kind && typeof kzTypeKey === "function" && kzTypeKey(kraw)) { kind = "tool"; raw = Object.assign({}, raw, { type: kraw }); }
   /* 種類が書かれていない返事は、中身から見当を付ける */
   if (!kind) kind = raw.ref || raw.mat || raw.regions ? "figure" : raw.latex ? "formula" : raw.rows ? "table" : (raw.answer !== undefined || raw.answerType || raw.choices || raw.sub) ? "question" : raw.text !== undefined ? "text" : "";
   if (!kind) return null;
   if (kind === "question") return psNormQuestion(raw, 0, atHint);
   const b = { kind };
+  /* 思考ツール（第7部v の構図の型を、書き込む枠として用紙に描く）。枠は label・text（印刷する手がかり）・answer（答えの例） */
+  if (kind === "tool") {
+    if (typeof kzNormLayout !== "function") return null;
+    const L = kzNormLayout(Object.assign({}, raw, { type: raw.type || raw.layout || raw.tool, header: null, summary: null }), q => {
+      const t = psStr(q.text || q.label, 300);
+      return t ? { n: 0, kind: "text", text: t, dir: "h" } : null;
+    });
+    if (!L) {
+      /* 枠に何も書いていない（ぜんぶ子どもが書く）返事も、型と枠の名前だけで受ける */
+      const type = kzTypeKey(raw.type || raw.layout || raw.tool);
+      if (!type) return null;
+      const t = KZ_TYPES[type];
+      const n = Array.isArray(raw.slots) ? raw.slots.length : 0;
+      b.layout = { type, slots: kzSlotIds(type, t.lead ? n - 1 : n).map((id, i) => ({ id, label: Array.isArray(raw.slots) && raw.slots[i] ? psStr(raw.slots[i].label || raw.slots[i], 40) : "", items: [] })) };
+      if (t.grid) { b.layout.cols = ["", ""]; b.layout.rows = ["", ""]; }
+    } else { delete L.header; delete L.summary; b.layout = L; }
+    b.title = psStr(raw.title || raw.caption || raw.prompt || raw.question, 200);
+    const sz = String(raw.size || "").toLowerCase();
+    b.size = /small|小/.test(sz) ? "small" : /large|big|大/.test(sz) ? "large" : "medium";
+    return b;
+  }
   if (kind === "heading" || kind === "text" || kind === "note") {
     b.text = psStr(raw.text || raw.title || raw.content, kind === "text" ? 1200 : 200);
     if (!b.text) return null;
@@ -37373,6 +37556,7 @@ function psPrompt(ctx) {
       ] },
       { kind: "figure", ref: "o3", size: "medium" },
       { kind: "summary", text: en ? "… [[key word]] …" : "… [[大事な言葉]] …" },
+      ...(typeof kzToolLines === "function" ? [{ kind: "tool", type: "venn", title: "…", size: "medium", slots: [{ id: "left", label: "…", answer: "…" }, { id: "both", label: "…", answer: "…" }, { id: "right", label: "…", answer: "…" }] }] : []),
       { kind: "reflect", text: "…", lines: 2 },
     ],
   };
@@ -37460,6 +37644,7 @@ function psPrompt(ctx) {
     `- "selfeval": items (2–4 points to self-evaluate with ◎○△)`,
     `- "space": a box to write one's own ideas. label, lines (size)`,
     `- "note": a small hint or caution. text`,
+    ...(typeof kzToolLines === "function" ? kzToolLines(true) : []),
     `- "pagebreak": continue on the next page`,
     `Put the blocks in the order they appear on the worksheet. Do not write question numbers in text (the app numbers them).`,
     ``,
@@ -37507,6 +37692,7 @@ function psPrompt(ctx) {
     `- "selfeval"：自己評価（◎○△）。items（ふりかえる観点 2〜4個）`,
     `- "space"：自分の考えを書く枠。label、lines（大きさの目安）`,
     `- "note"：小さな注意書き・ヒント。text`,
+    ...(typeof kzToolLines === "function" ? kzToolLines(false) : []),
     `- "pagebreak"：ここから次のページ`,
     `blocks はプリントに載せる順に並べる。`,
     ``,
@@ -38139,6 +38325,74 @@ function psSelfEval(items, w) {
   return o;
 }
 
+/* ---------- 思考ツール（第7部v の構図の型を、書き込む枠として描く） ----------
+   形は板書と同じ kzGeo で計算し、線はすべて黒（印刷向き）、見出しの札だけ淡い色。
+   枠には見出しと、印刷する手がかり（text）を入れ、残りは書き込む余白。答えの例は解答版だけに赤字で出す */
+const PS_TOOL_H = { flow: 0.42, compare: 0.5, compare3: 0.46, tchart: 0.5, timeline: 0.34, web: 0.6, venn: 0.5, pyramid: 0.55, ychart: 0.6, xchart: 0.6, cycle: 0.6, cause: 0.42, steps: 0.48, koma4: 0.5, tree: 0.55 };
+const PS_TOOL_PAPER = { yellow: "#fff3b8", lightblue: "#d9ecfb", blue: "#d9e6fb", pink: "#fde0ea", green: "#dff2d6", orange: "#ffe6c9", red: "#fde0ea", white: "#eef1f5" };
+function psTool(b, w, E) {
+  const L = b.layout, t = KZ_TYPES[L.type];
+  if (!t) return [];
+  const out = [];
+  let y = 0;
+  if (b.title) { const tt = sText(0, 0, w, b.title, "ps_q", { weight: 700 }); out.push(tt); y = tt.height + 24; }
+  const u = pt(11);
+  const sf = b.size === "small" ? 0.72 : b.size === "large" ? 1.3 : 1;
+  let h = t.grid ? (L.cols.some(Boolean) ? u * 2.4 : 0) + L.rows.length * Math.max(u * 5, w * 0.13) * sf : w * (PS_TOOL_H[L.type] || 0.5) * sf;
+  h = Math.max(u * 6, Math.min(h, (E.colH || 2600) * 0.66));
+  const G = kzGeo(L.type, { x: 0, y, w, h }, L, u, { dir: "h" });
+  const sw = d => (d.thin ? 2 : 4);
+  G.deco.forEach(d => {
+    let o = null;
+    if (d.t === "line" || d.t === "arrow") {
+      o = sLine(d.x1, d.y1, d.x2, d.y2, { strokeWidth: sw(d), dash: d.dash || "solid", p1: [d.x1 <= d.x2 ? 0 : 1, d.y1 <= d.y2 ? 0 : 1], arrowHead: d.t === "arrow" });
+      if (d.t === "arrow") o.props.headSize = 22;
+    } else if (d.t === "rect") {
+      o = sRect(d.x, d.y, d.w, d.h, { radius: Math.round((d.radius || 0) * Math.min(d.w, d.h)), strokeWidth: sw(d), dash: d.dash || "solid" });
+      if (d.fill) o.props.fill = "#f4f6f9";
+    } else if (d.t === "ellipse") {
+      o = makeShape("ellipse", d.x, d.y, d.w, d.h);
+      Object.assign(o.props, { stroke: INK, strokeWidth: sw(d), fill: d.fill ? INK : "#00000000", dash: d.dash || "solid" });
+    } else if (d.t === "geo") {
+      o = makeShape("geo", d.x, d.y, d.w, d.h, { geo: d.geo });
+      Object.assign(o.props, { stroke: INK, strokeWidth: sw(d), fill: "#00000000" });
+    }
+    if (o) out.push(o);
+  });
+  G.zones.forEach(z => {
+    const slot = (L.slots || []).find(s => s.id === z.id);
+    const inner = z.shape === "ellipse" ? kzInset(z.r, z.r.w * 0.15, z.r.h * 0.15) : kzInset(z.r, 14, 10);
+    let top = inner.y;
+    const lb = z.label && z.label.text ? z.label : null;
+    if (lb) {
+      const card = lb.style === "card", styleId = lb.style === "chip" ? "ps_note" : "ps_q";
+      const extra = Object.assign({ weight: 700, align: "center" }, card ? { bgColor: PS_TOOL_PAPER[z.accent] || "#eef1f5", bgPad: 10 } : {});
+      const R = lb.rect || inner;
+      const need = psTextWidth(lb.text, Object.assign({}, sheetStyle(styleId).p, extra)) + (card ? 30 : 8);
+      const lw = Math.min(R.w, need);
+      const o = sText(0, 0, lw, lb.text, styleId, extra);
+      o.x = lb.align === "start" ? R.x : R.x + (R.w - o.width) / 2;
+      o.y = lb.mid ? R.y + (R.h - o.height) / 2 : R.y;
+      out.push(o);
+      if (!lb.rect && !z.labelOnly) top = o.y + o.height + 10 + (z.skip || 0);
+    } else if (z.skip) top += z.skip;
+    if (z.labelOnly || !slot) return;
+    const cw = inner.w;
+    const al = z.center ? "center" : "start";
+    slot.items.forEach(it => {
+      if (!it.text) return;
+      const o = sText(inner.x, top, cw, it.text, "ps_note", { align: al });
+      out.push(o); top = o.y + o.height + 6;
+    });
+    if (E.answers && slot.answer) {
+      const a = psAns(slot.answer, { align: al, fontSize: pt(10.5), lineHeight: 1.45 }, false, cw);
+      a.x = inner.x; a.y = top + 8;
+      out.push(a);
+    }
+  });
+  return out;
+}
+
 /* ---------- まとまり（ユニット）を作る ---------- */
 /* 横書き：幅 w の段に入る、(0,0) 起点のまとまりの並び */
 function psUnitsH(design, E, w) {
@@ -38154,6 +38408,7 @@ function psUnitsH(design, E, w) {
       case "table": unit(psTable(b, w, E)); break;
       case "figure": unit(psFigure(b, E, w, E.colH, false)); break;
       case "selfeval": unit([psSelfEval(b.items, w)]); break;
+      case "tool": unit(psTool(b, w, E)); break;
       case "question": {
         unit(psQuestionH(b, 1, E, w), { keep: !!(b.sub && b.sub.length) });
         (b.sub || []).forEach(s => unit(psQuestionH(s, 2, E, w)));
@@ -38240,6 +38495,7 @@ function psUnitsV(design, E, H) {
       case "table": unit(horiz(psTable(b, Math.min(1400, E.innerW * 0.5), E))); break;
       case "figure": unit(horiz(psFigure(b, E, E.innerW * 0.6, H * 1.8, true))); break;
       case "selfeval": unit(horiz([psSelfEval(b.items, Math.min(1100, H * 0.8))])); break;
+      case "tool": unit(horiz(psTool(b, Math.min(E.innerW * 0.62, H * 1.4), E))); break;
       case "question": {
         unit(psQuestionV(b, 1, E, H), { keep: !!(b.sub && b.sub.length) });
         (b.sub || []).forEach(s => unit(psQuestionV(s, 2, E, H)));
@@ -39194,6 +39450,8 @@ function psRenderResult() {
       }, "co-seg"),
     );
   }
+  /* 言葉で頼んで一部だけ作り直す（第7部w） */
+  if (typeof psRefineSection === "function") psRefineSection(side);
   side.appendChild(el("div", { class: "pi-spacer" }));
   side.append(
     el("button", { class: "btn pi-go wide", type: "button", text: T("プリントに入れる"), onclick: () => psApply() }),
@@ -39246,6 +39504,1560 @@ function psApply() {
   if (typeof scrollToPage === "function") scrollToPage(first);
   render(); refreshAll();
   toast(T`プリントに入れました（${n}ページ）。元に戻すには Ctrl+Z を押します。`, "ok", 5000);
+}
+/* =========================================================================
+   第7部v：構図の型（板書とプリントで共用）── 中核
+   外部サービスは座標が苦手（写真の取り込み・教材の図の切り抜きで分かったこと）。そこで
+   「どの構図で・どの枠に・何を書くか」だけを答えてもらい、置き場所・大きさ・枠や矢印はアプリが計算する。
+   ・型は KZ_TYPES（16種）。形の計算は kzGeo の1か所で、板書（黒板の格子の単位）とプリント（0.1mm）が共用する。
+   ・板書の案 { layout:{type, dir, header, slots, summary} } は kzPlace が従来の「設計図の項目」（座標つき）に直す。
+     以後の組み立て（coBuildProposal・教材の図の切り抜き）はそのまま使い、最後に kzRefit が枠の中を実寸で詰め直す。
+   ・構図だけを変える（kzRemap）は通信しない。中身は枠の順に移し替える。
+   ・一部だけ作り直す（kzRefinePrompt／kzMerge）：残す枠は {"id":…,"keep":true} で返してもらい、アプリが元の中身に戻す。
+   画面を作らない処理だけを置く（kzRefit だけは文字の実寸を測るのでブラウザーで呼ぶ）。検算は src/tools/test_kouzu.js。
+   ========================================================================= */
+
+/* ---------- 型 ----------
+   ids：決まった枠の名前。seq：s1, s2, … と数が変わる枠（lead は先頭に付く決まった枠）。
+   mirror：縦書きでは右から左へ読むので、左右を写し返す型。 */
+const KZ_TYPES = {
+  flow: { ja: "流れ図", en: "Flow", seq: [2, 5], mirror: true,
+    dj: "問題→自分の考え→比べる→まとめのように、考えの順に枠を矢印でつなぐ。", de: "Boxes joined by arrows in the order of thinking (problem → ideas → compare → conclusion)." },
+  compare: { ja: "比べる（2つ）", en: "Compare two", ids: ["left", "right"], mirror: true,
+    dj: "2つの考え・もの・立場を左右に並べ、中央の線で分けて比べる。", de: "Two ideas, things or positions side by side, divided by a center line." },
+  compare3: { ja: "比べる（3つ）", en: "Compare three", ids: ["a", "b", "c"], mirror: true,
+    dj: "3つの考え・方法を並べて比べる（多様な考えの比較検討）。", de: "Three ideas or methods side by side." },
+  tchart: { ja: "Tチャート", en: "T-chart", ids: ["left", "right"], mirror: true,
+    dj: "よい点と課題、賛成と反対などをT字の線で2つに分ける。", de: "Pros and cons, for and against, split by a T-shaped line." },
+  matrix: { ja: "マトリクス（表で整理）", en: "Matrix", grid: true, mirror: true,
+    dj: "観点（行）と対象（列）の表で整理する。cols と rows に見出しを入れる。", de: "Organize by aspects (rows) and items (columns)." },
+  timeline: { ja: "時系列", en: "Timeline", seq: [3, 7], mirror: true,
+    dj: "時間の流れ・場面の移り変わり・出来事の順を1本の線の上に並べる。", de: "Events or scenes in time order along one line." },
+  web: { ja: "ウェビング（中心から広げる）", en: "Web", lead: "center", seq: [3, 8],
+    dj: "中心の言葉からつながる考えや言葉を周りに広げる。", de: "A central word with related ideas around it." },
+  venn: { ja: "ベン図", en: "Venn diagram", ids: ["left", "both", "right"], mirror: true,
+    dj: "2つの共通点（both）と相違点（left・right）を重なる円で示す。", de: "Similarities (both) and differences (left, right) in two overlapping circles." },
+  pyramid: { ja: "ピラミッド（階層）", en: "Pyramid", seq: [3, 5], mirror: true,
+    dj: "上ほど大事・抽象、下ほど具体・土台の段に分ける（s1 がいちばん上）。", de: "Levels from top (most important or abstract, s1) to bottom (concrete basis)." },
+  ychart: { ja: "Yチャート", en: "Y-chart", seq: [3, 3],
+    dj: "1つのことを3つの視点（見る・聞く・感じるなど）で分けて考える。", de: "One topic seen from three viewpoints." },
+  xchart: { ja: "Xチャート", en: "X-chart", seq: [4, 4],
+    dj: "1つのことを4つの視点で分けて考える。", de: "One topic seen from four viewpoints." },
+  cycle: { ja: "循環", en: "Cycle", seq: [3, 6],
+    dj: "水の循環・生き物のつながり・季節など、ひと回りして元に戻る流れ。", de: "A process that comes back to the start (water cycle, food chain, seasons)." },
+  cause: { ja: "原因と結果", en: "Cause and effect", ids: ["cause", "event", "effect"], mirror: true,
+    dj: "原因（cause）→出来事（event）→その結果・影響（effect）を矢印でつなぐ。", de: "Causes → event → effects joined by arrows." },
+  steps: { ja: "ステップ（手順・段階）", en: "Steps", seq: [3, 5], mirror: true,
+    dj: "手順や上達の段階を階段のように上っていく形で示す。", de: "Steps or stages rising like a staircase." },
+  koma4: { ja: "4コマ（起承転結）", en: "Four panels", seq: [4, 4], mirror: true,
+    dj: "物語の場面や実験の手順を4つのコマで示す。", de: "Four panels for story scenes or experiment steps." },
+  tree: { ja: "ツリー（分類）", en: "Tree", lead: "root", seq: [2, 5], mirror: true,
+    dj: "大きなまとまり（root）から仲間分けした枝（s1, s2…）へ分類する。", de: "Classify from one group (root) into branches (s1, s2…)." },
+};
+const KZ_KEYS = Object.keys(KZ_TYPES);
+const KZ_TYPE_WORDS = {
+  flow: ["flow", "process", "流れ", "流れ図", "フロー", "問題解決"], compare: ["compare", "compare2", "contrast", "対比", "比べる", "比較", "2つ"],
+  compare3: ["compare3", "three", "3つ", "比べる3"], tchart: ["tchart", "t-chart", "t_chart", "proscons", "pros_cons", "tチャート"],
+  matrix: ["matrix", "table", "grid", "マトリクス", "表"], timeline: ["timeline", "time", "sequence", "時系列", "年表"],
+  web: ["web", "webbing", "mindmap", "mind_map", "concept", "ウェビング", "マインドマップ"], venn: ["venn", "ベン図"],
+  pyramid: ["pyramid", "hierarchy", "ピラミッド", "階層"], ychart: ["ychart", "y-chart", "y_chart", "yチャート"],
+  xchart: ["xchart", "x-chart", "x_chart", "xチャート"], cycle: ["cycle", "loop", "circular", "循環", "サイクル"],
+  cause: ["cause", "causeeffect", "cause_effect", "cause-effect", "因果", "原因と結果"],
+  steps: ["steps", "stairs", "staircase", "stage", "stages", "ステップ", "階段", "手順"],
+  koma4: ["koma4", "four", "4koma", "panels", "comic", "4コマ", "起承転結"], tree: ["tree", "classify", "classification", "ツリー", "分類"],
+};
+const KZ_TYPE_MAP = (() => { const m = {}; for (const k in KZ_TYPE_WORDS) KZ_TYPE_WORDS[k].forEach(w => (m[w.toLowerCase()] = k)); KZ_KEYS.forEach(k => (m[k.toLowerCase()] = k)); return m; })();
+const kzTypeKey = v => KZ_TYPE_MAP[String(v === undefined || v === null ? "" : v).trim().toLowerCase().replace(/\s+/g, "")] || "";
+const kzName = k => (KZ_TYPES[k] ? (typeof LANG !== "undefined" && LANG === "en" ? KZ_TYPES[k].en : KZ_TYPES[k].ja) : "");
+/* 枠の色（チョークの名前）。枠ごとに順に使う */
+const KZ_ACCENTS = ["yellow", "lightblue", "pink", "green", "orange", "blue"];
+const KZ_PAPER_OF = { yellow: "yellow", lightblue: "blue", blue: "blue", pink: "pink", red: "pink", green: "green", orange: "orange", white: "white" };
+const KZ_CIRCLED = ["①", "②", "③", "④", "⑤", "⑥", "⑦", "⑧"];
+const KZ_KOMA = ["起", "承", "転", "結"];
+
+/* 全角1・半角0.55 の字数（字の幅の見積もり） */
+const kzEm = s => [...String(s || "")].reduce((a, ch) => a + (ch === "\n" ? 0 : ch.charCodeAt(0) < 256 ? 0.56 : 1), 0);
+const kzR = (x, y, w, h) => ({ x, y, w: Math.max(1, w), h: Math.max(1, h) });
+const kzInset = (r, dx, dy) => kzR(r.x + dx, r.y + (dy === undefined ? dx : dy), r.w - dx * 2, r.h - (dy === undefined ? dx : dy) * 2);
+
+/* 型ごとの枠の名前（数の変わる型は n 個） */
+function kzSlotIds(type, n, L) {
+  const t = KZ_TYPES[type];
+  if (!t) return [];
+  if (t.grid) {
+    const R = Math.max(1, (L && L.rows ? L.rows.length : 0) || 2), C = Math.max(1, (L && L.cols ? L.cols.length : 0) || 2);
+    const ids = [];
+    for (let r = 1; r <= R; r++) for (let c = 1; c <= C; c++) ids.push(`r${r}c${c}`);
+    return ids;
+  }
+  if (t.ids) return t.ids.slice();
+  const k = Math.max(t.seq[0], Math.min(t.seq[1], n || t.seq[0]));
+  return (t.lead ? [t.lead] : []).concat(Array.from({ length: k }, (_, i) => "s" + (i + 1)));
+}
+
+/* ---------- 返事の解釈 ----------
+   normItem(raw)：項目を読む関数（教材から作るときは図や算数の図も読める mtParse の extra）。
+   枠の中の項目は座標を持たないので、仮の座標を入れて読み、あとで座標を外す。 */
+const KZ_SLOT_KINDS = ["text", "card", "formula", "figure", "diagram", "math", "table", "space", "keep"];
+const KZ_ID_WORDS = { left: ["left", "l", "a", "左", "ひだり"], right: ["right", "r", "b", "右", "みぎ"], both: ["both", "common", "middle", "center", "共通", "共通点", "両方"],
+  center: ["center", "centre", "core", "main", "theme", "中心", "中央"], root: ["root", "top", "parent", "もと", "全体"], cause: ["cause", "causes", "原因"], event: ["event", "fact", "出来事", "事実"], effect: ["effect", "effects", "result", "結果", "影響"] };
+function kzStripCoords(it) {
+  ["x", "y", "w", "h", "x1", "y1", "x2", "y2"].forEach(k => { delete it[k]; });
+  return it;
+}
+function kzNormItems(list, normItem) {
+  const raw = Array.isArray(list) ? list : list === undefined || list === null ? [] : [list];
+  const out = [];
+  raw.slice(0, 14).forEach((r, k) => {
+    let it = null;
+    if (typeof r === "string" || typeof r === "number") {
+      const t = coStr(r, 600).trim();
+      if (t) it = { n: 0, kind: "text", text: t, dir: "h" };
+    } else if (r && typeof r === "object" && !Array.isArray(r)) {
+      const q = Object.assign({}, r, { x: 0, y: 0, w: 200, h: 120 });
+      delete q.box; delete q.bbox;
+      if (!q.kind && !q.type && q.text !== undefined) q.kind = "text";
+      it = normItem(q, k);
+    }
+    if (!it || !KZ_SLOT_KINDS.includes(it.kind)) return;
+    kzStripCoords(it);
+    if (r && typeof r === "object" && r.boxed) it.boxed = coColorName(r.boxed === true ? "red" : r.boxed, "red");
+    out.push(it);
+  });
+  return out;
+}
+function kzNormSlot(raw, normItem) {
+  if (typeof raw === "string") return { id: "", label: "", items: kzNormItems([raw], normItem) };
+  if (Array.isArray(raw)) return { id: "", label: "", items: kzNormItems(raw, normItem) };
+  if (!raw || typeof raw !== "object") return null;
+  const s = { id: String(raw.id || raw.slot || raw.name || "").trim().toLowerCase(), label: coStr(raw.label || raw.title || raw.heading, 60).trim() };
+  const col = coColorName(raw.color, "");
+  if (col) s.color = col;
+  const items = raw.items !== undefined ? raw.items : raw.content !== undefined ? raw.content : raw.texts !== undefined ? raw.texts : raw.text !== undefined ? [raw.text] : [];
+  s.items = kzNormItems(items, normItem);
+  if (raw.keep === true || raw.keep === "true") s.keep = true;
+  /* プリントの思考ツール：枠に書く答えの例（解答版だけに赤字で出る） */
+  if (raw.answer !== undefined && raw.answer !== null) { const a = coStr(Array.isArray(raw.answer) ? raw.answer.join("、") : raw.answer, 300).trim(); if (a) s.answer = a; }
+  const st = coNum(raw.step), ph = coNum(raw.phase);
+  if (isFinite(st) && st >= 1) s.step = Math.min(99, Math.round(st));
+  if (isFinite(ph) && ph >= 1) s.phase = Math.min(20, Math.round(ph));
+  return s;
+}
+/* 枠の名前を型の名前へ（言い換え・番号・順番） */
+function kzMatchId(id, ids) {
+  if (!id) return "";
+  if (ids.includes(id)) return id;
+  for (const k in KZ_ID_WORDS) if (ids.includes(k) && KZ_ID_WORDS[k].includes(id)) return k;
+  const m = /^(?:s|slot|step|stage|panel|node|branch|item|枠)?\s*(\d+)$/.exec(id);
+  if (m && ids.includes("s" + Number(m[1]))) return "s" + Number(m[1]);
+  const g = /^r(\d+)\s*c(\d+)$/.exec(id.replace(/[^a-z0-9]/g, ""));
+  if (g && ids.includes(`r${Number(g[1])}c${Number(g[2])}`)) return `r${Number(g[1])}c${Number(g[2])}`;
+  return "";
+}
+function kzNormLayout(raw, normItem) {
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) return null;
+  const type = kzTypeKey(raw.type || raw.kind || raw.layout || raw.name);
+  if (!type) return null;
+  const t = KZ_TYPES[type];
+  const L = { type };
+  const d = String(raw.dir || raw.direction || raw.writing || "").toLowerCase();
+  if (/^v|vert|縦|tate/.test(d)) L.dir = "v"; else if (/^h|hori|横|yoko/.test(d)) L.dir = "h";
+  /* 見出し（日付・題・めあて） */
+  const hd = raw.header && typeof raw.header === "object" ? raw.header : raw;
+  const H = { date: coStr(hd.date, 40).trim(), title: coStr(hd.title || hd.unit, 80).trim(), goal: coStr(hd.goal || hd.aim || hd.mate || hd.question, 200).trim() };
+  const gm = Array.isArray(hd.goalMarks) ? hd.goalMarks : Array.isArray(hd.marks) ? hd.marks : null;
+  if (gm && H.goal) H.goalMarks = gm.slice(0, 6).map(m => (m && typeof m === "object" ? { text: coStr(m.text, 80), style: String(m.style || "yellow").toLowerCase() } : null)).filter(m => m && m.text && H.goal.includes(m.text));
+  if (H.date || H.title || H.goal) L.header = H;
+  /* まとめ */
+  const sm = raw.summary !== undefined ? raw.summary : raw.conclusion !== undefined ? raw.conclusion : raw.matome;
+  if (typeof sm === "string" && sm.trim()) L.summary = { label: "", text: coStr(sm, 400).trim() };
+  else if (sm && typeof sm === "object" && !Array.isArray(sm)) {
+    const S2 = { label: coStr(sm.label || sm.title, 40).trim(), text: coStr(sm.text || sm.content, 400).trim() };
+    if (Array.isArray(sm.marks) && S2.text) S2.marks = sm.marks.slice(0, 6).map(m => (m && typeof m === "object" ? { text: coStr(m.text, 80), style: String(m.style || "yellow").toLowerCase() } : null)).filter(m => m && m.text && S2.text.includes(m.text));
+    const extra = kzNormItems(sm.items, normItem);
+    if (extra.length) S2.items = extra;
+    if (sm.keep === true) S2.keep = true;
+    if (S2.text || S2.items || S2.keep) L.summary = S2;
+  }
+  /* 表の見出し */
+  if (t.grid) {
+    const lab = v => (Array.isArray(v) ? v : []).slice(0, 5).map(x => coStr(x && typeof x === "object" ? x.label || x.text : x, 40).trim());
+    L.cols = lab(raw.cols || raw.columns); L.rows = lab(raw.rows);
+    if (!L.cols.length) L.cols = ["", ""];
+    if (!L.rows.length) L.rows = ["", ""];
+  }
+  /* 枠：配列・名前つきの入れ物・表の cells のどれでも */
+  let list = [];
+  if (Array.isArray(raw.slots)) list = raw.slots;
+  else if (raw.slots && typeof raw.slots === "object") list = Object.keys(raw.slots).map(k => Object.assign({ id: k }, typeof raw.slots[k] === "object" && !Array.isArray(raw.slots[k]) ? raw.slots[k] : { items: raw.slots[k] }));
+  else if (t.grid && Array.isArray(raw.cells)) raw.cells.forEach((row, r) => (Array.isArray(row) ? row : [row]).forEach((c, k) => list.push(Object.assign({ id: `r${r + 1}c${k + 1}` }, c && typeof c === "object" && !Array.isArray(c) ? c : { items: c }))));
+  const slots = list.slice(0, 40).map(s => kzNormSlot(s, normItem)).filter(Boolean);
+  const leadN = t.lead ? 1 : 0;
+  const ids = kzSlotIds(type, Math.max(0, slots.length - (t.lead && slots.some(s => kzMatchId(s.id, [t.lead]) === t.lead) ? 1 : 0)), L);
+  const out = ids.map(id => ({ id, label: "", items: [] }));
+  const taken = new Set();
+  slots.forEach(s => { const id = kzMatchId(s.id, ids); if (id && !taken.has(id)) { taken.add(id); Object.assign(out[ids.indexOf(id)], s, { id }); s._used = true; } });
+  slots.filter(s => !s._used).forEach(s => {
+    const k = out.findIndex((o, i) => !taken.has(o.id) && (i >= leadN || !t.lead || s.id === ""));
+    if (k >= 0) { taken.add(out[k].id); Object.assign(out[k], s, { id: out[k].id }); }
+  });
+  out.forEach(s => { delete s._used; });
+  L.slots = out;
+  if (!out.some(s => s.items.length || s.label || s.keep)) return null;
+  return L;
+}
+
+/* ---------- 板書の大枠：見出し・中身・まとめ ----------
+   横長の黒板（幅が高さの2倍以上）は 見出しの列｜中身｜まとめの列。縦書きは左右が逆。
+   横長でない面（4:3 やテレビの画面）は、上に見出しの帯・下にまとめの帯 */
+function kzFrame(gw, gh, dir, L) {
+  const M = Math.round(gh * 0.035), g = Math.round(gh * 0.04);
+  const hasH = !!L.header, hasS = !!L.summary;
+  const all = kzR(M, M, gw - M * 2, gh - M * 2);
+  if (gw / gh >= 1.9 || dir === "v") {
+    /* 横書きは 見出し（左）｜中身｜まとめ（右）、縦書きは まとめ（左）｜中身｜見出し（右） */
+    const hw = hasH ? Math.round(all.w * (dir === "v" ? 0.16 : 0.19)) : 0, sw = hasS ? Math.round(all.w * (dir === "v" ? 0.15 : 0.19)) : 0;
+    const lw = dir === "v" ? sw : hw, rw = dir === "v" ? hw : sw;
+    const left = lw ? kzR(all.x, all.y, lw, all.h) : null, right = rw ? kzR(all.x + all.w - rw, all.y, rw, all.h) : null;
+    const x0 = all.x + (lw ? lw + g : 0), x1 = all.x + all.w - (rw ? rw + g : 0);
+    const body = kzR(x0, all.y, x1 - x0, all.h);
+    return { mode: "cols", header: dir === "v" ? right : left, summary: dir === "v" ? left : right, body, g };
+  }
+  const hh = hasH ? Math.round(all.h * 0.2) : 0, sh = hasS ? Math.round(all.h * 0.2) : 0;
+  const header = hh ? kzR(all.x, all.y, all.w, hh) : null;
+  const summary = sh ? kzR(all.x, all.y + all.h - sh, all.w, sh) : null;
+  const by = all.y + (hh ? hh + g : 0), bh = all.y + all.h - (sh ? sh + g : 0) - by;
+  return { mode: "bands", header, summary, body: kzR(all.x, by, all.w, bh), g };
+}
+
+/* ---------- 型ごとの形 ----------
+   B：中身の範囲。u：本文の字の大きさ（余白や矢印の長さの目安）。
+   返すのは zones（{id, r, shape, label:{text,style,rect?,align}, accent, skip, valign}）と
+   deco（{t:"rect"|"ellipse"|"line"|"arrow"|"geo", …, color, dash, radius, thin, fill}）。座標は B と同じ単位。 */
+function kzGeo(type, B, L, u, opt) {
+  const t = KZ_TYPES[type], o = opt || {};
+  const slots = L.slots || [];
+  const zones = [], deco = [];
+  const g = u * 0.9, LH = u * 2.1, a = u * 2.2;
+  const acc = (i, s) => (s && s.color) || KZ_ACCENTS[i % KZ_ACCENTS.length];
+  const lab = (s, style, extra) => Object.assign({ text: (s && s.label) || "", style, align: "center" }, extra || {});
+  const Z = (s, r, extra) => { const z = Object.assign({ id: s.id, r, shape: "rect", accent: "white" }, extra || {}); zones.push(z); return z; };
+  const seq = slots.filter(s => /^s\d+$/.test(s.id));
+  const byId = id => slots.find(s => s.id === id) || { id, label: "", items: [] };
+  const wide = B.w >= B.h * 1.25;
+  const numLabel = (i, s) => {
+    const en = typeof LANG !== "undefined" && LANG === "en";
+    const n = en ? `${i + 1}. ` : KZ_CIRCLED[i] || `${i + 1}.`;
+    return s.label ? (en ? n + s.label : n + s.label) : n.trim();
+  };
+  switch (type) {
+    case "flow": {
+      const n = seq.length;
+      if (wide) {
+        /* 枠の間は矢印の分だけ（字の入る枠を広く取る） */
+        const aw = u * 1.5, gg = u * 0.45;
+        const zw = (B.w - (n - 1) * (aw + gg * 2)) / n;
+        seq.forEach((s, i) => {
+          const x = B.x + i * (zw + aw + gg * 2);
+          Z(s, kzR(x, B.y, zw, B.h), { shape: "rrect", accent: acc(i, s), label: lab(Object.assign({}, s, { label: numLabel(i, s) }), "head", { align: "start" }) });
+          deco.push({ t: "rect", x, y: B.y, w: zw, h: B.h, color: acc(i, s), radius: 0.08 });
+          if (i < n - 1) deco.push({ t: "arrow", x1: x + zw + gg, y1: B.y + B.h / 2, x2: x + zw + gg + aw, y2: B.y + B.h / 2, color: "white" });
+        });
+      } else {
+        const zh = (B.h - (n - 1) * (a * 0.7 + g)) / n;
+        seq.forEach((s, i) => {
+          const y = B.y + i * (zh + a * 0.7 + g);
+          Z(s, kzR(B.x, y, B.w, zh), { shape: "rrect", accent: acc(i, s), label: lab(Object.assign({}, s, { label: numLabel(i, s) }), "head", { align: "start" }) });
+          deco.push({ t: "rect", x: B.x, y, w: B.w, h: zh, color: acc(i, s), radius: 0.08 });
+          if (i < n - 1) deco.push({ t: "arrow", x1: B.x + B.w / 2, y1: y + zh + g * 0.5, x2: B.x + B.w / 2, y2: y + zh + g * 0.5 + a * 0.7, color: "white" });
+        });
+      }
+      break;
+    }
+    case "compare": case "tchart": {
+      const L0 = byId("left"), R0 = byId("right");
+      const half = (B.w - g * 2) / 2;
+      if (type === "compare") {
+        Z(L0, kzR(B.x, B.y, half, B.h), { accent: acc(0, L0), label: lab(L0, "card") });
+        Z(R0, kzR(B.x + half + g * 2, B.y, half, B.h), { accent: acc(2, R0), label: lab(R0, "card") });
+        deco.push({ t: "line", x1: B.x + B.w / 2, y1: B.y + u * 0.3, x2: B.x + B.w / 2, y2: B.y + B.h - u * 0.3, color: "white", dash: "dash" });
+      } else {
+        const ly = B.y + LH + u * 0.35;
+        Z(L0, kzR(B.x, B.y, half, B.h), { accent: acc(0, L0), label: lab(L0, "head"), skip: u * 0.5, topLabel: true });
+        Z(R0, kzR(B.x + half + g * 2, B.y, half, B.h), { accent: acc(1, R0), label: lab(R0, "head"), skip: u * 0.5, topLabel: true });
+        deco.push({ t: "line", x1: B.x, y1: ly, x2: B.x + B.w, y2: ly, color: "white" });
+        deco.push({ t: "line", x1: B.x + B.w / 2, y1: ly, x2: B.x + B.w / 2, y2: B.y + B.h, color: "white" });
+      }
+      break;
+    }
+    case "compare3": {
+      const ids = ["a", "b", "c"], zw = (B.w - g * 2 * 2) / 3;
+      ids.forEach((id, i) => {
+        const s = byId(id), x = B.x + i * (zw + g * 2);
+        Z(s, kzR(x, B.y, zw, B.h), { shape: "rrect", accent: acc(i, s), label: lab(s, "card") });
+        deco.push({ t: "rect", x, y: B.y + LH * 0.5, w: zw, h: B.h - LH * 0.5, color: acc(i, s), radius: 0.06, dash: "dash" });
+      });
+      break;
+    }
+    case "matrix": {
+      const R = L.rows.length, C = L.cols.length;
+      const hasRL = L.rows.some(Boolean), hasCL = L.cols.some(Boolean);
+      const hw = hasRL ? Math.min(B.w * 0.2, Math.max(u * 3, Math.max(...L.rows.map(kzEm)) * u * 1.05 + u)) : 0;
+      const hh = hasCL ? LH : 0;
+      const cw = (B.w - hw) / C, rh = (B.h - hh) / R;
+      deco.push({ t: "rect", x: B.x, y: B.y, w: B.w, h: B.h, color: "white", radius: 0 });
+      for (let c = 1; c < C; c++) deco.push({ t: "line", x1: B.x + hw + c * cw, y1: B.y, x2: B.x + hw + c * cw, y2: B.y + B.h, color: "white", thin: true });
+      for (let r = 1; r < R; r++) deco.push({ t: "line", x1: B.x, y1: B.y + hh + r * rh, x2: B.x + B.w, y2: B.y + hh + r * rh, color: "white", thin: true });
+      if (hw) deco.push({ t: "line", x1: B.x + hw, y1: B.y, x2: B.x + hw, y2: B.y + B.h, color: "white" });
+      if (hh) deco.push({ t: "line", x1: B.x, y1: B.y + hh, x2: B.x + B.w, y2: B.y + hh, color: "white" });
+      L.cols.forEach((t0, c) => { if (t0) zones.push({ id: "_c" + c, r: kzR(B.x + hw + c * cw, B.y, cw, hh), shape: "none", accent: acc(c), label: { text: t0, style: "head", align: "center" }, labelOnly: true }); });
+      L.rows.forEach((t0, r) => { if (t0) zones.push({ id: "_r" + r, r: kzR(B.x, B.y + hh + r * rh, hw, rh), shape: "none", accent: "yellow", label: { text: t0, style: "head", align: "center", mid: true }, labelOnly: true }); });
+      for (let r = 0; r < R; r++) for (let c = 0; c < C; c++) {
+        const s = byId(`r${r + 1}c${c + 1}`);
+        Z(s, kzR(B.x + hw + c * cw, B.y + hh + r * rh, cw, rh), { accent: "white", label: s.label ? lab(s, "chip") : null });
+      }
+      break;
+    }
+    case "timeline": {
+      const n = seq.length, cw = B.w / n;
+      const ay = B.y + LH + u * 0.55;
+      deco.push({ t: "arrow", x1: B.x, y1: ay, x2: B.x + B.w, y2: ay, color: "white" });
+      seq.forEach((s, i) => {
+        const cx = B.x + cw * (i + 0.5);
+        deco.push({ t: "ellipse", x: cx - u * 0.38, y: ay - u * 0.38, w: u * 0.76, h: u * 0.76, color: acc(i, s), fill: acc(i, s) });
+        Z(s, kzR(cx - cw / 2 + g * 0.3, B.y, cw - g * 0.6, B.h), { accent: acc(i, s), label: lab(s, "head"), skip: u * 1.3, topLabel: true });
+      });
+      break;
+    }
+    case "web": {
+      const c0 = byId("center"), n = seq.length;
+      const cw = Math.min(B.w * 0.26, B.h * 0.9), ch = B.h * 0.34;
+      const C = { x: B.x + B.w / 2, y: B.y + B.h / 2 };
+      const cr = kzR(C.x - cw / 2, C.y - ch / 2, cw, ch);
+      Z(c0, cr, { shape: "ellipse", accent: "yellow", label: c0.label ? lab(c0, "head") : null, valign: "center", center: true, hText: true });
+      deco.push({ t: "ellipse", x: cr.x, y: cr.y, w: cr.w, h: cr.h, color: "yellow" });
+      /* 周りの枠：楕円の上に等間隔。重なる（数が多い・面が細い）ときは、重ならなくなるまで枠を小さくする */
+      let sw = Math.min(n <= 4 ? B.w * 0.3 : B.w * 0.24, B.w / Math.max(3, n) * 1.6), sh = B.h * (n <= 4 ? 0.4 : 0.33);
+      const place = () => {
+        const Rx = (B.w - sw) / 2, Ry = (B.h - sh) / 2;
+        return seq.map((s, i) => {
+          const th = -Math.PI / 2 + (i * 2 * Math.PI) / n + (n % 2 ? 0 : Math.PI / n);
+          let x = C.x + Math.cos(th) * Rx - sw / 2, y = C.y + Math.sin(th) * Ry - sh / 2;
+          x = Math.max(B.x, Math.min(B.x + B.w - sw, x)); y = Math.max(B.y, Math.min(B.y + B.h - sh, y));
+          return kzR(x, y, sw, sh);
+        });
+      };
+      const hit = (p, q) => Math.min(p.x + p.w, q.x + q.w) - Math.max(p.x, q.x) > 1 && Math.min(p.y + p.h, q.y + q.h) - Math.max(p.y, q.y) > 1;
+      let rs = place();
+      for (let k = 0; k < 14 && rs.some((p, i) => hit(p, cr) || rs.some((q, j) => j > i && hit(p, q))); k++) { sw *= 0.93; sh *= 0.95; rs = place(); }
+      seq.forEach((s, i) => {
+        const r = rs[i];
+        Z(s, r, { shape: "rrect", accent: acc(i + 1, s), label: s.label ? lab(s, "head") : null, valign: "center", center: true, hText: true });
+        deco.push({ t: "rect", x: r.x, y: r.y, w: r.w, h: r.h, color: acc(i + 1, s), radius: 0.18, dash: "dash" });
+        const p1 = kzEllipseExit(cr, { x: r.x + r.w / 2, y: r.y + r.h / 2 }), p2 = kzRectExit(r, C);
+        if (Math.hypot(p2.x - p1.x, p2.y - p1.y) > u * 0.2) deco.push({ t: "line", x1: p1.x, y1: p1.y, x2: p2.x, y2: p2.y, color: "white" });
+      });
+      break;
+    }
+    case "venn": {
+      const L0 = byId("left"), Bo = byId("both"), R0 = byId("right");
+      const A = kzR(B.x, B.y + LH + u * 0.2, B.w, B.h - LH - u * 0.2);
+      const ew = A.w * 0.6;
+      deco.push({ t: "ellipse", x: A.x, y: A.y, w: ew, h: A.h, color: acc(0, L0) }, { t: "ellipse", x: A.x + A.w - ew, y: A.y, w: ew, h: A.h, color: acc(2, R0) });
+      const ov0 = A.x + A.w - ew, ov1 = A.x + ew;
+      const iy = A.y + A.h * 0.16, ih = A.h * 0.68;
+      Z(L0, kzR(A.x + A.w * 0.07, iy, ov0 - (A.x + A.w * 0.07) - u * 0.4, ih), { accent: acc(0, L0), label: lab(L0, "card", { rect: kzR(A.x, B.y, ew, LH) }), valign: "center", center: true });
+      Z(Bo, kzR(ov0 + u * 0.3, iy, ov1 - ov0 - u * 0.6, ih), { accent: "white", label: Bo.label ? lab(Bo, "chip") : null, valign: "center", center: true });
+      Z(R0, kzR(ov1 + u * 0.4, iy, A.x + A.w * 0.93 - ov1 - u * 0.4, ih), { accent: acc(2, R0), label: lab(R0, "card", { rect: kzR(A.x + A.w - ew, B.y, ew, LH) }), valign: "center", center: true });
+      break;
+    }
+    case "pyramid": {
+      const n = seq.length;
+      const tw = Math.min(B.w * 0.42, B.h * 1.35), T0 = kzR(B.x, B.y, tw, B.h);
+      deco.push({ t: "geo", geo: "triangle", x: T0.x, y: T0.y, w: T0.w, h: T0.h, color: "white" });
+      const hb = T0.h / n;
+      const half = y => ((y - T0.y) / T0.h) * (T0.w / 2);
+      const zx = T0.x + T0.w + g * 2.2;
+      /* 段の名前は段の中に。どれか1つでも入りきらない（上の細い段など）ときは、全部を右の枠の見出しにしてそろえる */
+      const bwOf = i => half(T0.y + (i + 0.75) * hb) * 2 * 0.86;
+      const allFit = hb >= u * 1.9 && seq.every((s, i) => !s.label || kzEm(s.label) * u * 1.15 * 1.08 + u * 0.4 <= bwOf(i));
+      seq.forEach((s, i) => {
+        const y0 = T0.y + i * hb, y1 = y0 + hb, ym = (y0 + y1) / 2;
+        if (i > 0) deco.push({ t: "line", x1: T0.x + T0.w / 2 - half(y0), y1: y0, x2: T0.x + T0.w / 2 + half(y0), y2: y0, color: "white", thin: true });
+        const bw = bwOf(i);
+        const fits = !!s.label && allFit;
+        if (fits) zones.push({ id: "_p" + i, r: kzR(T0.x + T0.w / 2 - bw / 2, ym - hb * 0.3 + hb * 0.12, bw, hb * 0.6), shape: "none", accent: acc(i, s), label: { text: s.label, style: "head", align: "center", mid: true }, labelOnly: true });
+        Z(s, kzR(zx, y0 + u * 0.15, B.x + B.w - zx, hb - u * 0.3), { accent: acc(i, s), label: s.label && !fits ? lab(s, "head", { align: "start" }) : null, valign: "center" });
+        deco.push({ t: "line", x1: T0.x + T0.w / 2 + half(ym) + u * 0.3, y1: ym, x2: zx - u * 0.4, y2: ym, color: acc(i, s), dash: "dot" });
+      });
+      break;
+    }
+    case "ychart": case "xchart": {
+      deco.push({ t: "rect", x: B.x, y: B.y, w: B.w, h: B.h, color: "white", radius: 0.05 });
+      const P = (fx, fy) => ({ x: B.x + B.w * fx, y: B.y + B.h * fy });
+      if (type === "ychart") {
+        const C = P(0.5, 0.48);
+        [[0.5, 1], [0.06, 0], [0.94, 0]].forEach(([fx, fy]) => { const q = P(fx, fy); deco.push({ t: "line", x1: C.x, y1: C.y, x2: q.x, y2: q.y, color: "white" }); });
+        const R3 = [kzR(B.x + B.w * 0.3, B.y + B.h * 0.03, B.w * 0.4, B.h * 0.22), kzR(B.x + B.w * 0.02, B.y + B.h * 0.4, B.w * 0.42, B.h * 0.57), kzR(B.x + B.w * 0.56, B.y + B.h * 0.4, B.w * 0.42, B.h * 0.57)];
+        seq.slice(0, 3).forEach((s, i) => Z(s, R3[i], { accent: acc(i, s), label: s.label ? lab(s, "head") : null, valign: "center", center: true }));
+      } else {
+        deco.push({ t: "line", x1: B.x, y1: B.y, x2: B.x + B.w, y2: B.y + B.h, color: "white" }, { t: "line", x1: B.x + B.w, y1: B.y, x2: B.x, y2: B.y + B.h, color: "white" });
+        const R4 = [kzR(B.x + B.w * 0.33, B.y + B.h * 0.03, B.w * 0.34, B.h * 0.26), kzR(B.x + B.w * 0.73, B.y + B.h * 0.31, B.w * 0.25, B.h * 0.38),
+          kzR(B.x + B.w * 0.33, B.y + B.h * 0.71, B.w * 0.34, B.h * 0.26), kzR(B.x + B.w * 0.02, B.y + B.h * 0.31, B.w * 0.25, B.h * 0.38)];
+        seq.slice(0, 4).forEach((s, i) => Z(s, R4[i], { accent: acc(i, s), label: s.label ? lab(s, "head") : null, valign: "center", center: true }));
+      }
+      break;
+    }
+    case "cycle": {
+      const n = seq.length;
+      const C = { x: B.x + B.w / 2, y: B.y + B.h / 2 };
+      let nw = Math.min(B.w * 0.27, B.w / n * 1.5), nh = Math.min(B.h * 0.34, B.h / 2.6);
+      const place = () => {
+        const Rx = (B.w - nw) / 2, Ry = (B.h - nh) / 2;
+        return seq.map((s, i) => {
+          const th = -Math.PI / 2 + (i * 2 * Math.PI) / n;
+          return kzR(C.x + Math.cos(th) * Rx - nw / 2, C.y + Math.sin(th) * Ry - nh / 2, nw, nh);
+        });
+      };
+      const hit = (p, q) => Math.min(p.x + p.w, q.x + q.w) - Math.max(p.x, q.x) > u * 0.8 && Math.min(p.y + p.h, q.y + q.h) - Math.max(p.y, q.y) > -u * 0.8;
+      let rs = place();
+      for (let k = 0; k < 14 && rs.some((p, i) => rs.some((q, j) => j > i && hit(p, q))); k++) { nw *= 0.93; nh *= 0.96; rs = place(); }
+      seq.forEach((s, i) => {
+        const r = rs[i];
+        Z(s, r, { shape: "rrect", accent: acc(i, s), label: s.label ? lab(s, "head") : null, valign: "center", center: true, hText: true });
+        deco.push({ t: "rect", x: r.x, y: r.y, w: r.w, h: r.h, color: acc(i, s), radius: 0.2 });
+        const q = rs[(i + 1) % n];
+        const c1 = { x: r.x + r.w / 2, y: r.y + r.h / 2 }, c2 = { x: q.x + q.w / 2, y: q.y + q.h / 2 };
+        const p1 = kzRectExit(r, c2, u * 0.35), p2 = kzRectExit(q, c1, u * 0.35);
+        if (Math.hypot(p2.x - p1.x, p2.y - p1.y) > u * 0.8) deco.push({ t: "arrow", x1: p1.x, y1: p1.y, x2: p2.x, y2: p2.y, color: "white" });
+      });
+      break;
+    }
+    case "cause": {
+      const fr = [0.35, 0.3, 0.35], ids = ["cause", "event", "effect"];
+      const aw = u * 1.5, gg = u * 0.45;
+      const tw = B.w - (aw + gg * 2) * 2;
+      let x = B.x;
+      ids.forEach((id, i) => {
+        const s = byId(id), w = tw * fr[i];
+        const col = id === "event" ? (s.color || "red") : acc(i === 0 ? 1 : 3, s);
+        Z(s, kzR(x, B.y, w, B.h), { shape: "rrect", accent: col, label: lab(s, id === "event" ? "head" : "card"), valign: id === "event" ? "center" : "top", center: id === "event" });
+        deco.push({ t: "rect", x, y: B.y + (id === "event" ? 0 : LH * 0.5), w, h: B.h - (id === "event" ? 0 : LH * 0.5), color: col, radius: 0.08, dash: id === "event" ? "solid" : "dash" });
+        if (i < 2) deco.push({ t: "arrow", x1: x + w + gg, y1: B.y + B.h / 2, x2: x + w + gg + aw, y2: B.y + B.h / 2, color: "white" });
+        x += w + aw + gg * 2;
+      });
+      break;
+    }
+    case "steps": {
+      const n = seq.length, sw = (B.w - (n - 1) * g) / n;
+      seq.forEach((s, i) => {
+        const h = B.h * (0.58 + 0.42 * (n > 1 ? i / (n - 1) : 1));
+        const r = kzR(B.x + i * (sw + g), B.y + B.h - h, sw, h);
+        Z(s, r, { accent: acc(i, s), label: lab(Object.assign({}, s, { label: numLabel(i, s) }), "head", { align: "start" }) });
+        deco.push({ t: "rect", x: r.x, y: r.y, w: r.w, h: r.h, color: acc(i, s), radius: 0.04, fill: acc(i, s) });
+      });
+      break;
+    }
+    case "koma4": {
+      const row = B.w / B.h >= 2.1;
+      const pw = row ? (B.w - g * 3) / 4 : (B.w - g) / 2, ph = row ? B.h : (B.h - g) / 2;
+      const en = typeof LANG !== "undefined" && LANG === "en";
+      seq.slice(0, 4).forEach((s, i) => {
+        const cx = row ? i : i % 2, cy = row ? 0 : Math.floor(i / 2);
+        const r = kzR(B.x + cx * (pw + g), B.y + cy * (ph + g), pw, ph);
+        const head = s.label ? (en ? `${i + 1}. ${s.label}` : `${KZ_KOMA[i]}　${s.label}`) : (en ? `${i + 1}` : KZ_KOMA[i]);
+        Z(s, r, { accent: acc(i, s), label: { text: head, style: "head", align: "start" } });
+        deco.push({ t: "rect", x: r.x, y: r.y, w: r.w, h: r.h, color: "white", radius: 0.03, fill: "white" });
+      });
+      break;
+    }
+    case "tree": {
+      const root = byId("root"), n = seq.length;
+      const rw = B.w * 0.2, rh = Math.min(B.h * 0.45, B.h);
+      const rr = kzR(B.x, B.y + (B.h - rh) / 2, rw, rh);
+      Z(root, rr, { shape: "rrect", accent: "yellow", label: root.label ? lab(root, "head") : null, valign: "center", center: true });
+      deco.push({ t: "rect", x: rr.x, y: rr.y, w: rr.w, h: rr.h, color: "yellow", radius: 0.12 });
+      const xs = rr.x + rr.w + a * 0.8, x0 = xs + a * 0.7;
+      const bh = (B.h - (n - 1) * g) / n, lw = Math.min(B.w * 0.17, Math.max(u * 4, ...seq.map(s => kzEm(s.label) * u * 1.1 + u * 1.4)));
+      deco.push({ t: "line", x1: rr.x + rr.w, y1: rr.y + rr.h / 2, x2: xs, y2: rr.y + rr.h / 2, color: "white" });
+      if (n > 1) deco.push({ t: "line", x1: xs, y1: B.y + bh / 2, x2: xs, y2: B.y + (n - 1) * (bh + g) + bh / 2, color: "white" });
+      seq.forEach((s, i) => {
+        const y = B.y + i * (bh + g);
+        deco.push({ t: "arrow", x1: xs, y1: y + bh / 2, x2: x0, y2: y + bh / 2, color: "white" });
+        Z(s, kzR(x0 + lw + g * 0.6, y, B.x + B.w - (x0 + lw + g * 0.6), bh), { accent: acc(i + 1, s), label: s.label ? lab(s, "card", { rect: kzR(x0, y, lw, bh), mid: true }) : null, valign: "center" });
+      });
+      break;
+    }
+  }
+  /* 縦書き：右から左へ読むので、左右を写し返す（字の向きはそのまま） */
+  if (o.dir === "v" && t.mirror) {
+    const fx = x => B.x + B.w - (x - B.x);
+    zones.forEach(z => { z.r = kzR(fx(z.r.x + z.r.w), z.r.y, z.r.w, z.r.h); if (z.label && z.label.rect) z.label.rect = kzR(fx(z.label.rect.x + z.label.rect.w), z.label.rect.y, z.label.rect.w, z.label.rect.h); });
+    deco.forEach(d => {
+      if (d.x1 !== undefined) { d.x1 = fx(d.x1); d.x2 = fx(d.x2); }
+      else d.x = fx(d.x + d.w);
+    });
+  }
+  return { zones, deco };
+}
+/* 中心から点へ向かう線が、楕円・四角の縁を出る所（線を縁から引くため） */
+function kzEllipseExit(r, p) {
+  const cx = r.x + r.w / 2, cy = r.y + r.h / 2, dx = p.x - cx, dy = p.y - cy;
+  const k = 1 / Math.sqrt((dx * dx) / ((r.w / 2) ** 2) + (dy * dy) / ((r.h / 2) ** 2) || 1);
+  return { x: cx + dx * k, y: cy + dy * k };
+}
+function kzRectExit(r, p, pad) {
+  const cx = r.x + r.w / 2, cy = r.y + r.h / 2, dx = p.x - cx, dy = p.y - cy;
+  const k = Math.min(dx ? (r.w / 2) / Math.abs(dx) : Infinity, dy ? (r.h / 2) / Math.abs(dy) : Infinity);
+  const d = Math.hypot(dx, dy) || 1, e = (pad || 0) / d;
+  return { x: cx + dx * (k + e), y: cy + dy * (k + e) };
+}
+
+/* ---------- 枠の中を埋める（見積もり） ----------
+   字の幅は全角1字＝字の大きさとして見積もる。あとで kzRefit が実寸で詰め直すので、ここは「おおよそ収まる」でよい。 */
+const KZ_VISUAL = ["figure", "diagram", "math", "table", "keep"];
+function kzTextH(text, s, w) {
+  return String(text || "").split("\n").reduce((a, line) => a + Math.max(1, Math.ceil((kzEm(line) * s) / Math.max(s, w))), 0) * s * 1.32;
+}
+function kzTextW(text, s, h) {
+  return String(text || "").split("\n").reduce((a, line) => a + Math.max(1, Math.ceil((kzEm(line) * s) / Math.max(s, h))), 0) * s * 1.4;
+}
+/* 1つの枠：label（見出し）と items を置いた項目の並びを返す。
+   z.C（見出しを除いた中身の範囲）と z.cols（横書きの列）を書き込む（kzRefit が実寸で詰め直すときに使う） */
+function kzFill(z, slot, dir0, U, zi) {
+  /* 小さな枠（ウェビング・循環）は、縦書きの板書でも横書きで書く（縦に1〜2字ずつ折り返さないように） */
+  const dir = z.hText ? "h" : dir0;
+  const out = [];
+  const u = U.body, ls = U.label;
+  const pad = u * 0.42;
+  let C = z.shape === "ellipse" ? kzInset(z.r, z.r.w * 0.15, z.r.h * 0.15) : kzInset(z.r, pad, pad * 0.8);
+  const L = z.label && z.label.text ? z.label : null;
+  /* 見出し */
+  if (L) {
+    const card = L.style === "card", chip = L.style === "chip";
+    let s = chip ? u * 0.82 : ls;
+    /* 見出しが置き場所（枠の横の札・細い段など）に入らないときは、字を小さくする */
+    const R1 = L.rect || (z.labelOnly ? z.r : C), roomH = L.rect || z.labelOnly ? R1.h * 0.92 : C.h * 0.42;
+    const labH = q => Math.max(q * 1.3, kzTextH(L.text, q, Math.min(R1.w, kzEm(L.text) * q * 1.06 + (card ? q * 1.4 : q * 0.4)) - (card ? q * 1.2 : 0))) + (card ? q * 0.8 : 0);
+    const s0 = s;
+    for (let g = 0; g < 10 && labH(s) > roomH && s > u * 0.66; g++) s *= 0.92;
+    s = Math.max(s, u * 0.62);
+    if (s < s0 * 0.995) z.tight = true;
+    const it = card ? { kind: "card", text: L.text, paper: KZ_PAPER_OF[z.accent] || "yellow", dir: "h", size: s }
+      : { kind: "text", role: "sub", text: L.text, dir: "h", size: s, color: z.accent === "white" ? "yellow" : z.accent, bold: true };
+    const R0 = R1;
+    const vertLab = dir === "v" && !L.rect && !chip && !z.labelOnly && !z.topLabel;
+    if (vertLab) {
+      const w = (card ? s * 1.9 : s * 1.45);
+      const h = Math.min(R0.h, kzEm(L.text) * s * 1.05 + (card ? s * 1.1 : s * 0.3));
+      Object.assign(it, { dir: "v", x: R0.x + R0.w - w, y: R0.y, w, h });
+      it.lrect = kzR(R0.x + R0.w - w, R0.y, w, R0.h); it.lalign = "start";
+      C = kzR(C.x, C.y, C.w - w - u * 0.45, C.h);
+    } else {
+      const w = Math.min(R0.w, kzEm(L.text) * s * 1.06 + (card ? s * 1.4 : s * 0.4));
+      const h = Math.max(s * 1.3, kzTextH(L.text, s, R0.w - (card ? s * 1.2 : 0))) + (card ? s * 0.8 : 0);
+      const x = L.align === "start" ? R0.x : R0.x + (R0.w - w) / 2;
+      const y = L.mid ? R0.y + (R0.h - h) / 2 : R0.y;
+      Object.assign(it, { x, y, w, h });
+      it.lrect = L.mid ? R0 : kzR(R0.x, y, R0.w, h); it.lalign = L.align; it.lmid = !!L.mid;
+      if (!L.rect && !z.labelOnly) { const used = h + u * 0.4 + (z.skip || 0); C = kzR(C.x, C.y + used, C.w, C.h - used); it.ltop = true; }
+    }
+    it.zone = zi; it.lab = true;
+    out.push(it);
+  } else if (z.skip) C = kzR(C.x, C.y + z.skip, C.w, C.h - z.skip);
+  z.C = C; z.cols = [{ x: C.x, w: C.w }];
+  if (z.labelOnly || !slot || !slot.items.length) return out;
+  const items = slot.items;
+  if (dir === "v") {
+    /* 縦書き：右から左へ列を並べる。入りきらなければ上下の段（2段・3段）に分ける（縦書きの板書の書き方）。
+       図は列のまとまりとして置く。z.cols は段（{y,h}）になる */
+    const gapX = u * 0.5, gapY = u * 0.6;
+    const vis = items.filter(it => KZ_VISUAL.includes(it.kind));
+    const wOf = (it, k, bh) => (KZ_VISUAL.includes(it.kind) ? Math.min(C.w * 0.5 / Math.max(1, vis.length), bh * 1.2) : it.kind === "formula" ? k * 3
+      : it.kind === "space" ? Math.max(C.w * 0.16, k * 3) : kzTextW(it.text, k, bh - (it.kind === "card" ? k : 0)) + (it.kind === "card" ? k * 0.9 : 0));
+    /* 段の数と字の大きさ：段に順に詰めて、左はしを越えない組み合わせ（字はできるだけ大きく） */
+    const pack = (k, rows) => {
+      const bh = (C.h - (rows - 1) * gapY) / rows;
+      let r = 0, x = C.x + C.w;
+      const pos = [];
+      for (const it of items) {
+        const w = Math.min(wOf(it, k, bh), C.w);
+        if (x - w < C.x - 0.5 && x < C.x + C.w - 0.5) { r++; x = C.x + C.w; }
+        if (r >= rows) return null;
+        pos.push({ r, x: x - w, w });
+        x -= w + gapX;
+      }
+      return { bh, pos };
+    };
+    let P = null, s = u;
+    for (let rows = 1; rows <= 3 && !P; rows++) {
+      s = u;
+      for (let g = 0; g < 8; g++) { P = pack(s, rows); if (P || s <= u * 0.62 * (rows < 3 ? 1.15 : 1)) break; s *= 0.93; }
+    }
+    if (s < u * 0.995 || !P || P.pos.some(p => p.r > 0)) z.tight = true;
+    if (!P) { s = u * 0.62; P = pack(s, 3) ||{ bh: C.h, pos: items.map((it, k) => ({ r: 0, x: Math.max(C.x, C.x + C.w - (k + 1) * C.w / items.length), w: C.w / items.length })) }; }
+    const rowsN = Math.max(...P.pos.map(p => p.r)) + 1;
+    z.cols = Array.from({ length: rowsN }, (_, r) => ({ y: C.y + r * (P.bh + gapY), h: P.bh }));
+    items.forEach((it0, k) => {
+      const p = P.pos[k], y0 = C.y + p.r * (P.bh + gapY);
+      const it = Object.assign({}, it0, { zone: zi, col: p.r, ord: k });
+      if (KZ_VISUAL.includes(it.kind)) {
+        const h = Math.min(P.bh, p.w * 1.1);
+        Object.assign(it, { x: p.x, y: y0 + (P.bh - h) / 2, w: p.w, h });
+      } else if (it.kind === "formula") Object.assign(it, { x: p.x, y: y0, size: s });
+      else if (it.kind === "space") Object.assign(it, { x: p.x, y: y0, w: p.w, h: P.bh });
+      else Object.assign(it, { dir: "v", x: p.x, y: y0, w: p.w, h: P.bh, size: it.size ? Math.min(it.size, s * 1.25) : s });
+      out.push(it);
+    });
+    return out;
+  }
+  /* 横書き：広い枠は列に分ける（項目が2つ以上で、幅が高さの2倍を超えるとき） */
+  let k = 1;
+  if (C.w > C.h * 2.2 && items.length >= 2) k = Math.min(items.length, Math.max(2, Math.round(C.w / (C.h * 1.15))), Math.max(1, Math.floor(C.w / (u * 6))));
+  const per = Math.ceil(items.length / k);
+  const cols = Array.from({ length: k }, (_, i) => items.slice(i * per, (i + 1) * per)).filter(c => c.length);
+  k = cols.length;
+  const gx = u * 0.6, cw = (C.w - (k - 1) * gx) / k;
+  z.cols = cols.map((c, ci) => ({ x: C.x + ci * (cw + gx), w: cw }));
+  let ord = 0;
+  cols.forEach((col, ci) => {
+    const vis = col.filter(it => KZ_VISUAL.includes(it.kind));
+    const textH = q => col.reduce((a, it) => a + (KZ_VISUAL.includes(it.kind) ? 0 : it.kind === "formula" ? q * 2.3 : it.kind === "space" ? Math.max(C.h * 0.28, q * 3.2) : kzTextH(it.text, q, cw - (it.kind === "card" ? q * 1.2 : 0)) + (it.kind === "card" ? q * 0.9 : 0) + (it.boxed ? q * 0.7 : 0)), 0) + (col.length - 1) * u * 0.45;
+    let s = u;
+    const minVis = vis.length ? Math.min(C.h * 0.55, C.h * 0.3 * vis.length) : 0;
+    for (let g = 0; g < 8 && textH(s) + minVis > C.h && s > u * 0.62; g++) s *= 0.93;
+    if (s < u * 0.995 || textH(s) + minVis > C.h + 1) z.tight = true;
+    /* 幅が狭くて1行に数文字しか入らない（3〜4字ごとに折り返す）ときも、字を大きくしすぎない */
+    const perLine = (cw - pad) / s;
+    if (perLine < 6.5 && col.some(it => !KZ_VISUAL.includes(it.kind) && kzEm(it.text) > perLine)) z.tight = true;
+    const visH = vis.length ? Math.max(minVis, C.h - textH(s)) / vis.length : 0;
+    let y = C.y;
+    const used = textH(s) + visH * vis.length;
+    /* 楕円や「中央に置く」枠は、上下の真ん中に寄せる（上の見出しもいっしょに下げる） */
+    if (z.valign === "center" && used < C.h) {
+      y += (C.h - used) / 2;
+      if (ci === 0) out.filter(o => o.ltop).forEach(o => { o.y += (C.h - used) / 2; o.lrect = kzR(o.lrect.x, o.y, o.lrect.w, o.lrect.h); });
+    }
+    const x0 = C.x + ci * (cw + gx);
+    col.forEach(it0 => {
+      const it = Object.assign({}, it0, { zone: zi, col: ci, ord: ord++ });
+      if (KZ_VISUAL.includes(it.kind)) {
+        /* 図の頂点の記号や目盛りは枠の外に描かれるので、図の下は広めに空ける */
+        const h = Math.max(u * 2, Math.min(visH, cw * 0.9) - u * 0.5);
+        Object.assign(it, { x: x0, y, w: cw, h });
+        y += h + u * 0.95;
+      } else if (it.kind === "formula") {
+        Object.assign(it, { x: x0, y, size: s }); y += s * 2.3 + u * 0.45;
+      } else if (it.kind === "space") {
+        const h = Math.max(C.h * 0.28, s * 3.2);
+        Object.assign(it, { x: x0, y, w: cw, h }); y += h + u * 0.45;
+      } else {
+        const h = kzTextH(it.text, s, cw - (it.kind === "card" ? s * 1.2 : 0)) + (it.kind === "card" ? s * 0.9 : 0);
+        Object.assign(it, { dir: "h", x: x0, y, w: cw, size: it.size ? Math.min(it.size, s * 1.25) : s });
+        if (it.kind === "card") it.h = h;
+        /* 円や輪の中の枠は、字を真ん中にそろえる */
+        if (z.center) it.align = "center";
+        it._eh = h;
+        y += h + (it.boxed ? s * 0.7 : 0) + u * 0.45;
+      }
+      /* いちばん小さい字でも入りきらないとき：枠の下を越えないところで止める（黒板の外へ出さない） */
+      const eh = it.h || it._eh || 0;
+      if (it.y + eh > C.y + C.h) it.y = Math.max(C.y, C.y + C.h - eh);
+      delete it._eh;
+      out.push(it);
+    });
+  });
+  return out;
+}
+
+/* ---------- 構図 → 設計図の項目（座標つき） ----------
+   gw・gh：黒板の格子の大きさ。opt.dir（返事に無いときの書く向き）。
+   返すのは { items, zones（枠の範囲。kzRefit で使う）, slotN（枠の名前 → その枠の最初の項目の n）} */
+function kzPlace(L, gw, gh, opt) {
+  const o = opt || {};
+  const dir = L.dir || o.dir || "h";
+  const F = kzFrame(gw, gh, dir, L);
+  /* 本文の字の大きさ：横長の黒板は高さの5.2％。縦に高い面（4:3 など）は幅で決め、アプリの下限（高さの3％）は守る。
+     どの枠にも余裕があれば、黒板全体で同じ割合だけ大きくする（字の大きさは板書全体でそろえる） */
+  const base = Math.max(Math.min(gh, gw * 0.36) * 0.052, gh * 0.031);
+  let best = null;
+  for (const f of [1.32, 1.2, 1.1, 1]) {
+    const b0 = base * f;
+    const r = kzPlaceAt(L, dir, F, { body: Math.round(b0 * 10) / 10, label: Math.round(b0 * 1.12 * 10) / 10 });
+    best = r;
+    if (!r.tight) break;
+  }
+  return best;
+}
+function kzPlaceAt(L, dir, F, U) {
+  let tight = false;
+  const items = [], zones = [], slotN = {};
+  let n = 1, step = 1;
+  const push = (it, sid) => { it.n = n++; if (sid && !(sid in slotN) && !it.lab) slotN[sid] = it.n; items.push(it); return it; };
+  const zoneRec = (r, extra) => { zones.push(Object.assign({ r, dir }, extra || {})); return zones.length - 1; };
+  /* 見出し：日付・題・めあて */
+  if (L.header && F.header) {
+    const H = L.header, R0 = F.header;
+    const zi = zoneRec(R0, { kind: "header" });
+    const list = [];
+    if (H.date) list.push({ kind: "text", role: "date", text: H.date, size: U.body * 0.82, color: "white" });
+    if (H.title) list.push({ kind: "text", role: "title", text: H.title, size: U.body * 1.15, color: "white", bold: true });
+    if (H.goal) list.push(Object.assign({ kind: "text", role: "goal", text: H.goal, size: U.body * 1.05, color: "white", boxed: "red" }, H.goalMarks && H.goalMarks.length ? { marks: H.goalMarks } : {}));
+    if (F.mode === "bands" && dir !== "v") {
+      /* 上の帯：日付｜題｜めあて を横に */
+      const fr = list.map(it => (it.role === "date" ? 0.13 : it.role === "title" ? 0.32 : 0.55));
+      const sum = fr.reduce((a, b) => a + b, 0) || 1;
+      let x = R0.x;
+      const cols = [];
+      list.forEach((it, k) => {
+        const w = R0.w * fr[k] / sum - U.body * 0.6;
+        cols.push({ x, w });
+        push(Object.assign(it, { dir: "h", x, y: R0.y, w, zone: zi, col: k, ord: k, step: 1, phase: 1 }));
+        x += w + U.body * 0.6;
+      });
+      Object.assign(zones[zi], { C: R0, cols });
+    } else {
+      const z = { r: R0, shape: "none", accent: "white" };
+      kzFill(z, { items: list }, dir, U, zi).forEach(it => push(Object.assign(it, { step: 1, phase: 1 })));
+      Object.assign(zones[zi], { C: z.C, cols: z.cols });
+      if (z.tight) tight = true;
+    }
+    step = 2;
+  }
+  /* 中身 */
+  const G = kzGeo(L.type, F.body, L, U.body, { dir });
+  G.deco.forEach(d => {
+    const it = d.t === "line" || d.t === "arrow"
+      ? { kind: d.t, x1: d.x1, y1: d.y1, x2: d.x2, y2: d.y2 }
+      : { kind: d.t === "geo" ? "geo" : d.t, x: d.x, y: d.y, w: d.w, h: d.h };
+    it.color = d.color || "white";
+    if (d.dash && d.dash !== "solid") it.dash = d.dash;
+    if (d.radius !== undefined) it.radius = d.radius;
+    if (d.geo) it.geo = d.geo;
+    if (d.thin) it.thin = true;
+    if (d.fill) it.fill = d.fill;
+    it.deco = true;
+    it.step = step;
+    push(it);
+  });
+  const nz = G.zones.length;
+  G.zones.forEach((z, k) => {
+    const slot = (L.slots || []).find(s => s.id === z.id);
+    const zi = zoneRec(z.r, { kind: "slot", id: z.id, shape: z.shape, valign: z.valign, dir: z.hText ? "h" : dir });
+    const st = slot && slot.step ? slot.step : step + (z.labelOnly ? 0 : Math.min(k, 20));
+    const filled = kzFill(z, slot, dir, U, zi);
+    Object.assign(zones[zi], { C: z.C, cols: z.cols });
+    if (z.tight) tight = true;
+    filled.forEach(it => {
+      if (!it.step) it.step = st;
+      if (slot && slot.phase && !it.phase) it.phase = slot.phase;
+      it._zk = nz > 1 ? k / (nz - 1) : 0;
+      push(it, slot && slot.id);
+    });
+  });
+  /* まとめ */
+  if (L.summary && F.summary) {
+    const Sm = L.summary, R0 = F.summary;
+    const zi = zoneRec(R0, { kind: "summary" });
+    const en = typeof LANG !== "undefined" && LANG === "en";
+    const list = [];
+    if (Sm.text) list.push(Object.assign({ kind: "text", role: "summary", text: Sm.text, color: "white", boxed: "red" }, Sm.marks && Sm.marks.length ? { marks: Sm.marks } : {}));
+    (Sm.items || []).forEach(it => list.push(it));
+    const last = Math.max(...items.map(i => i.step || 1), 1) + 1;
+    const z = { r: R0, shape: "none", accent: "red", label: { text: Sm.label || (en ? "Summary" : "まとめ"), style: "head", align: "start" } };
+    const filled = kzFill(z, { items: list }, dir, U, zi);
+    Object.assign(zones[zi], { C: z.C, cols: z.cols });
+    if (z.tight) tight = true;
+    filled.forEach(it => push(Object.assign(it, { step: last, _zk: 1, _sum: true }), "summary"));
+  }
+  return { items, zones, slotN, dir, mode: F.mode, tight, body: U.body };
+}
+/* 授業の段階（phase）の見当：見出し＝最初、まとめ＝最後、中身は枠の順に間へ */
+function kzAutoPhase(items, nPhases) {
+  if (!(nPhases >= 2)) return;
+  items.forEach(it => {
+    if (it.phase) return;
+    if (it._sum) it.phase = nPhases;
+    else if (it._zk !== undefined) it.phase = nPhases <= 2 ? 1 : Math.min(nPhases - 1, 2 + Math.floor(it._zk * Math.max(0, nPhases - 3) + 1e-6));
+  });
+}
+
+/* ---------- 構図だけを変える（通信しない） ----------
+   中身は枠の順に移し替える。新しい型の枠が少なければ、余った中身を最後の枠に足す。数の変わる型は中身の数に合わせる */
+function kzRemap(L, type) {
+  const t = KZ_TYPES[type];
+  if (!t || !L) return null;
+  const t0 = KZ_TYPES[L.type] || {};
+  const theme = L.header ? L.header.title || L.header.goal || "" : "";
+  /* 中心の枠（ウェビングの中心・ツリーのもと）は「題」にあたる。行き先にも中心があればそこへ、無ければ題と同じなら省く */
+  let leadSlot = null;
+  let src = (L.slots || []).filter(s => s.items.length || s.label);
+  if (t0.lead) {
+    leadSlot = src.find(s => s.id === t0.lead) || null;
+    src = src.filter(s => s !== leadSlot);
+    const leadText = leadSlot ? [leadSlot.label].concat(leadSlot.items.map(i => i.text || "")).join("").trim() : "";
+    if (leadSlot && !t.lead && leadText && leadText !== theme) src.unshift(leadSlot);
+  }
+  const L2 = { type, dir: L.dir, header: L.header ? JSON.parse(JSON.stringify(L.header)) : undefined, summary: L.summary ? JSON.parse(JSON.stringify(L.summary)) : undefined };
+  if (!L2.header) delete L2.header;
+  if (!L2.summary) delete L2.summary;
+  let content = src.map(s => JSON.parse(JSON.stringify(s)));
+  if (t.grid) {
+    const C = Math.min(4, Math.max(2, Math.ceil(Math.sqrt(content.length)))), R = Math.max(1, Math.ceil(content.length / C));
+    L2.cols = Array.from({ length: C }, (_, i) => (content[i] ? content[i].label : "")); L2.rows = Array(R).fill("");
+    content = content.map(s => Object.assign(s, { label: "" }));
+  }
+  const want = t.ids ? t.ids.length : t.grid ? L2.rows.length * L2.cols.length : Math.max(t.seq[0], Math.min(t.seq[1], content.length));
+  const ids = kzSlotIds(type, want, L2);
+  const slots = ids.map(id => ({ id, label: "", items: [] }));
+  /* 中心の枠には、元の中心か題（テーマ）を入れる */
+  const lead = t.lead ? slots.find(s => s.id === t.lead) : null;
+  if (lead) {
+    if (leadSlot) Object.assign(lead, JSON.parse(JSON.stringify(leadSlot)), { id: lead.id });
+    else if (theme) lead.items = [{ n: 0, kind: "text", role: "key", text: theme, dir: "h" }];
+  }
+  const dest = slots.filter(s => s !== lead);
+  content.forEach((s, i) => {
+    const k = Math.min(i, dest.length - 1);
+    if (i < dest.length) Object.assign(dest[k], s, { id: dest[k].id });
+    else { dest[k].items = dest[k].items.concat(s.label ? [{ n: 0, kind: "text", role: "sub", text: s.label, dir: "h" }] : [], s.items); }
+  });
+  L2.slots = slots;
+  return L2;
+}
+
+/* ---------- 指示文（構図の説明） ---------- */
+function kzPromptLines(en, opt) {
+  const o = opt || {};
+  const pick = (o.types || []).filter(k => KZ_TYPES[k]);
+  const list = KZ_KEYS.map(k => {
+    const t = KZ_TYPES[k];
+    const ids = t.grid ? (en ? 'cells "r1c1"… with "rows" and "cols" headings' : '"r1c1" などのます（"rows" と "cols" に見出し）') : t.ids ? t.ids.map(x => `"${x}"`).join(", ") : `${t.lead ? `"${t.lead}", ` : ""}"s1"…"s${t.seq[1]}"${t.seq[0] !== t.seq[1] ? (en ? ` (${t.seq[0]}–${t.seq[1]})` : `（${t.seq[0]}〜${t.seq[1]}個）`) : ""}`;
+    return `  - "${k}"（${en ? t.en : t.ja}）：${en ? t.de : t.dj} ${en ? "slots" : "枠"}: ${ids}`;
+  });
+  if (en) return [
+    `# Layout (recommended)`,
+    `- Instead of writing coordinates for every item, describe each plan with "layout": choose a layout type and put content in its slots. The app computes positions, sizes, frames, arrows and lines exactly, so the board always looks neat. Use "items" with coordinates only when no type fits.`,
+    `- layout = {"type", "dir" ("h"/"v"), "header": {"date","title","goal","goalMarks"}, "slots": [{"id","label","color","items":[…],"step","phase"}], "summary": {"label","text","marks","items"}}`,
+    `- Slot items have NO coordinates: {"kind":"text","text","role","color","marks","boxed"}, "card" (text, paper), "formula" (latex), "figure"/"diagram"/"math" (see Figures, without x,y,w,h), "table" (rows), "space" (label), "keep" (ref). A plain string is a text item. Use 1–5 short items per slot. "boxed":"red" frames an important sentence.`,
+    `- label is the slot's heading (e.g. the name of a method or viewpoint). Do not draw frames, lines or arrows yourself; the layout draws them.`,
+    `- Layout types:`, ...list,
+    pick.length ? `- The teacher asked for these layout types: ${pick.map(k => `"${k}"`).join(", ")}.${o.count > 1 && pick.length < o.count ? " Use them first, then choose others that fit." : pick.length > 1 ? " Use one per plan, in this order." : ""}` : `- Choose the type that best shows the thinking of this lesson.${o.count > 1 ? " Use a different type for each plan." : ""}`,
+    `- In points, "slot" (the slot id, or "header"/"summary") tells where the idea appears. Teacher's notes may also use "slot" instead of "item".`,
+  ];
+  return [
+    `# 構図（layout）── おすすめ`,
+    `- 項目ごとに座標を書く代わりに、案ごとに "layout" で構図の型を選び、型の枠（slots）に中身を入れてください。置き場所・大きさ・枠・矢印・線はアプリが正確に計算するので、いつも整った板書になります。どの型にも合わないときだけ、座標つきの "items" を使います。`,
+    `- layout は {"type", "dir"（"h" 横書き／"v" 縦書き）, "header": {"date","title","goal","goalMarks"}, "slots": [{"id","label","color","items":[…],"step","phase"}], "summary": {"label","text","marks","items"}}。`,
+    `- 枠の中の項目には座標を書きません：{"kind":"text","text","role","color","marks","boxed"}・"card"（text、paper）・"formula"（latex）・"figure"・"diagram"・"math"（「図の扱い」のとおり。x・y・w・h は不要）・"table"（rows）・"space"（label）・"keep"（ref）。文字列だけなら文字の項目になります。1つの枠に短い項目を1〜5個。大事な一文は "boxed":"red" で囲みます。`,
+    `- label は枠の見出し（考え方の名前・視点など）。枠・線・矢印は自分で描かないでください（型が描きます）。`,
+    `- 型（type）：`, ...list,
+    pick.length ? `- 先生が選んだ型：${pick.map(k => `"${k}"`).join("・")}。${o.count > 1 && pick.length < o.count ? "これを先に使い、残りの案は内容に合う型を選んでください。" : pick.length > 1 ? "案ごとに、この順に1つずつ使ってください。" : ""}` : `- この授業の考える筋道がいちばんよく見える型を選んでください。${o.count > 1 ? "案ごとに違う型にしてください。" : ""}`,
+    `- points の "slot"（枠の id。見出しは "header"、まとめは "summary"）で、工夫が表れている枠を示します。教師用メモ（notes）も item の代わりに "slot" を使えます。`,
+  ];
+}
+/* プリントの思考ツール（kind "tool"）の説明 */
+function kzToolLines(en) {
+  const ids = k => { const t = KZ_TYPES[k]; return t.grid ? (en ? '"r1c1"… with "rows"/"cols"' : '"r1c1"…（"rows"・"cols" に見出し）') : t.ids ? t.ids.join("/") : `${t.lead ? t.lead + "/" : ""}s1…s${t.seq[1]}`; };
+  const list = KZ_KEYS.map(k => `"${k}"（${en ? KZ_TYPES[k].en : KZ_TYPES[k].ja}：${ids(k)}）`).join(en ? ", " : "・");
+  return en ? [
+    `- "tool": a thinking tool (graphic organizer) for students to write in. type, title (what to write), size ("small"/"medium"/"large"), slots [{"id","label","text" (a printed hint, optional),"answer" (a model answer, answer version only)}]. Use one when students compare, classify, order or connect ideas. type: ${list}.`,
+  ] : [
+    `- "tool"：子どもが書き込む思考ツール（考えを比べる・分ける・順に並べる・つなげる場面で使う）。type、title（何を書くかの指示）、size（"small"・"medium"・"large"）、slots [{"id","label","text"（印刷しておく手がかり。任意）,"answer"（答えの例。解答版だけに出る）}]。type：${list}。`,
+  ];
+}
+/* 指示文の返す形の例（教材から作るとき） */
+function kzExample(en, figOK, firstImg) {
+  return {
+    title: en ? "Compare the two ways" : "2つの求め方を比べる板書", concept: "…",
+    points: [{ title: en ? "Two methods side by side" : "2つの考えを左右に", detail: "…", slot: "left" }],
+    layout: {
+      type: "compare", dir: "h",
+      header: { date: en ? "Dec 9" : "12月9日", title: en ? "Area of a trapezoid" : "台形の面積", goal: en ? "How can we find the area of a trapezoid?" : "台形の面積の求め方を考えよう", goalMarks: [{ text: en ? "trapezoid" : "台形", style: "yellow" }] },
+      slots: [
+        { id: "left", label: en ? "Split into triangles" : "三角形に分ける", step: 3, phase: 2, items: [figOK ? { kind: "figure", src: firstImg, regions: [`${firstImg}-3`] } : { kind: "math", shape: "trapezoid", grid: { cols: 10, rows: 5 }, points: [[2, 1], [5, 1], [9, 5], [0, 5]], names: "ADCB" }, { kind: "text", role: "child", text: "6×4÷2＋3×4÷2＝18", color: "lightblue" }] },
+        { id: "right", label: en ? "Make a parallelogram" : "平行四辺形にする", step: 4, phase: 3, items: [{ kind: "text", role: "child", text: "(3＋6)×4÷2＝18", color: "lightblue" }] },
+      ],
+      summary: { text: en ? "Area = (top + bottom) × height ÷ 2" : "台形の面積＝（上底＋下底）×高さ÷2", marks: [{ text: en ? "(top + bottom) × height ÷ 2" : "（上底＋下底）×高さ÷2", style: "yellow" }] },
+    },
+  };
+}
+
+/* ---------- 一部だけ作り直す ----------
+   いまの構図（L）と、作り直す枠の名前（targets。空なら全体）と先生の頼みを指示文にする。
+   残す枠は {"id":…,"keep":true} と返してもらい、kzMerge で元の中身に戻す（サービスが勝手に書き換えても元のまま）。 */
+const KZ_QUICK = [
+  ["bigger", "図を大きく", "Bigger figures", "図や表を大きくし、文字を減らしてください。", "Make figures and tables larger and reduce the text."],
+  ["fewer", "言葉を短く", "Shorter words", "文を短くし、キーワードを中心にしてください。", "Shorten sentences and focus on key words."],
+  ["young", "低学年向けに", "For younger students", "低学年の子どもにも分かる、やさしい言葉とひらがなを多めにしてください。", "Use easy words suitable for younger students."],
+  ["voices", "子どもの考えを増やす", "More student ideas", "予想される子どもの考え（つぶやき）を増やしてください。", "Add more expected student ideas."],
+  ["another", "別の案に", "Another idea", "同じ枠で、内容を別の発想に変えてください。", "Change the content to a different idea within the same slots."],
+  ["colors", "色を控えめに", "Fewer colors", "色チョークを2色までに控えてください。", "Use at most two chalk colors."],
+];
+function kzSlotTitle(L, id) {
+  const en = typeof LANG !== "undefined" && LANG === "en";
+  if (id === "header") return en ? "Title & goal" : "題・めあて";
+  if (id === "summary") return en ? "Summary" : "まとめ";
+  const s = (L.slots || []).find(x => x.id === id);
+  const first = s && s.items[0] ? String(s.items[0].text || s.items[0].label || s.items[0].latex || "") : "";
+  return (s && s.label) || first.slice(0, 14) || id;
+}
+/* 送る形に直す（枠の中身はサービスが読みやすい形へ。n や内部の印は外す） */
+function kzExport(L) {
+  const clean = it => {
+    const o = {};
+    Object.keys(it).forEach(k => { if (!/^(n|zone|col|ord|lab|_|x|y|w|h|step|phase)/.test(k) && it[k] !== undefined) o[k] = it[k]; });
+    return o;
+  };
+  const out = { type: L.type };
+  if (L.dir) out.dir = L.dir;
+  if (L.header) out.header = Object.assign({}, L.header);
+  if (L.cols) { out.cols = L.cols.slice(); out.rows = L.rows.slice(); }
+  out.slots = (L.slots || []).map(s => ({ id: s.id, label: s.label || "", items: s.items.map(clean) }));
+  if (L.summary) out.summary = Object.assign({}, L.summary, L.summary.items ? { items: L.summary.items.map(clean) } : {});
+  return out;
+}
+function kzRefinePrompt(ctx) {
+  const en = typeof LANG !== "undefined" && LANG === "en";
+  const L = ctx.layout, targets = ctx.targets || [];
+  const all = !targets.length;
+  const names = targets.map(id => `"${id}"（${kzSlotTitle(L, id)}）`).join(en ? ", " : "・");
+  const asks = (ctx.quick || []).map(k => KZ_QUICK.find(q => q[0] === k)).filter(Boolean).map(q => (en ? q[4] : q[3]));
+  if (ctx.wish) asks.push(ctx.wish);
+  const lines = en ? [
+    `You made the following blackboard plan earlier. The teacher wants part of it remade. Return ONLY JSON in the format below. No preface, explanation or code fences.`,
+    ``,
+    `# What to change`,
+    all ? `- The whole plan.` : `- Only these slots: ${names}.`,
+    ...asks.map(a => "- " + a),
+    ``,
+    `# Rules`,
+    all ? `- You may change the layout type if another type fits the request better.` : `- Keep the layout type. For every slot you are NOT asked to change, return only {"id": "…", "keep": true}. Do the same for header and summary ({"keep": true}) unless they are listed.`,
+    `- Keep the subject content correct (problems, numbers, answers, terms, quotations). Use the same materials as before.`,
+    `- Slot items have no coordinates (same format as before).`,
+    ...(ctx.extraLines || []),
+    ``,
+    `# Return format`,
+    `{"proposals":[{"title":"…","concept":"…","points":[{"title":"…","detail":"…","slot":"…"}],"layout":{…}}]}`,
+    ``,
+    `# Current plan`,
+    JSON.stringify({ title: ctx.title || "", concept: ctx.concept || "", layout: kzExport(L) }),
+  ] : [
+    `前に作った板書の案の一部を、先生が作り直したいと言っています。下の形式の JSON だけを返してください。前置き・説明・コードの囲みは書かないでください。`,
+    ``,
+    `# 直すところ`,
+    all ? `- 案の全体。` : `- 次の枠だけ：${names}。`,
+    ...asks.map(a => "- " + a),
+    ``,
+    `# 守ること`,
+    all ? `- 頼みに合う型がほかにあれば、構図の型を変えてもかまいません。` : `- 構図の型は変えません。直さない枠は {"id":"…","keep":true} だけを返します。header と summary も、頼まれていなければ {"keep":true} にします。`,
+    `- 教材の内容（問題・数値・答え・用語・引用）は正しいままにします。資料は前と同じものを使います。`,
+    `- 枠の中の項目には座標を書きません（前と同じ形）。`,
+    ...(ctx.extraLines || []),
+    ``,
+    `# 返す形`,
+    `{"proposals":[{"title":"…","concept":"…","points":[{"title":"…","detail":"…","slot":"…"}],"layout":{…}}]}`,
+    ``,
+    `# いまの案`,
+    JSON.stringify({ title: ctx.title || "", concept: ctx.concept || "", layout: kzExport(L) }),
+  ];
+  return lines.join("\n");
+}
+/* 返事の構図（R）を元（L）に重ねる。targets の外の枠・見出し・まとめは元のまま。
+   型が変わったとき（全体を作り直したとき）は返事をそのまま使う */
+function kzMerge(L, R, targets, rawLayout) {
+  if (!R) return null;
+  const all = !targets || !targets.length;
+  if (all && R.type !== L.type) return R;
+  const out = JSON.parse(JSON.stringify(L));
+  const raw = rawLayout && typeof rawLayout === "object" ? rawLayout : {};
+  const keepRaw = v => v && typeof v === "object" && (v.keep === true || v.keep === "true");
+  const want = id => all || targets.includes(id);
+  if (want("header") && R.header && !keepRaw(raw.header)) out.header = R.header;
+  if (want("summary") && R.summary && !R.summary.keep && !keepRaw(raw.summary)) out.summary = R.summary;
+  if (out.summary) delete out.summary.keep;
+  if (all && R.cols) { out.cols = R.cols; out.rows = R.rows; }
+  out.slots = out.slots.map(s => {
+    if (!want(s.id)) return s;
+    const r = (R.slots || []).find(x => x.id === s.id);
+    if (!r || r.keep || (!r.items.length && !r.label)) return s;
+    return Object.assign({}, r, { keep: undefined });
+  });
+  out.slots.forEach(s => { delete s.keep; });
+  if (all && R.slots && R.slots.length !== out.slots.length && R.type === L.type) out.slots = R.slots.map(s => (s.keep ? (L.slots.find(x => x.id === s.id) || s) : s));
+  return out;
+}
+
+/* ---------- 実寸で詰め直す（ブラウザーだけ） ----------
+   coBuildProposal のあとに呼ぶ。objects の o._kz = {z, col, ord, lab}、zones は黒板の単位に直した枠の範囲。
+   枠ごと・列ごとに、文字の実際の高さ（縦書きは幅）で並べ直し、入りきらなければ字を少しずつ小さくする。図は縦横の比を保って縮める */
+function kzRefit(objects, zones, b, minFs) {
+  if (typeof document === "undefined") return;
+  const gap = Math.max(4, b.height * 0.012);
+  const isText = o => o.type === "text";
+  const groups = new Map();
+  objects.forEach(o => {
+    if (!o._kz || o._kz.lab) return;
+    const key = o._kz.z + ":" + (o._kz.col || 0);
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(o);
+  });
+  groups.forEach((list, key) => {
+    const z = zones[Number(key.split(":")[0])];
+    if (!z || !z.C) return;
+    list.sort((p, q) => p._kz.ord - q._kz.ord);
+    const vert = z.dir === "v";
+    /* 縦書きの段（上下に分けたとき）は、その段の高さだけを使う */
+    const band = vert && z.cols && z.cols[list[0]._kz.col || 0] && z.cols[list[0]._kz.col || 0].h ? z.cols[list[0]._kz.col || 0] : null;
+    const C = band ? { x: z.C.x, w: z.C.w, y: band.y, h: band.h } : z.C;
+    const span = vert ? C.w : C.h;
+    const size = o => (vert ? o.width : o.height);
+    /* 図のあとは広めに空ける（頂点の記号・目盛りが図の枠の外に描かれるため） */
+    const gapAfter = o => (isText(o) || o.type === "shape" ? gap : gap * 2.4);
+    const total = () => list.reduce((a, o, i) => a + size(o) + (i < list.length - 1 ? gapAfter(o) : 0), 0);
+    /* 入りきらない：字を小さく（下限あり）→ それでもだめなら図を縮める */
+    for (let k = 0; k < 7 && total() > span + 1; k++) {
+      let shrunk = false;
+      list.forEach(o => {
+        if (!isText(o)) return;
+        const f = o.props.fontSize;
+        if (f * 0.92 < minFs) return;
+        o.props.fontSize = Math.round(f * 0.92);
+        if (o.props.bgPad) o.props.bgPad = Math.max(4, Math.round(o.props.bgPad * 0.92));
+        if (vert) { o.height = C.h; o.width = 0; } else o.width = Math.min(o.width, C.w);
+        coFitText(o, b);
+        shrunk = true;
+      });
+      if (!shrunk) break;
+    }
+    const over = total() - span;
+    if (over > 1) {
+      const vis = list.filter(o => !isText(o) && o.type !== "shape");
+      const vs = vis.reduce((a, o) => a + size(o), 0);
+      if (vs > 0) {
+        const f = Math.max(0.3, (vs - over) / vs);
+        vis.forEach(o => { const cx = o.x + o.width / 2; o.width = Math.max(4, o.width * f); o.height = Math.max(4, o.height * f); o.x = cx - o.width / 2; });
+      }
+    }
+    /* 並べる：横書きは上から、縦書きは右から。楕円や中央寄せの枠は真ん中に */
+    const used = total();
+    let p = vert ? C.x + C.w : C.y;
+    if (z.valign === "center" && used < span) p += (vert ? -1 : 1) * (span - used) / 2;
+    list.forEach(o => {
+      if (vert) {
+        o.x = p - o.width; p -= o.width + gapAfter(o);
+        o.y = !isText(o) ? C.y + Math.max(0, (C.h - o.height) / 2) : C.y;
+      } else {
+        o.y = p; p += o.height + gapAfter(o);
+        const cw = z.cols && z.cols[o._kz.col || 0] ? z.cols[o._kz.col || 0] : { x: C.x, w: C.w };
+        if (!isText(o)) o.x = cw.x + Math.max(0, (cw.w - o.width) / 2);
+        else if (o.width > cw.w + 1) { o.width = cw.w; coFitText(o, b); }
+      }
+    });
+  });
+  /* 見出しの札：中身の字の幅に合わせたあと、決めた位置の中央へ戻す */
+  objects.forEach(o => {
+    if (!o._kz || !o._kz.lab || !o._kz.rect) return;
+    const R = o._kz.rect;
+    if (o._kz.align !== "start") o.x = R.x + Math.max(0, (R.w - o.width) / 2);
+    if (o._kz.mid) o.y = R.y + Math.max(0, (R.h - o.height) / 2);
+  });
+  /* 上下の真ん中に寄せた枠：上の見出しは、中身のすぐ上へ（離れて浮かないように） */
+  objects.forEach(o => {
+    if (!o._kz || !o._kz.lab || !o._kz.ltop) return;
+    const z = zones[o._kz.z];
+    if (!z || z.valign !== "center" || z.dir === "v") return;
+    const mem = objects.filter(q => q._kz && !q._kz.lab && q._kz.z === o._kz.z);
+    if (!mem.length) return;
+    const top = Math.min(...mem.map(q => q.y));
+    o.y = Math.max(z.C.y - o.height - gap, top - o.height - gap * 1.2);
+  });
+  objects.forEach(o => { delete o._kz; });
+}
+/* =========================================================================
+   第7部w：構図の型 ── 画面（教材から・構想から板書を作る）
+   ・①の「構図」：おまかせ／型を選ぶ（3つまで）／使わない（従来の座標の設計図）
+   ・③の「案の一覧」：2つ以上の案を並べて見比べ、選んだ案を開く
+   ・③の「デザインを変える」：
+       構図を変える＝通信しない。中身はそのままで型だけ付け替えて、その場で組み直す（授業ライブラリの同じ授業を上書き）
+       言葉で頼んで作り直す＝直す枠（見出し・各枠・まとめ）を選び、頼みを添えてサービスに頼む。残す枠はアプリが元に戻す
+       前の版に戻す＝この画面を開いている間の版の控え
+   画面に「AI」とは書かない。
+   ========================================================================= */
+
+/* ---------- 英語の表示 ---------- */
+const KZ_I18N_EN = {
+  "構図": "Layout", "おまかせ": "Auto", "型を選ぶ": "Choose", "使わない": "Off",
+  "内容に合う構図の型を、案ごとに選びます。置き場所・枠・矢印はアプリが整えるので、いつも整った板書になります。": "A layout type that fits the content is chosen for each plan. The app arranges positions, frames and arrows, so the board always looks neat.",
+  "選んだ型で作ります（3つまで。案の数より少なければ、残りはおまかせ）。": "Plans use the types you choose (up to 3; the rest are chosen automatically).",
+  "構図の型を使わず、サービスが座標を決めます（以前の作り方）。": "No layout types; the service decides coordinates (the previous way).",
+  "案の一覧": "All plans", "一覧": "All", "案を一覧で見比べる": "Compare all plans",
+  "気に入った案を選ぶと、構図を変えたり、一部だけ作り直したりできます。どの案も授業ライブラリに保存してあります。": "Choose a plan to change its layout or remake part of it. Every plan is saved in the lesson library.",
+  "この案を見る": "Open this plan", "座標で置いた案": "Placed by coordinates",
+  "デザインを変える": "Change the design",
+  "構図を変える": "Change layout",
+  "中身はそのままで、構図だけを付け替えます（通信しません）。": "Keeps the content and changes only the layout (no communication).",
+  "言葉で頼んで作り直す": "Remake by request",
+  "直すところ": "What to change", "全体": "Whole", "題・めあて": "Title & goal", "まとめ": "Summary",
+  "頼みの例": "Quick requests",
+  "例：共通点をもう1つ／子どもの言葉で": "e.g. One more similarity / in students' words",
+  "選んだところだけを作り直します。ほかの枠はそのまま残ります。": "Only the selected parts are remade. Other parts stay as they are.",
+  "{0}に作り直してもらう": "Ask {0} to remake",
+  "手作業で作り直す": "Remake by hand",
+  "前の版に戻す": "Back to previous version",
+  "構図を「{0}」に変えました": "Layout changed to \"{0}\"",
+  "作り直しました": "Remade",
+  "前の版に戻しました": "Restored the previous version",
+  "{0}が作り直しています": "{0} is remaking the plan",
+  "{0}秒": "{0}s",
+  "作り直せませんでした": "Could not remake",
+  "返事から作り直した案を読み取れませんでした。": "Could not read the remade plan from the reply.",
+  "作り直しの指示文": "Prompt for remaking",
+  "前と同じ会話に続けて送ると、資料を添付し直さずに済みます。新しい会話で送るときは、資料も同じ順に添付してください。": "Sending it in the same conversation as before saves re-attaching the materials. In a new conversation, attach the materials in the same order.",
+  "この返事で作り直す": "Remake from this reply",
+  "組み直しています…": "Rearranging…",
+  "いまの構図": "Current layout",
+  "選んだところだけを作り直します。ほかの項目はそのまま残ります。": "Only the selected parts are remade. Other blocks stay as they are.",
+  "例：3番の問題を文章題に／ふりかえりの問いを変える": "e.g. Make problem 3 a word problem / change the reflection question",
+  "前と同じ会話に続けて送ると、板書や資料を添付し直さずに済みます。新しい会話で送るときは、前と同じものを同じ順に添付してください。": "Sending it in the same conversation as before saves re-attaching the board and materials. In a new conversation, attach the same files in the same order.",
+  "図を大きく": "Bigger figures", "言葉を短く": "Shorter words", "低学年向けに": "For younger students", "子どもの考えを増やす": "More student ideas", "別の案に": "Another idea", "色を控えめに": "Fewer colors",
+};
+for (const k in KZ_I18N_EN) if (typeof I18N_EN === "object" && !(k in I18N_EN)) I18N_EN[k] = KZ_I18N_EN[k];
+
+/* ---------- 図柄 ---------- */
+const KZ_ICONS = {
+  grid: '<rect x="3" y="3" width="7.5" height="7.5" rx="1.6"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="1.6"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="1.6"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.6"/>',
+  layout: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16M9 11h12"/>',
+  wand: '<path d="M4 20 14.5 9.5"/><path d="m13 8 3 3"/><path d="M18 3v3M16.5 4.5h3M20 9v2M19 10h2M10 3v2M9 4h2"/>',
+  undo: '<path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/>',
+};
+function kzSvg(name, size) {
+  const s = size || 18;
+  return `<svg viewBox="0 0 24 24" width="${s}" height="${s}" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${KZ_ICONS[name] || ""}</svg>`;
+}
+/* 型の見本（64×40）。線は文字色、要の所だけ真鍮色 */
+function kzTypeIcon(key, w) {
+  const A = 'stroke="var(--brass)"', F = 'fill="var(--brass)" stroke="none"';
+  const parts = {
+    flow: `<rect x="3" y="9" width="14" height="22" rx="3"/><rect x="25" y="9" width="14" height="22" rx="3"/><rect x="47" y="9" width="14" height="22" rx="3"/><path ${A} d="M18.5 20h5m-2-2 2 2-2 2M40.5 20h5m-2-2 2 2-2 2"/>`,
+    compare: `<rect x="7" y="5" width="18" height="6" rx="1.5" ${F}/><rect x="39" y="5" width="18" height="6" rx="1.5" ${F}/><path d="M32 4v32" stroke-dasharray="3 3"/><path d="M8 17h16M8 23h13M40 17h16M40 23h12M8 29h10M40 29h14"/>`,
+    compare3: `<rect x="3" y="7" width="17" height="28" rx="2.5"/><rect x="23.5" y="7" width="17" height="28" rx="2.5"/><rect x="44" y="7" width="17" height="28" rx="2.5"/><rect x="6" y="4" width="11" height="5" rx="1.2" ${F}/><rect x="26.5" y="4" width="11" height="5" rx="1.2" ${F}/><rect x="47" y="4" width="11" height="5" rx="1.2" ${F}/>`,
+    tchart: `<path d="M4 12h56M32 12v25"/><path ${A} d="M12 7h12M40 7h12"/><path d="M8 19h18M8 25h14M38 19h18M38 25h12"/>`,
+    matrix: `<rect x="4" y="4" width="56" height="32" rx="1.5"/><path d="M18 4v32M32 4v32M46 4v32M4 13h56M4 25h56"/><path ${A} d="M22 8.5h6M36 8.5h6M50 8.5h6"/>`,
+    timeline: `<path d="M4 16h54m-3-3 3 3-3 3"/><circle cx="12" cy="16" r="2.6" ${F}/><circle cx="28" cy="16" r="2.6" ${F}/><circle cx="44" cy="16" r="2.6" ${F}/><path d="M7 8h10M23 8h10M39 8h10M7 24h10M7 29h7M23 24h10M23 29h8M39 24h10M39 29h6"/>`,
+    web: `<ellipse cx="32" cy="20" rx="9" ry="6.5" ${A}/><rect x="3" y="4" width="13" height="8" rx="3"/><rect x="48" y="4" width="13" height="8" rx="3"/><rect x="3" y="28" width="13" height="8" rx="3"/><rect x="48" y="28" width="13" height="8" rx="3"/><rect x="25.5" y="30" width="13" height="7" rx="3"/><path d="M16 10.5l8.5 5.5M48 10.5 39.5 16M16 29.5l8.5-5.5M48 29.5 39.5 24M32 26.5V30"/>`,
+    venn: `<ellipse cx="24" cy="22" rx="17" ry="13"/><ellipse cx="40" cy="22" rx="17" ry="13" ${A}/><rect x="12" y="3" width="16" height="5" rx="1.2" ${F}/><rect x="36" y="3" width="16" height="5" rx="1.2" ${F}/>`,
+    pyramid: `<path d="M20 4 36 36H4z"/><path d="M14.7 14.7h10.6M9.3 25.3h21.3"/><path ${A} d="M40 9h18M40 20h14M40 31h18" stroke-dasharray="0"/>`,
+    ychart: `<rect x="5" y="3" width="54" height="34" rx="3"/><path ${A} d="M32 20v17M32 20 8 3M32 20 56 3"/>`,
+    xchart: `<rect x="5" y="3" width="54" height="34" rx="2"/><path ${A} d="M5 3l54 34M59 3 5 37"/>`,
+    cycle: `<rect x="24" y="2" width="16" height="9" rx="4"/><rect x="45" y="15.5" width="16" height="9" rx="4"/><rect x="24" y="29" width="16" height="9" rx="4"/><rect x="3" y="15.5" width="16" height="9" rx="4"/><path ${A} d="M41 9l5 5m0 12-5 5M23 31l-5-5m0-12 5-5"/>`,
+    cause: `<rect x="3" y="7" width="16" height="26" rx="2.5" stroke-dasharray="3 2.5"/><rect x="24" y="12" width="16" height="16" rx="2.5" ${A}/><rect x="45" y="7" width="16" height="26" rx="2.5" stroke-dasharray="3 2.5"/><path d="M19.5 20h3.5M40.5 20h3.5"/>`,
+    steps: `<rect x="4" y="23" width="16" height="14" rx="1.5"/><rect x="24" y="15" width="16" height="22" rx="1.5"/><rect x="44" y="5" width="16" height="32" rx="1.5" ${A}/>`,
+    koma4: `<rect x="3" y="5" width="12.5" height="30" rx="1.5"/><rect x="18" y="5" width="12.5" height="30" rx="1.5"/><rect x="33" y="5" width="12.5" height="30" rx="1.5"/><rect x="48" y="5" width="12.5" height="30" rx="1.5"/><path ${A} d="M6 9.5h5M21 9.5h5M36 9.5h5M51 9.5h5"/>`,
+    tree: `<rect x="3" y="14" width="14" height="12" rx="3" ${A}/><path d="M17 20h5M22 7v26M22 7h5M22 20h5M22 33h5"/><rect x="28" y="3" width="11" height="8" rx="1.5" ${F}/><rect x="28" y="16" width="11" height="8" rx="1.5" ${F}/><rect x="28" y="29" width="11" height="8" rx="1.5" ${F}/><path d="M43 7h17M43 20h13M43 33h15"/>`,
+  };
+  const s = w || 64;
+  return `<svg viewBox="0 0 64 40" width="${s}" height="${Math.round(s * 40 / 64)}" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${parts[key] || ""}</svg>`;
+}
+
+/* ---------- ① 構図を選ぶ ---------- */
+function kzPicker(o, rerender) {
+  const mode = o.kouzu === false ? "off" : (o.kouzuTypes || []).length ? "pick" : "auto";
+  const set = patch => { Object.assign(o, patch); mtSaveSettings({ kouzu: o.kouzu, kouzuTypes: o.kouzuTypes }); rerender(); };
+  const wrap = el("div", { class: "kz-pick" });
+  wrap.append(
+    el("div", { class: "pi-lbl", text: T("構図") }),
+    segBtns([["auto", T("おまかせ")], ["pick", T("型を選ぶ")], ["off", T("使わない")]], mode, v => {
+      if (v === "off") set({ kouzu: false });
+      else if (v === "auto") set({ kouzu: true, kouzuTypes: [] });
+      else set({ kouzu: true, kouzuTypes: (o.kouzuTypes || []).length ? o.kouzuTypes : ["compare"] });
+    }, "co-seg"),
+  );
+  if (mode === "pick") {
+    const grid = el("div", { class: "kz-tiles", role: "group", "aria-label": T("構図") });
+    KZ_KEYS.forEach(k => {
+      const on = o.kouzuTypes.includes(k);
+      const n = on ? o.kouzuTypes.indexOf(k) + 1 : 0;
+      grid.appendChild(el("button", {
+        class: "kz-tile" + (on ? " on" : ""), type: "button", "aria-pressed": on ? "true" : "false",
+        title: (LANG === "en" ? KZ_TYPES[k].de : KZ_TYPES[k].dj),
+        html: kzTypeIcon(k, 54) + `<span class="nm">${escapeHtml(kzName(k))}</span>` + (n ? `<span class="no">${n}</span>` : ""),
+        onclick: () => {
+          let list = o.kouzuTypes.slice();
+          if (on) list = list.filter(x => x !== k);
+          else { list.push(k); if (list.length > 3) list.shift(); }
+          set({ kouzu: true, kouzuTypes: list.length ? list : [] });
+        },
+      }));
+    });
+    wrap.append(grid, el("div", { class: "pi-note small", text: T("選んだ型で作ります（3つまで。案の数より少なければ、残りはおまかせ）。") }));
+  } else wrap.appendChild(el("div", { class: "pi-note small", text: mode === "off" ? T("構図の型を使わず、サービスが座標を決めます（以前の作り方）。") : T("内容に合う構図の型を、案ごとに選びます。置き場所・枠・矢印はアプリが整えるので、いつも整った板書になります。") }));
+  return wrap;
+}
+
+/* ---------- ③ 案の一覧 ---------- */
+function kzOverview(host) {
+  const list = MT.saved;
+  const box = el("div", { class: "kz-ov" });
+  box.appendChild(el("div", { class: "kz-ovhead" }, [
+    el("div", {}, [el("div", { class: "pi-eyebrow", text: T("案の一覧") }), el("div", { class: "kz-ovsub", text: T("気に入った案を選ぶと、構図を変えたり、一部だけ作り直したりできます。どの案も授業ライブラリに保存してあります。") })]),
+  ]));
+  const grid = el("div", { class: "kz-ovgrid n" + list.length });
+  list.forEach((s, i) => {
+    if (!s.urlMemo) s.urlMemo = s.canvas.toDataURL("image/png");
+    const L = s.prop.layout;
+    const open = () => { MT.sel = i; MT.view = "one"; mtRenderResult(); };
+    const card = el("button", { class: "kz-card" + (s.trashed ? " gone" : ""), type: "button", onclick: open }, [
+      el("span", { class: "kz-thumb" }, [el("img", { src: s.urlMemo, alt: s.prop.title, draggable: "false" })]),
+      el("span", { class: "kz-meta" }, [
+        el("span", { class: "kz-row" }, [
+          el("span", { class: "kz-no", text: String(i + 1) }),
+          L ? el("span", { class: "kz-badge", html: kzTypeIcon(L.type, 30) + `<span>${escapeHtml(kzName(L.type))}</span>` }) : el("span", { class: "kz-badge plain", text: T("座標で置いた案") }),
+        ]),
+        el("span", { class: "kz-ttl", text: s.prop.title }),
+        s.prop.concept ? el("span", { class: "kz-cpt", text: s.prop.concept }) : null,
+        el("span", { class: "kz-open", text: T("この案を見る") }),
+      ]),
+    ]);
+    grid.appendChild(card);
+  });
+  box.appendChild(grid);
+  host.appendChild(box);
+}
+
+/* ---------- ③ デザインを変える ---------- */
+/* 項目の番号 → その項目がある枠の名前（見出しは header、まとめは summary） */
+function kzSlotOfItem(prop, n) {
+  const it = (prop.items || []).find(x => x.n === n);
+  if (!it || it.zone === undefined || !prop.zones || !prop.zones[it.zone]) return "";
+  const z = prop.zones[it.zone];
+  return z.kind === "header" ? "header" : z.kind === "summary" ? "summary" : String(z.id || "").replace(/^_.*/, "");
+}
+function kzDesignPanel(side, cur, sel) {
+  const L = cur.prop.layout;
+  cur.kz = cur.kz || { targets: [], quick: [], wish: "" };
+  const st = cur.kz;
+  const sec = el("section", { class: "kz-design" });
+  sec.appendChild(el("div", { class: "pi-eyebrow co-gap", text: T("デザインを変える") }));
+  /* 構図を変える（通信なし） */
+  const now = el("div", { class: "kz-now" }, [el("span", { class: "ic", html: kzTypeIcon(L.type, 44) }), el("span", { class: "tx" }, [el("span", { class: "k", text: T("いまの構図") }), el("span", { class: "v", text: kzName(L.type) })])]);
+  const tiles = el("div", { class: "kz-mini", role: "group", "aria-label": T("構図を変える") });
+  KZ_KEYS.forEach(k => tiles.appendChild(el("button", {
+    class: "kz-mt" + (k === L.type ? " on" : ""), type: "button", title: `${kzName(k)}：${LANG === "en" ? KZ_TYPES[k].de : KZ_TYPES[k].dj}`, "aria-label": kzName(k),
+    html: kzTypeIcon(k, 40), disabled: k === L.type,
+    onclick: () => kzApplyRemap(cur, sel, k),
+  })));
+  sec.append(el("div", { class: "kz-sub" }, [el("span", { class: "t", html: kzSvg("layout", 15) + `<span>${escapeHtml(T("構図を変える"))}</span>` }), el("span", { class: "s", text: T("中身はそのままで、構図だけを付け替えます（通信しません）。") })]), now, tiles);
+  /* 言葉で頼んで作り直す */
+  sec.appendChild(el("div", { class: "kz-sub gap" }, [el("span", { class: "t", html: kzSvg("wand", 15) + `<span>${escapeHtml(T("言葉で頼んで作り直す"))}</span>` }), el("span", { class: "s", text: T("選んだところだけを作り直します。ほかの枠はそのまま残ります。") })]));
+  const chip = (label, on, click, cls) => el("button", { class: "kz-chip" + (on ? " on" : "") + (cls ? " " + cls : ""), type: "button", "aria-pressed": on ? "true" : "false", text: label, onclick: click });
+  const rer = () => mtRenderResultKeepSide();
+  const targets = el("div", { class: "kz-chips" });
+  targets.appendChild(chip(T("全体"), !st.targets.length, () => { st.targets = []; rer(); }, "all"));
+  const tgtIds = [].concat(L.header ? ["header"] : [], (L.slots || []).filter(s => s.items.length || s.label).map(s => s.id), L.summary ? ["summary"] : []);
+  tgtIds.forEach(id => targets.appendChild(chip(kzSlotTitle(L, id), st.targets.includes(id), () => {
+    st.targets = st.targets.includes(id) ? st.targets.filter(x => x !== id) : st.targets.concat(id);
+    rer();
+  })));
+  const quick = el("div", { class: "kz-chips q" });
+  KZ_QUICK.forEach(q => quick.appendChild(chip(LANG === "en" ? q[2] : q[1], st.quick.includes(q[0]), () => {
+    st.quick = st.quick.includes(q[0]) ? st.quick.filter(x => x !== q[0]) : st.quick.concat(q[0]);
+    rer();
+  })));
+  const ta = el("textarea", { class: "co-ta", rows: "2", placeholder: T("例：共通点をもう1つ／子どもの言葉で"), value: st.wish, "aria-label": T("言葉で頼んで作り直す"), maxlength: "400" });
+  ta.addEventListener("input", () => { st.wish = ta.value; go.disabled = !kzCanRefine(st); });
+  const manual = MT.method === "manual" || !piGetKey(MT.method);
+  const go = el("button", { class: "btn kz-go", type: "button", html: kzSvg("wand", 16) + `<span>${escapeHtml(manual ? T("手作業で作り直す") : T`${piProviderName(MT.method)}に作り直してもらう`)}</span>`, onclick: () => kzRefine(cur, sel) });
+  go.disabled = !kzCanRefine(st);
+  sec.append(el("div", { class: "pi-lbl", text: T("直すところ") }), targets, el("div", { class: "pi-lbl", text: T("頼みの例") }), quick, ta, go);
+  if (cur.hist && cur.hist.length) sec.appendChild(el("button", { class: "pi-linkbtn kz-undo", type: "button", html: kzSvg("undo", 14) + `<span>${escapeHtml(T("前の版に戻す"))}</span>`, onclick: () => kzUndo(cur, sel) }));
+  side.appendChild(sec);
+}
+const kzCanRefine = st => !!(st.quick.length || st.wish.trim());
+/* 右の欄を作り直す（左の見本はそのまま。字を打っている欄の焦点とスクロールを保つ） */
+function mtRenderResultKeepSide() {
+  const sc = MT.host.querySelector(".co-cmpside");
+  const top = sc ? sc.scrollTop : 0;
+  mtRenderResult();
+  const sc2 = MT.host.querySelector(".co-cmpside");
+  if (sc2) sc2.scrollTop = top;
+}
+
+/* 作り直した案を組み立てて、同じ授業を上書きする。meta：{title, concept, points, notes} を差し替えるとき */
+async function kzRebuild(cur, sel, L, meta, toastText) {
+  const ctx = MT.ctx, prev = cur.prop;
+  /* 工夫・メモの付け先を、枠の名前で持ち直す（構図が変わっても同じ枠の中身に付く） */
+  const slotOf = x => x.slot || (x.item ? kzSlotOfItem(prev, x.item) : "");
+  const points = (meta && meta.points ? meta.points : prev.points).map(p => Object.assign({}, p, { slot: slotOf(p) }));
+  const notes = (meta && meta.notes ? meta.notes : prev.notes || []).map(n => Object.assign({}, n, { slot: slotOf(n) }));
+  const idMap = (meta && meta.idMap) || {};
+  const dir = L.dir || prev.dir || (ctx.dir === "v" || ctx.dir === "h" ? ctx.dir : "");
+  const placed = kzPlace(L, ctx.gw, ctx.gh, { dir });
+  const target = s => { const id = idMap[s] || s; return placed.slotN[id] || (id === "header" ? (placed.items.find(x => x.role === "goal") || {}).n : 0) || (placed.items.find(x => x.zone !== undefined && !x.lab && placed.zones[x.zone].kind === "slot") || {}).n || 0; };
+  const prop = Object.assign({}, prev, {
+    title: meta && meta.title ? meta.title : prev.title, concept: meta && meta.concept !== undefined ? meta.concept : prev.concept,
+    layout: L, items: placed.items, zones: placed.zones, slotN: placed.slotN, dir: placed.dir,
+    points: points.map(p => Object.assign(p, { item: p.slot ? target(p.slot) : p.item })),
+    notes: notes.map(n => Object.assign(n, { item: n.slot ? target(n.slot) : n.item })),
+  });
+  if (prop.coverage) prop.coverage = prop.coverage.map(c => {
+    const sl = c.slots && c.slots.length ? c.slots : (c.items || []).map(n => kzSlotOfItem(prev, n)).filter(Boolean);
+    return Object.assign({}, c, { slots: sl, items: [...new Set(sl.map(target).filter(Boolean))] });
+  });
+  kzAutoPhase(prop.items, (MT.result.lesson.flow || []).length);
+  const hist = (cur.hist || []).concat([{ prop: prev }]).slice(-8);
+  const s2 = await mtSaveOne(prop, ctx, MT.result, sel, cur);
+  s2.canvas = await coRenderProject(s2.project, s2.images, 1800);
+  if (!MT) return;
+  s2.hist = hist; s2.kz = cur.kz;
+  MT.saved[sel] = s2;
+  if (toastText) toast(toastText);
+  mtRenderResultKeepSide();
+}
+async function kzBusy(fn) {
+  const side = MT.host.querySelector(".kz-design");
+  if (side) side.classList.add("busy");
+  try { await fn(); } catch (e) { console.error(e); toast(T("作り直せませんでした"), "warn"); if (MT) mtRenderResultKeepSide(); }
+}
+function kzApplyRemap(cur, sel, type) {
+  const L = cur.prop.layout;
+  const L2 = kzRemap(L, type);
+  if (!L2) return;
+  /* 枠の名前の付け替え：中身のある枠の順に、新しい型の枠へ */
+  const idMap = {};
+  (L.slots || []).filter(s => s.items.length || s.label).forEach((s, i) => { const t = L2.slots[Math.min(i, L2.slots.length - 1)]; if (t) idMap[s.id] = t.id; });
+  kzBusy(() => kzRebuild(cur, sel, L2, { idMap }, T`構図を「${kzName(type)}」に変えました`));
+}
+function kzUndo(cur, sel) {
+  const h = (cur.hist || []).slice();
+  const last = h.pop();
+  if (!last) return;
+  kzBusy(async () => {
+    const s2 = await mtSaveOne(last.prop, MT.ctx, MT.result, sel, cur);
+    s2.canvas = await coRenderProject(s2.project, s2.images, 1800);
+    if (!MT) return;
+    s2.hist = h; s2.kz = cur.kz;
+    MT.saved[sel] = s2;
+    toast(T("前の版に戻しました"));
+    mtRenderResultKeepSide();
+  });
+}
+
+/* 作り直しの指示文：板書の形式の説明（最初の指示文）＋今回の頼み。今回の頼みを後ろに置き、優先させる */
+function kzRefineFullPrompt(cur) {
+  const ctx = MT.ctx, st = cur.kz, en = LANG === "en";
+  const base = MT.mode === "plan" || ctx.mats.length ? mtPrompt(Object.assign({}, ctx, { count: 1, kouzuTypes: [] })) : "";
+  const refine = kzRefinePrompt({ layout: cur.prop.layout, targets: st.targets, quick: st.quick, wish: st.wish.trim(), title: cur.prop.title, concept: cur.prop.concept });
+  return (base ? base + "\n\n" + (en ? "==========\n# This time: remake the plan below (this takes priority over the request above; the formats above still apply)" : "==========\n# 今回の頼み：下の案を作り直してください（上の頼みよりこちらを優先します。形式の説明は上のとおり）") + "\n" : "") + refine;
+}
+function kzRefine(cur, sel) {
+  if (!kzCanRefine(cur.kz)) return;
+  const provider = MT.method;
+  if (provider === "manual" || !piGetKey(provider)) { kzRefineManual(cur, sel); return; }
+  const side = MT.host.querySelector(".kz-design");
+  const prog = el("div", { class: "kz-prog" }, [el("div", { class: "co-spin" }), el("div", { class: "t", text: T`${piProviderName(provider)}が作り直しています` }), el("div", { class: "m" }), el("button", { class: "btn sm", type: "button", text: T("やめる"), onclick: () => { if (MT && MT.ab) MT.ab.abort(); } })]);
+  if (side) { side.textContent = ""; side.appendChild(prog); side.scrollIntoView({ block: "nearest" }); }
+  MT.busy = true; MT.ab = new AbortController();
+  const t0 = Date.now();
+  const timer = setInterval(() => { const m = prog.querySelector(".m"); if (m) m.textContent = T`${Math.round((Date.now() - t0) / 1000)}秒`; }, 500);
+  let req;
+  try { req = { key: piGetKey(provider), model: MT.ctx.model || piGetModel(provider), parts: mtParts(provider, MT.ctx), prompt: kzRefineFullPrompt(cur), json: true, tuned: true }; }
+  catch (e) { clearInterval(timer); MT.busy = false; MT.ab = null; toast(T("作り直せませんでした"), "warn"); mtRenderResultKeepSide(); return; }
+  svcRun(provider, req, null, MT.ab.signal, null).then(r => {
+    clearInterval(timer);
+    if (!MT) return;
+    MT.busy = false; MT.ab = null;
+    kzAcceptRefine(cur, sel, r.text);
+  }).catch(e => {
+    clearInterval(timer);
+    if (!MT) return;
+    MT.busy = false; MT.ab = null;
+    if (!(e && e.code === "cancel")) toast(T("作り直せませんでした") + (e && e.code ? "：" + coErrText(e) : ""), "warn");
+    mtRenderResultKeepSide();
+  });
+}
+/* 返事を読み、元の案に重ねて組み直す */
+function kzAcceptRefine(cur, sel, text) {
+  const ctx = MT.ctx, st = cur.kz;
+  const r = mtParse(text, ctx.gw, ctx.gh, mtImageSrcs(ctx));
+  const pr = r.proposals && r.proposals[0];
+  if (r.error || !pr || !pr.layout) { toast(T("返事から作り直した案を読み取れませんでした。"), "warn"); mtRenderResultKeepSide(); return false; }
+  const ex = piExtractJson(text);
+  const root = ex && ex.data ? ex.data : {};
+  const rawP = Array.isArray(root.proposals) ? root.proposals[0] : Array.isArray(root) ? root[0] : root;
+  const merged = kzMerge(cur.prop.layout, pr.layout, st.targets, rawP && rawP.layout);
+  const all = !st.targets.length;
+  /* 工夫の説明：全体なら返事のもの、一部なら元のものに、直した枠の工夫を足す */
+  const pts = all && pr.points.length ? pr.points : cur.prop.points.concat(pr.points.filter(p => p.slot && st.targets.includes(p.slot))).slice(0, 8);
+  const meta = { points: pts };
+  if (all) { meta.title = pr.title || cur.prop.title; meta.concept = pr.concept || cur.prop.concept; if (pr.notes && pr.notes.length) meta.notes = pr.notes; }
+  kzBusy(() => kzRebuild(cur, sel, merged, meta, T("作り直しました")));
+  return true;
+}
+/* =========================================================================
+   プリント（第7部u）の「言葉で頼んで作り直す」
+   項目（blocks）に b1, b2, … の番号を付けて送り、直さない項目は {"keep":"b3"} で返してもらう。
+   返事に無かった「直さない項目」は、元の位置に戻す（サービスが落としても消えない）
+   ========================================================================= */
+const PS_QUICK = [
+  ["easier", "やさしく", "Easier", "問題をやさしくし、言葉も学年に合わせてやさしくしてください。", "Make the problems and the wording easier."],
+  ["more", "問題を増やす", "More problems", "同じ考え方で解ける問題を増やしてください。", "Add more problems that use the same way of thinking."],
+  ["fewer", "問題を減らす", "Fewer problems", "問題の数を減らし、大事なものだけにしてください。", "Reduce the number of problems to the important ones."],
+  ["tool", "思考ツールを入れる", "Add a thinking tool", "考えを整理する思考ツール（kind \"tool\"）を1つ入れてください。", "Add one thinking tool (kind \"tool\") to organize ideas."],
+  ["blanks", "穴うめを増やす", "More blanks", "大事な言葉を穴うめ [[ ]] にしてください。", "Turn key words into fill-in blanks [[ ]]."],
+  ["space", "書く欄を広く", "More writing space", "考えを書く欄を広くしてください。", "Give more space to write ideas."],
+];
+function psBlockTitle(b, i) {
+  const en = LANG === "en";
+  const cut = s => String(s || "").replace(/\[\[|\]\]/g, "").slice(0, 12);
+  const k = { heading: cut(b.text), text: (en ? "Text: " : "文：") + cut(b.text), question: (en ? "Q: " : "問：") + cut(b.text), table: en ? "Table" : "表", figure: en ? "Figure" : "図",
+    formula: en ? "Formula" : "式", summary: T("まとめ"), reflect: T("ふりかえり"), selfeval: en ? "Self-check" : "自己評価", space: (en ? "Space: " : "欄：") + cut(b.label), note: (en ? "Note: " : "注：") + cut(b.text),
+    tool: b.layout ? kzName(b.layout.type) : "tool" }[b.kind];
+  return `${i + 1}. ${k || b.kind}`;
+}
+function psRefineSection(side) {
+  if (PG.busy) return;
+  const st = PG.rf = PG.rf || { targets: [], quick: [], wish: "" };
+  const design = PG.result.design;
+  const sec = el("section", { class: "kz-design" });
+  sec.appendChild(el("div", { class: "kz-sub gap" }, [el("span", { class: "t", html: kzSvg("wand", 15) + `<span>${escapeHtml(T("言葉で頼んで作り直す"))}</span>` }), el("span", { class: "s", text: T("選んだところだけを作り直します。ほかの項目はそのまま残ります。") })]));
+  const chip = (label, on, click, cls) => el("button", { class: "kz-chip" + (on ? " on" : "") + (cls ? " " + cls : ""), type: "button", "aria-pressed": on ? "true" : "false", text: label, title: label, onclick: click });
+  const rer = () => psRenderResultKeep();
+  const tg = el("div", { class: "kz-chips" });
+  tg.appendChild(chip(T("全体"), !st.targets.length, () => { st.targets = []; rer(); }, "all"));
+  design.blocks.forEach((b, i) => { if (b.kind === "pagebreak") return; const id = "b" + (i + 1); tg.appendChild(chip(psBlockTitle(b, i), st.targets.includes(id), () => { st.targets = st.targets.includes(id) ? st.targets.filter(x => x !== id) : st.targets.concat(id); rer(); })); });
+  const q = el("div", { class: "kz-chips q" });
+  PS_QUICK.forEach(x => q.appendChild(chip(LANG === "en" ? x[2] : x[1], st.quick.includes(x[0]), () => { st.quick = st.quick.includes(x[0]) ? st.quick.filter(k => k !== x[0]) : st.quick.concat(x[0]); rer(); })));
+  const ta = el("textarea", { class: "co-ta", rows: "2", placeholder: T("例：3番の問題を文章題に／ふりかえりの問いを変える"), value: st.wish, "aria-label": T("言葉で頼んで作り直す"), maxlength: "400" });
+  const manual = PG.method === "manual" || !piGetKey(PG.method);
+  const go = el("button", { class: "btn kz-go", type: "button", html: kzSvg("wand", 16) + `<span>${escapeHtml(manual ? T("手作業で作り直す") : T`${piProviderName(PG.method)}に作り直してもらう`)}</span>`, onclick: () => psRefine() });
+  go.disabled = !(st.quick.length || st.wish.trim());
+  ta.addEventListener("input", () => { st.wish = ta.value; go.disabled = !(st.quick.length || st.wish.trim()); });
+  sec.append(el("div", { class: "pi-lbl", text: T("直すところ") }), tg, el("div", { class: "pi-lbl", text: T("頼みの例") }), q, ta, go);
+  if (PG.hist && PG.hist.length) sec.appendChild(el("button", { class: "pi-linkbtn kz-undo", type: "button", html: kzSvg("undo", 14) + `<span>${escapeHtml(T("前の版に戻す"))}</span>`, onclick: () => { PG.result = PG.hist.pop(); PG.built = null; toast(T("前の版に戻しました")); psRenderResultKeep(); } }));
+  side.appendChild(sec);
+}
+function psRefinePrompt() {
+  const en = LANG === "en", st = PG.rf, design = PG.result.design;
+  const asks = st.quick.map(k => PS_QUICK.find(x => x[0] === k)).filter(Boolean).map(x => (en ? x[4] : x[3]));
+  if (st.wish.trim()) asks.push(st.wish.trim());
+  const all = !st.targets.length;
+  const cur = { settings: design.settings, title: design.title, goal: design.goal, blocks: design.blocks.map((b, i) => {
+    const o = Object.assign({ id: "b" + (i + 1) }, b);
+    if (b.kind === "tool" && b.layout) { const x = kzExport(b.layout); o.type = x.type; o.slots = x.slots.map((s, k) => Object.assign({ id: s.id, label: s.label }, b.layout.slots[k] && b.layout.slots[k].answer ? { answer: b.layout.slots[k].answer } : {}, s.items.length ? { text: s.items.map(t => t.text).join("\n") } : {})); if (x.cols) { o.cols = x.cols; o.rows = x.rows; } delete o.layout; }
+    return o;
+  }) };
+  const names = st.targets.map(id => `"${id}"`).join(en ? ", " : "・");
+  const lines = en ? [
+    `==========`, `# This time: remake the worksheet below (this takes priority over the request above; the formats above still apply)`,
+    all ? `- Remake the whole worksheet.` : `- Change only these blocks: ${names}. For every other block return only {"keep":"b…"} (its id), in the same order.`,
+    ...asks.map(a => "- " + a),
+    `- Keep answers correct. Return the same JSON format (settings, title, goal, name, blocks).`,
+    ``, `# Current worksheet`, JSON.stringify(cur),
+  ] : [
+    `==========`, `# 今回の頼み：下のプリントを作り直してください（上の頼みよりこちらを優先します。形式の説明は上のとおり）`,
+    all ? `- プリント全体を作り直す。` : `- 次の項目だけを直す：${names}。ほかの項目は {"keep":"b…"}（その id）だけを、同じ順に返す。`,
+    ...asks.map(a => "- " + a),
+    `- 答えは正しく。返す形は前と同じ JSON（settings・title・goal・name・blocks）。`,
+    ``, `# いまのプリント`, JSON.stringify(cur),
+  ];
+  return psPrompt(PG.ctx) + "\n\n" + lines.join("\n");
+}
+/* 返事を元のプリントに重ねる。直さない項目は元のまま、返事に無ければ元の位置に戻す */
+function psRefineMerge(text) {
+  const st = PG.rf, design = PG.result.design, all = !st.targets.length;
+  const parsed = psParse(text);
+  if (all) return parsed.error ? null : parsed;
+  const ex = piExtractJson(text);
+  if (!ex || !ex.data) return null;
+  let root = ex.data;
+  if (Array.isArray(root)) root = { blocks: root };
+  if (root.print && typeof root.print === "object") root = root.print;
+  const list = Array.isArray(root.blocks) ? root.blocks : Array.isArray(root.items) ? root.items : null;
+  if (!list) return null;
+  const out = [], used = new Set();
+  list.forEach(r => {
+    const keepId = r && typeof r === "object" ? (r.keep !== undefined && r.keep !== false && r.keep !== true ? r.keep : r.keep === true ? r.id : null) : null;
+    if (keepId) {
+      const k = Number(String(keepId).replace(/\D/g, "")) - 1;
+      if (design.blocks[k] && !used.has(k)) { out.push(design.blocks[k]); used.add(k); }
+      return;
+    }
+    /* 頼んでいない項目を書き換えて返してきたら、元のものを使う */
+    const rid = r && typeof r === "object" && r.id ? String(r.id) : "";
+    const ri = rid ? Number(rid.replace(/\D/g, "")) - 1 : -1;
+    if (ri >= 0 && design.blocks[ri] && !st.targets.includes(rid)) { if (!used.has(ri)) { out.push(design.blocks[ri]); used.add(ri); } return; }
+    const nb = psNormBlock(r);
+    if (nb) out.push(nb);
+  });
+  design.blocks.forEach((b, i) => {
+    if (used.has(i) || st.targets.includes("b" + (i + 1))) return;
+    /* 前にある元の項目のすぐ後ろ。そこに続く新しい項目（作り直した分）は飛ばして、その後ろへ */
+    let pos = 0;
+    out.forEach((x, k) => { const oi = design.blocks.indexOf(x); if (oi >= 0 && oi < i) pos = k + 1; });
+    while (pos < out.length && design.blocks.indexOf(out[pos]) < 0) pos++;
+    out.splice(pos, 0, b); used.add(i);
+  });
+  if (!out.some(b => b.kind !== "pagebreak")) return null;
+  return { design: Object.assign({}, design, { blocks: out }), truncated: !!ex.truncated };
+}
+function psRefineAccept(text) {
+  const r = psRefineMerge(text);
+  if (!r) { toast(T("返事から作り直した案を読み取れませんでした。"), "warn"); psRenderResultKeep(); return false; }
+  PG.hist = (PG.hist || []).concat([PG.result]).slice(-8);
+  PG.result = Object.assign({}, PG.result, r);
+  PG.built = null;
+  /* 項目の番号は並びが変わると別の項目を指すので、選び直してもらう */
+  PG.rf.targets = [];
+  toast(T("作り直しました"));
+  psRenderResultKeep();
+  return true;
+}
+function psRefine() {
+  const provider = PG.method;
+  if (provider === "manual" || !piGetKey(provider)) { kzManualDialog(psRefinePrompt(), t => psRefineAccept(t), true); return; }
+  const sec = PG.host.querySelector(".ps-rside .kz-design");
+  const prog = el("div", { class: "kz-prog" }, [el("div", { class: "co-spin" }), el("div", { class: "t", text: T`${piProviderName(provider)}が作り直しています` }), el("div", { class: "m" }), el("button", { class: "btn sm", type: "button", text: T("やめる"), onclick: () => { if (PG && PG.ab) PG.ab.abort(); } })]);
+  if (sec) { sec.textContent = ""; sec.appendChild(prog); }
+  PG.busy = true; PG.ab = new AbortController();
+  const t0 = Date.now();
+  const timer = setInterval(() => { const m = prog.querySelector(".m"); if (m) m.textContent = T`${Math.round((Date.now() - t0) / 1000)}秒`; }, 500);
+  let req;
+  try { req = { key: piGetKey(provider), model: PG.ctx.model || piGetModel(provider), parts: psParts(provider, PG.ctx), prompt: psRefinePrompt(), json: true, tuned: true }; }
+  catch (e) { clearInterval(timer); PG.busy = false; PG.ab = null; toast(T("作り直せませんでした"), "warn"); psRenderResultKeep(); return; }
+  svcRun(provider, req, null, PG.ab.signal, null).then(r => {
+    clearInterval(timer); if (!PG) return;
+    PG.busy = false; PG.ab = null;
+    psRefineAccept(r.text);
+  }).catch(e => {
+    clearInterval(timer); if (!PG) return;
+    PG.busy = false; PG.ab = null;
+    if (!(e && e.code === "cancel")) toast(T("作り直せませんでした") + (e && e.code ? "：" + coErrText(e) : ""), "warn");
+    psRenderResultKeep();
+  });
+}
+/* 手作業：指示文をコピーして外部のサービスへ送り、返事を貼る（板書・プリント共用） */
+function kzManualDialog(prompt, accept, isPrint) {
+  const ta = el("textarea", { class: "pi-paste", placeholder: T("ここに返事を貼り付けます（前後に説明が付いていてもかまいません）"), spellcheck: "false", "aria-label": T("サービスの返事") });
+  const go = el("button", { class: "btn pi-go", type: "button", text: T("この返事で作り直す"), disabled: true });
+  ta.addEventListener("input", () => { go.disabled = !ta.value.trim(); });
+  const body = el("div", { class: "kz-man" }, [
+    el("div", { class: "pi-note", text: isPrint ? T("前と同じ会話に続けて送ると、板書や資料を添付し直さずに済みます。新しい会話で送るときは、前と同じものを同じ順に添付してください。") : T("前と同じ会話に続けて送ると、資料を添付し直さずに済みます。新しい会話で送るときは、資料も同じ順に添付してください。") }),
+    el("div", { class: "pi-brow" }, [el("button", { class: "btn pi-go", type: "button", html: piIcon(PI_ICONS.copy, 16) + `<span>${escapeHtml(T("指示文をコピー"))}</span>`, onclick: async () => {
+      const ok = await piCopyText(prompt);
+      toast(ok ? T("指示文をコピーしました") : T("コピーできませんでした。下の指示文を選んでコピーしてください"), ok ? "ok" : "warn");
+    } })]),
+    el("details", { class: "pi-promptd" }, [el("summary", { text: T("指示文を見る") }), el("textarea", { class: "pi-prompt", readonly: "readonly", rows: "8", value: prompt, "aria-label": T("指示文") })]),
+    ta,
+    el("div", { class: "pi-brow kz-manfoot" }, [go]),
+  ]);
+  const api = modal({ title: T("作り直しの指示文"), body });
+  api.root.classList.add("kzm");
+  go.addEventListener("click", () => { if (accept(ta.value)) api.close(); });
+  return api;
+}
+function kzRefineManual(cur, sel) {
+  return kzManualDialog(kzRefineFullPrompt(cur), t => kzAcceptRefine(cur, sel, t), false);
 }
 /* =========================================================================
    第8部：ダイアログ・テンプレート・出力・チェック
